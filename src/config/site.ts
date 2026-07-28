@@ -18,7 +18,7 @@ export const site = {
     bilibili: "https://space.bilibili.com/91372056",
     steam: "https://steamcommunity.com/profiles/76561198401024601/",
     linkedIn: "https://www.linkedin.com/in/kaletu7116",
-    email: ""
+    email: "admin@xiaob.dev"
   },
   legal: {
     original: {
@@ -33,10 +33,6 @@ export const site = {
       zh: "游戏及角色原始内容版权归其权利人所有。",
       en: "Game and original character content belongs to its respective rights holders."
     },
-    deployment: {
-      zh: "静态部署于 Cloudflare Pages · 数据工具仅在浏览器内处理",
-      en: "Static deployment on Cloudflare Pages · data tools run in the browser"
-    },
     theme: {
       zh: "主题：尘尘的白 / 苹果与狼 · 页面与动效由小B制作",
       en: "Themes: Snowbreak / Spice & Wolf · interface and motion by Xiao B"
@@ -48,14 +44,14 @@ export const site = {
   },
   media: {
     avatar: {
-      src: "/images/characters/holo-avatar.jpg",
+      src: "/images/characters/holo-avatar.webp",
       alt: "赫萝 Q 版表情头像"
     },
     heroCharacter: {
-      iceSrc: "/images/characters/snowbreak-theme.png",
+      iceSrc: "/images/characters/snowbreak-theme.webp",
       iceAlt: "里芙·贝斯特拉的蓝白主题插画",
       iceCaption: "里芙·贝斯特拉",
-      holoSrc: "/images/characters/spice-wolf-theme.png",
+      holoSrc: "/images/characters/spice-wolf-theme.webp",
       holoAlt: "赫萝与麦穗的暖色主题插画",
       holoCaption: "赫萝"
     }

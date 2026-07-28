@@ -26,8 +26,31 @@ const hasArtwork = Boolean(iceImageSrc || holoImageSrc);
   {
     hasArtwork ? (
       <div class="character-art-media">
-        {iceImageSrc && <img class="character-art-image character-art-image-ice" src={iceImageSrc} alt={iceAlt} />}
-        {holoImageSrc && <img class="character-art-image character-art-image-holo" src={holoImageSrc} alt={holoAlt} />}
+        {iceImageSrc && (
+          <img
+            class="character-art-image character-art-image-ice"
+            src={iceImageSrc}
+            alt={iceAlt}
+            width="1200"
+            height="1200"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            data-theme-image="ice"
+          />
+        )}
+        {holoImageSrc && (
+          <img
+            class="character-art-image character-art-image-holo"
+            data-src={holoImageSrc}
+            alt={holoAlt}
+            width="900"
+            height="900"
+            loading="lazy"
+            decoding="async"
+            data-theme-image="holo"
+          />
+        )}
       </div>
     ) : (
       <div class="character-art-placeholder" role="img" aria-label={label}>

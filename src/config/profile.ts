@@ -86,8 +86,8 @@ export const profile = {
         en: "I know a little about many things, but I’d much rather talk about something genuinely interesting together."
       },
       description: {
-        zh: "数据工程、知识库 / RAG、个人工具、游戏、摄影、乒乓球和徒步都能聊；工作相关沟通可先通过 GitHub 或 LinkedIn 联系，域名邮箱准备好后会补充。",
-        en: "Data engineering, knowledge bases / RAG, personal tools, games, photography, table tennis, and hiking are all fair game. For professional contact, start through GitHub or LinkedIn; a domain email will be added later."
+        zh: "数据工程、知识库 / RAG、个人工具、游戏、摄影、乒乓球和徒步都能聊；工作相关沟通可以通过 GitHub、LinkedIn 或 admin@xiaob.dev 联系。",
+        en: "Data engineering, knowledge bases / RAG, personal tools, games, photography, table tennis, and hiking are all fair game. For professional contact, reach me through GitHub, LinkedIn, or admin@xiaob.dev."
       }
     }
   },
@@ -135,12 +135,13 @@ export const profile = {
     {
       label: "域名邮箱",
       description: {
-        zh: "正在搭建中；上线后会在这里提供正式联系地址。",
-        en: "Being set up; the official contact address will appear here once ready."
+        zh: "公开联系邮箱，欢迎交流项目、数据开发和合作想法。",
+        en: "Public contact address for projects, data development, and collaboration."
       },
+      href: `mailto:${site.social.email}`,
       status: {
-        zh: "筹备中",
-        en: "Coming soon"
+        zh: "公开联系",
+        en: "Available"
       }
     }
   ] satisfies ProfileLink[]

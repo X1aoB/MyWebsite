@@ -14,27 +14,25 @@ const socialLinks = [
 ---
 
 <footer class="site-footer">
-  <div class="footer-information-grid">
-    <div class="footer-identity">
-      <div class="footer-topline">
-        <span>© {year} {site.displayName} · Xiao B · Data &amp; Systems</span>
-        <a class="footer-status" href="/status/">
-          <i aria-hidden="true"></i>
-          <LocalizedText zh="站点状态" en="Site status" />
-        </a>
-      </div>
-      <p class="footer-legal-line"><LocalizedText {...site.legal.original} /></p>
-      <p class="footer-legal-line">
-        <LocalizedText {...site.legal.projectSnow} />
-        <a class="license-badge" href={site.external.ccByNcSa} target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>
-        <a href={site.external.bWiki} target="_blank" rel="noreferrer"><LocalizedText zh="查看来源 ↗" en="View source ↗" /></a>
-      </p>
-      <p class="footer-legal-line"><LocalizedText {...site.legal.rights} /></p>
-      <p class="footer-legal-line"><LocalizedText {...site.legal.theme} /></p>
+  <div class="footer-directory">
+    <div class="footer-navigation">
+      <p class="footer-kicker footer-section-title"><LocalizedText zh="传送门" en="Portal" /></p>
+      <nav class="footer-links" aria-label="站点链接">
+        <a href="/journal/">开发日志</a>
+        <a href="/projects/project-snow/">Project Snow</a>
+        <a href="/tools/">数据工具</a>
+        <a href="/gallery/">摄影集</a>
+        <a href="/now/">Now</a>
+        <a href="/about/"><LocalizedText zh="关于" en="About" /></a>
+        <a href="/updates/"><LocalizedText zh="更新" en="Updates" /></a>
+        <a href="/status/"><LocalizedText zh="站点状态" en="Site status" /></a>
+        <a href="/rss.xml"><LocalizedText zh="RSS 订阅" en="RSS feed" /></a>
+        <a href="/privacy/"><LocalizedText zh="隐私与数据说明" en="Privacy & data" /></a>
+      </nav>
     </div>
 
     <div class="footer-social-block">
-      <p class="footer-kicker"><LocalizedText zh="公开入口" en="Public links" /></p>
+      <p class="footer-kicker footer-section-title"><LocalizedText zh="公开入口" en="Public links" /></p>
       <nav class="footer-social" aria-label="社交链接">
         {socialLinks.map((link) => (
           <a
@@ -45,24 +43,31 @@ const socialLinks = [
             aria-label={link.label}
             title={link.label}
           >
-            <span aria-hidden="true">{link.mark}</span>
+            <span class="footer-social-mark" aria-hidden="true">{link.mark}</span>
+            <span class="footer-social-label">{link.label}</span>
           </a>
         ))}
       </nav>
     </div>
   </div>
 
-  <div class="footer-links" aria-label="站点链接">
-    <a href="/journal/">开发日志</a>
-    <a href="/projects/project-snow/">Project Snow</a>
-    <a href="/tools/">数据工具</a>
-    <a href="/gallery/">摄影集</a>
-    <a href="/now/">Now</a>
-    <a href="/about/"><LocalizedText zh="关于" en="About" /></a>
-    <a href="/updates/"><LocalizedText zh="更新" en="Updates" /></a>
-    <a href="/status/"><LocalizedText zh="站点状态" en="Site status" /></a>
-    <a href="/rss.xml"><LocalizedText zh="RSS 订阅" en="RSS feed" /></a>
-    <a href="/privacy/"><LocalizedText zh="隐私与数据说明" en="Privacy &amp; data" /></a>
+  <div class="footer-legal">
+    <div class="footer-identity">
+      <p class="footer-legal-line footer-copyright">© {year} {site.displayName} · Xiao B · Data &amp; Systems</p>
+      <p class="footer-legal-line footer-status-line">
+        <a class="footer-status" href="/status/">
+          <i aria-hidden="true"></i>
+          <LocalizedText zh="站点状态" en="Site status" />
+        </a>
+      </p>
+      <p class="footer-legal-line"><LocalizedText {...site.legal.original} /></p>
+      <p class="footer-legal-line">
+        <LocalizedText {...site.legal.projectSnow} />
+        <a class="license-badge" href={site.external.ccByNcSa} target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>
+        <a href={site.external.bWiki} target="_blank" rel="noreferrer"><LocalizedText zh="查看来源 ↗" en="View source ↗" /></a>
+      </p>
+      <p class="footer-legal-line"><LocalizedText {...site.legal.rights} /></p>
+      <p class="footer-legal-line"><LocalizedText {...site.legal.theme} /></p>
+    </div>
   </div>
-  <p class="footer-build-note"><LocalizedText {...site.legal.deployment} /></p>
 </footer>

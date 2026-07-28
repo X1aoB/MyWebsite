@@ -50,10 +50,10 @@ const canonical = new URL(Astro.url.pathname, site.url).toString();
       <Header />
       <main id="main-content" class="site-main">
         <slot />
-        <Footer />
       </main>
       <SiteRail />
     </div>
+    <Footer />
 
     <script>
       import { initializeSitePreferences } from "../scripts/site-preferences";
@@ -95,6 +95,7 @@ const canonical = new URL(Astro.url.pathname, site.url).toString();
           );
           revealTargets.forEach((target) => observer.observe(target));
         }
+
       };
 
       if (document.readyState === "loading") {

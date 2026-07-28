@@ -405,6 +405,17 @@ const updateLocaleControls = (locale: Locale) => {
   });
 };
 
+const loadThemeArtwork = (theme: Theme) => {
+  document.querySelectorAll<HTMLImageElement>(`[data-theme-image="${theme}"]`).forEach((image) => {
+    const source = image.dataset.src;
+    if (source && image.getAttribute("src") !== source) image.setAttribute("src", source);
+    if (source) {
+      image.loading = "eager";
+      image.setAttribute("fetchpriority", "high");
+    }
+  });
+};
+
 const updateLocale = (locale: Locale) => {
   const root = document.documentElement;
   root.dataset.locale = locale;
@@ -425,6 +436,7 @@ const updateTheme = (theme: Theme, origin?: HTMLElement) => {
   const root = document.documentElement;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const themeChanged = root.dataset.theme !== theme;
+  loadThemeArtwork(theme);
   const applyTheme = () => {
     root.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "holo" ? "#f3d394" : "#eaf6ff");
