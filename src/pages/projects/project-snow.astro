@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { site } from "../../config/site";
+---
+
+<BaseLayout title="Project Snow" description="基于可追溯数据底座逐步构建的尘白禁区世界观 RAG 项目。">
+  <section class="section">
+    <div class="container project-hero">
+      <article class="project-summary" data-reveal>
+        <div class="eyebrow">PROJECT / 01</div>
+        <h1>Project Snow</h1>
+        <p>基于 RAG 架构的《尘白禁区》世界观智能对话系统。项目先构建可持续更新的数据采集与治理链路，再逐步加入剧情结构化、检索、角色一致性与对话服务。</p>
+        <div class="button-row" style="margin-top: 24px">
+          <a class="button" href={site.repositories.projectSnow} target="_blank" rel="noreferrer">查看 GitHub 源码 ↗</a>
+          <a class="button button-secondary" href="/journal/project-snow-data-foundation/">阅读项目总览</a>
+        </div>
+      </article>
+      <aside class="status-panel" data-reveal>
+        <div>
+          <span class="status-badge">第一阶段已实现</span>
+          <strong>原始数据采集与来源治理</strong>
+          <p>当前重点是可信数据层，而不是提前包装一个不可验证的聊天界面。</p>
+        </div>
+        <div class="tag-list"><span class="tag">Crawler</span><span class="tag">Manifest</span><span class="tag">Provenance</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-labelledby="pipeline-title">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <div>
+          <div class="section-kicker">系统链路</div>
+          <h2 id="pipeline-title">先让每一段数据都能回到来源。</h2>
+        </div>
+        <p>已实现的阶段以原始资料与状态记录为边界；后续阶段会在不丢失溯源能力的前提下增加结构化和检索。</p>
+      </div>
+      <div class="pipeline">
+        <article class="pipeline-step" data-reveal><span class="step-number">01 / now</span><h3>页面发现与采集</h3><p>从受控入口发现 Wiki 页面，保存原始 HTML 或维基文本，不下载媒体二进制。</p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">02 / now</span><h3>状态与清单</h3><p>以哈希、抓取状态、运行报告和索引文件支持增量更新与可恢复批次。</p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">03 / next</span><h3>结构化与检索</h3><p>将剧情、角色和关系整理为可查询的数据模型，并保留来源位置。</p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">04 / next</span><h3>受控 RAG 服务</h3><p>独立部署在线体验，提供来源引用、限流与滥用防护；长期使用引导本地部署。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="roadmap-title">
+    <div class="container split-panel">
+      <div data-reveal>
+        <div class="section-kicker">路线图</div>
+        <h2 id="roadmap-title">从资料收集到可引用的回答。</h2>
+        <div class="timeline" style="margin-top: 24px">
+          <article class="timeline-card"><span class="timeline-phase">已完成</span><div><h3>原始数据采集层</h3><p>覆盖剧情、角色资料、皮肤、语音、心意内容、家具和物品背景；支持规则分类、增量更新与校验。</p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">进行中</span><div><h3>数据治理与结构化</h3><p>整理稳定的阅读索引和关系数据，为后续 ETL 与知识库构建准备可验证输入。</p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">下一阶段</span><div><h3>检索、角色一致性与对话</h3><p>建立带引用的检索结果，随后接入受控模型服务；公开体验不暴露密钥，也不绕过来源网站规则。</p></div></article>
+        </div>
+      </div>
+      <aside class="license-note" data-reveal>
+        <strong aria-hidden="true">※</strong>
+        <div>
+          <strong>来源与许可</strong>
+          <p>项目当前数据来源为<a href={site.external.bWiki} target="_blank" rel="noreferrer">尘白禁区 BWiki ↗</a>。默认许可证为 CC BY-NC-SA 4.0，页面特殊说明优先；游戏及原始内容版权归其权利人所有。本站不分发原始采集数据。</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container notice-panel" data-reveal>
+      <div class="section-kicker">未来在线体验</div>
+      <h2>RAG 试玩服务尚未上线。</h2>
+      <p>上线时将采用匿名限额、来源引用和服务端密钥保护。需要长期使用的用户将可从 GitHub 获取本地部署说明，并自行选择本地模型或自己的 API 凭据。</p>
+      <div class="button-row" style="margin-top: 18px"><a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer">关注项目进展 ↗</a></div>
+    </div>
+  </section>
+</BaseLayout>

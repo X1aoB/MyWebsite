@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="页面未找到" description="请求的页面不存在。">
+  <section class="section">
+    <div class="container notice-panel" style="max-width: 720px" data-reveal>
+      <div class="eyebrow">404 / Lost in the snow</div>
+      <h1 style="margin: 0; font-size: clamp(3rem, 9vw, 6rem); letter-spacing: -0.06em">页面未找到</h1>
+      <p>这条路径还没有被收录。回到首页，从开发日志、项目或数据工具重新进入。</p>
+      <div class="button-row" style="margin-top: 22px"><a class="button" href="/">返回首页</a></div>
+    </div>
+  </section>
+</BaseLayout>

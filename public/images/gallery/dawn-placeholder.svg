@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1080" viewBox="0 0 1600 1080" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="120" y1="80" x2="1490" y2="1010" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF9FF"/>
+      <stop offset=".48" stop-color="#9CDAF5"/>
+      <stop offset="1" stop-color="#3B88BE"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0" cy="0" r="1" gradientTransform="translate(1160 310) rotate(129) scale(390 390)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF" stop-opacity=".97"/>
+      <stop offset=".46" stop-color="#F5FDFF" stop-opacity=".66"/>
+      <stop offset="1" stop-color="#D9F5FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-80" y="-80" width="1760" height="1240" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1080" fill="url(#sky)"/>
+  <circle cx="1160" cy="310" r="386" fill="url(#sun)"/>
+  <path d="M-40 845C234 666 443 849 676 722C885 608 1060 645 1290 508C1402 441 1514 450 1640 381V1120H-40V845Z" fill="#F8FEFF" fill-opacity=".86"/>
+  <path d="M-10 915C270 782 454 942 692 824C938 702 1114 730 1322 626C1432 571 1533 586 1627 545" stroke="#E9FAFF" stroke-opacity=".8" stroke-width="24"/>
+  <g opacity=".55" filter="url(#blur)">
+    <circle cx="246" cy="194" r="101" fill="#FFF"/>
+    <circle cx="418" cy="342" r="46" fill="#D9F7FF"/>
+    <circle cx="723" cy="181" r="64" fill="#D2F5FF"/>
+  </g>
+  <path d="M86 101H573" stroke="#FFF" stroke-opacity=".58" stroke-width="2"/>
+  <path d="M86 121H414" stroke="#FFF" stroke-opacity=".38" stroke-width="2"/>
+  <text x="87" y="181" fill="#FFF" fill-opacity=".88" font-family="Arial, sans-serif" font-size="28" letter-spacing="8">PHOTO ARCHIVE / 01</text>
+</svg>

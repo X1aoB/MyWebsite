@@ -1,0 +1,23 @@
+---
+import { site } from "../config/site";
+import LocalizedText from "./LocalizedText.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-topline">
+    <span>© {year} {site.displayName}</span>
+    <span>尘尘的白工作台 · 静态优先</span>
+  </div>
+  <div class="footer-links" aria-label="站点链接">
+    <a href="/journal/">开发日志</a>
+    <a href="/projects/project-snow/">Project Snow</a>
+    <a href="/tools/">数据工具</a>
+    <a href="/gallery/">摄影集</a>
+    <a href="/now/">Now</a>
+    <a href="/updates/"><LocalizedText zh="更新" en="Updates" /></a>
+    <a href="/rss.xml"><LocalizedText zh="RSS 订阅" en="RSS feed" /></a>
+    <a href={site.githubProfile} target="_blank" rel="noreferrer">GitHub ↗</a>
+  </div>
+</footer>

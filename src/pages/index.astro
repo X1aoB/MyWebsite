@@ -1,0 +1,169 @@
+---
+import { getCollection } from "astro:content";
+import CharacterArtSlot from "../components/CharacterArtSlot.astro";
+import LocalizedText from "../components/LocalizedText.astro";
+import { profile } from "../config/profile";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../config/site";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
+---
+
+<BaseLayout>
+  <section class="home-feature" data-reveal>
+    <div class="home-feature-cover" aria-hidden="true">
+      <span>PERSONAL SYSTEMS / 2026</span>
+      <div class="spice-theme-ornaments">
+        <svg class="spice-motif spice-motif-wheat" viewBox="0 0 100 120" fill="none">
+          <path class="spice-stem" d="M49 111C48 79 52 46 66 12" />
+          <path class="spice-grain" d="M62 29c-14 1-17 11-10 18 12-3 15-12 10-18Z" />
+          <path class="spice-grain" d="M70 17c-13 3-15 13-7 19 11-5 13-14 7-19Z" />
+          <path class="spice-grain" d="M52 44c-13 3-15 13-7 19 11-5 13-14 7-19Z" />
+          <path class="spice-grain" d="M62 53c-14 1-17 11-10 18 12-3 15-12 10-18Z" />
+          <path class="spice-grain" d="M44 61c-12 5-12 15-3 20 10-7 10-16 3-20Z" />
+          <path class="spice-grain" d="M55 73c-13 3-15 13-7 19 11-5 13-14 7-19Z" />
+        </svg>
+        <svg class="spice-motif spice-motif-apple" viewBox="0 0 100 100" fill="none">
+          <path class="spice-apple-body" d="M50 31c-12-12-32-8-38 11-7 24 8 47 27 50 5 1 8-3 11-3s6 4 11 3c19-3 34-26 27-50-6-19-26-23-38-11Z" />
+          <path class="spice-apple-leaf" d="M53 27c1-14 12-21 25-19-2 13-12 21-25 19Z" />
+          <path class="spice-apple-stem" d="M51 28c0-9 3-15 8-20" />
+        </svg>
+        <svg class="spice-motif spice-motif-coin" viewBox="0 0 72 72" fill="none">
+          <circle class="spice-coin-outer" cx="36" cy="36" r="29" />
+          <circle class="spice-coin-inner" cx="36" cy="36" r="20" />
+          <path class="spice-coin-mark" d="m36 20 4 12 12 4-12 4-4 12-4-12-12-4 12-4 4-12Z" />
+        </svg>
+      </div>
+      <div class="cover-orbit cover-orbit-one"></div>
+      <div class="cover-orbit cover-orbit-two"></div>
+      <div class="cover-grid"></div>
+    </div>
+    <div class="home-feature-body">
+      <div>
+        <p class="eyebrow">小B / Data &amp; Systems</p>
+        <h1><LocalizedText {...profile.homeHeading} /></h1>
+        <p class="home-feature-lead"><LocalizedText {...profile.homeLead} /></p>
+        <div class="button-row">
+          <a class="button" href="/projects/project-snow/">查看 Project Snow <span aria-hidden="true">→</span></a>
+          <a class="button button-secondary" href="/journal/">阅读开发日志</a>
+        </div>
+        <div class="home-signals" aria-label="站点特性">
+          <span><i></i> 静态优先</span>
+          <span><i></i> 来源可追溯</span>
+          <span><i></i> 工具本地处理</span>
+        </div>
+      </div>
+      <aside class="home-feature-art" aria-label="主题插画">
+        <CharacterArtSlot
+          iceImageSrc={site.media.heroCharacter.iceSrc}
+          iceAlt={site.media.heroCharacter.iceAlt}
+          iceCaption={site.media.heroCharacter.iceCaption}
+          holoImageSrc={site.media.heroCharacter.holoSrc}
+          holoAlt={site.media.heroCharacter.holoAlt}
+          holoCaption={site.media.heroCharacter.holoCaption}
+        />
+      </aside>
+    </div>
+  </section>
+
+  <section class="home-section" aria-labelledby="snow-title">
+    <header class="feed-heading" data-reveal>
+      <div>
+        <p class="section-kicker">当前主项目</p>
+        <h2 id="snow-title">Project Snow</h2>
+      </div>
+      <a class="text-link" href="/projects/project-snow/">项目状态与路线图 <span aria-hidden="true">→</span></a>
+    </header>
+
+    <article class="project-feed-card" data-reveal>
+      <div class="project-feed-cover" aria-hidden="true">
+        <span>SNOW / DATA LINEAGE</span>
+        <div class="project-node node-one"></div>
+        <div class="project-node node-two"></div>
+        <div class="project-node node-three"></div>
+      </div>
+      <div class="project-feed-copy">
+        <span class="status-badge">正在构建</span>
+        <h3>先构建可信的数据层，再讨论检索与对话。</h3>
+        <p>现阶段聚焦原始资料采集、增量更新、规则分类和来源治理。RAG 服务会在数据链路足够可靠后独立部署，不在本站伪造在线对话。</p>
+        <div class="tag-list" aria-label="Project Snow 技术标签">
+          <span class="tag">Python</span><span class="tag">数据采集</span><span class="tag">来源溯源</span><span class="tag">RAG Roadmap</span>
+        </div>
+        <div class="button-row">
+          <a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer">查看源码 ↗</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="home-section" aria-labelledby="journal-title">
+    <header class="feed-heading" data-reveal>
+      <div>
+        <p class="section-kicker">最近更新</p>
+        <h2 id="journal-title">开发日志</h2>
+      </div>
+      <a class="text-link" href="/journal/">查看全部 <span aria-hidden="true">→</span></a>
+    </header>
+
+    <div class="home-post-list">
+      {
+        posts.length > 0 ? (
+          posts.map((post) => (
+            <article class="home-post-card" data-reveal>
+              <div class={`home-post-stamp ${post.data.accent}`} aria-hidden="true">
+                <span>LOG</span>
+                <strong>{post.data.pubDate.getFullYear()}</strong>
+              </div>
+              <div>
+                <div class="article-meta">
+                  <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+                  <span>·</span>
+                  <span>{post.data.tags.join(" / ")}</span>
+                </div>
+                <h3><a href={`/journal/${post.id}/`}>{post.data.title}</a></h3>
+                <p>{post.data.description}</p>
+              </div>
+              <a class="feed-arrow" href={`/journal/${post.id}/`} aria-label={`阅读：${post.data.title}`}><span aria-hidden="true">→</span></a>
+            </article>
+          ))
+        ) : (
+          <p class="empty-feed">第一篇开发日志正在整理中。</p>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="home-section home-routes" aria-labelledby="routes-title">
+    <header class="feed-heading" data-reveal>
+      <div>
+        <p class="section-kicker">继续探索</p>
+        <h2 id="routes-title">更多功能与展示</h2>
+      </div>
+    </header>
+    <div class="route-grid">
+      <a class="route-card" href="/tools/" data-reveal>
+        <span class="route-index">01</span>
+        <h3>数据工具</h3>
+        <p>JSON 与 CSV 在浏览器内处理，数据不上传。</p>
+        <span class="text-link">打开工具 <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="route-card route-gallery" href="/gallery/" data-reveal>
+        <span class="route-index">02</span>
+        <h3>摄影集</h3>
+        <p>用于收纳自己拍摄的照片，以及每一张的简短上下文。</p>
+        <span class="text-link">进入相册 <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="route-card" href="/about/" data-reveal>
+        <span class="route-index">03</span>
+        <h3>关于与作品集</h3>
+        <p>数据开发方向、公开项目与后续协作入口。</p>
+        <span class="text-link">了解更多 <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

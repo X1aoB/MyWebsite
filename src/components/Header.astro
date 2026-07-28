@@ -1,0 +1,138 @@
+---
+import LocalizedText from "./LocalizedText.astro";
+import { profile } from "../config/profile";
+import { navigation, site } from "../config/site";
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+---
+
+<aside class="site-sidebar" data-site-header>
+  <div class="sidebar-topline">
+    <a class="sidebar-brand" href="/" aria-label={`${site.name} 首页`}>
+      <span class="profile-avatar" aria-hidden="true"><img src={site.media.avatar.src} alt="" /></span>
+      <span class="profile-copy">
+        <span class="profile-name">{site.displayName}</span>
+        <span class="profile-subtitle">Xiao B · Data &amp; Systems</span>
+      </span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primary-navigation"
+      data-menu-toggle
+    >
+      <span class="sr-only">打开导航菜单</span>
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <p class="sidebar-intro"><LocalizedText {...profile.sidebarIntro} /></p>
+
+  <nav id="primary-navigation" class="primary-nav" aria-label="主导航" data-menu>
+    {navigation.map((item) => (
+      <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+        <span class="nav-icon" data-spice-icon={item.spiceIcon} aria-hidden="true">{item.icon}</span>
+        <span>{item.label}</span>
+      </a>
+    ))}
+    <div class="friend-nav-item" data-friend-links>
+      <button
+        class="friend-nav-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="friend-links-panel"
+        aria-label="展开友情链接"
+        data-friend-links-trigger
+      >
+        <span class="nav-icon friend-nav-icon" data-spice-icon="links" aria-hidden="true">↗</span>
+        <span>友情链接</span>
+        <span class="friend-nav-caret" aria-hidden="true">⌄</span>
+      </button>
+      <div id="friend-links-panel" class="friend-links-panel" role="group" aria-label="友情链接" aria-hidden="true" inert>
+        <div class="friend-links-panel-inner">
+          <a href="https://www.liups.net/" target="_blank" rel="noreferrer">
+            <span class="friend-link-mark" aria-hidden="true">L</span><span>Liups的小站</span><i aria-hidden="true">↗</i>
+          </a>
+          <a href="https://lijiong.online/" target="_blank" rel="noreferrer">
+            <span class="friend-link-mark" aria-hidden="true">J</span><span>Lijiong's Blog</span><i aria-hidden="true">↗</i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a class="sidebar-external" href={site.githubProfile} target="_blank" rel="noreferrer">
+      <span aria-hidden="true">↗</span> GitHub / {site.githubDisplayName}
+    </a>
+    <p>静态优先 · 持续构建</p>
+  </div>
+</aside>
+
+<script>
+  const initializeHeader = () => {
+    const header = document.querySelector<HTMLElement>("[data-site-header]");
+    const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+    const menu = document.querySelector<HTMLElement>("[data-menu]");
+    const friendLinks = document.querySelector<HTMLElement>("[data-friend-links]");
+    const friendLinksTrigger = document.querySelector<HTMLButtonElement>("[data-friend-links-trigger]");
+    const friendLinksPanel = document.querySelector<HTMLElement>("#friend-links-panel");
+
+    if (header && toggle && menu) {
+      const setFriendLinksExpanded = (expanded: boolean) => {
+        friendLinks?.classList.toggle("is-expanded", expanded);
+        friendLinksTrigger?.setAttribute("aria-expanded", String(expanded));
+        friendLinksTrigger?.setAttribute("aria-label", expanded ? "收起友情链接" : "展开友情链接");
+        if (friendLinksPanel) {
+          friendLinksPanel.inert = !expanded;
+          friendLinksPanel.setAttribute("aria-hidden", String(!expanded));
+        }
+      };
+      const closeMenu = () => {
+        header.classList.remove("menu-open");
+        toggle.setAttribute("aria-expanded", "false");
+        setFriendLinksExpanded(false);
+      };
+
+      toggle.addEventListener("click", () => {
+        const isOpen = header.classList.toggle("menu-open");
+        toggle.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+      friendLinksTrigger?.addEventListener("click", () => {
+        setFriendLinksExpanded(!friendLinks?.classList.contains("is-expanded"));
+      });
+      friendLinks?.addEventListener("pointerenter", (event) => {
+        if (event.pointerType === "mouse") setFriendLinksExpanded(true);
+      });
+      friendLinks?.addEventListener("pointerleave", (event) => {
+        if (event.pointerType === "mouse") setFriendLinksExpanded(false);
+      });
+      friendLinks?.addEventListener("focusout", () => {
+        window.setTimeout(() => {
+          if (!friendLinks?.matches(":focus-within")) setFriendLinksExpanded(false);
+        }, 0);
+      });
+      window.addEventListener("resize", () => {
+        if (window.matchMedia("(min-width: 760px)").matches) closeMenu();
+      });
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeMenu();
+      });
+      document.addEventListener("pointerdown", (event) => {
+        if (friendLinks && !friendLinks.contains(event.target as Node)) setFriendLinksExpanded(false);
+      });
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeHeader, { once: true });
+  } else {
+    initializeHeader();
+  }
+</script>

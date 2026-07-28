@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { isPublicContent } from "../../lib/search";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects", isPublicContent);
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={project.data.title} description={project.data.description}>
+  <article class="project-case-page">
+    <header class="project-case-header" data-reveal>
+      <p class="eyebrow">Project case / portfolio</p>
+      <div class="project-case-status-row">
+        <span class="status-badge">{project.data.status}</span>
+        <time datetime={project.data.updatedAt.toISOString()}>{project.data.period}</time>
+      </div>
+      <h1>{project.data.title}</h1>
+      <p>{project.data.description}</p>
+      <div class="project-case-facts">
+        <div><span>职责</span><strong>{project.data.role}</strong></div>
+        <div><span>技术栈</span><strong>{project.data.techStack.join(" · ")}</strong></div>
+      </div>
+      <div class="tag-list" aria-label="项目标签">{project.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
+      <a class="button button-secondary" href={project.data.repository} target="_blank" rel="noreferrer">查看仓库 ↗</a>
+    </header>
+
+    <div class="project-case-content article-content" data-reveal>
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+

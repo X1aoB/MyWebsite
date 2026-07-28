@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(date);
+---
+
+<BaseLayout title="开发日志" description="记录 Project Snow 与数据工程实践中的设计、约束和构建过程。">
+  <section class="page-hero">
+    <div class="container" data-reveal>
+      <div class="eyebrow">Build notes / 中文优先</div>
+      <h1>开发日志</h1>
+      <p>小B的项目开发路程</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container article-list">
+      {
+        posts.map((post) => (
+          <article class="article-card" data-reveal>
+            <div class={`article-accent ${post.data.accent}`} aria-hidden="true">
+              LOG / {post.data.pubDate.getFullYear()}
+            </div>
+            <div>
+              <div class="article-meta"><time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time><span>·</span><span>{post.data.tags.join(" / ")}</span></div>
+              <h2><a href={`/journal/${post.id}/`}>{post.data.title}</a></h2>
+              <p>{post.data.description}</p>
+              <a class="text-link" href={`/journal/${post.id}/`}>阅读文章 <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

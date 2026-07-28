@@ -1,0 +1,50 @@
+---
+import LocalizedText from "../components/LocalizedText.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getUpdates } from "../lib/updates";
+
+const updates = await getUpdates();
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(date);
+---
+
+<BaseLayout title="更新" description="开发日志、摄影套图与公开项目的自动更新流。">
+  <section class="updates-page">
+    <header class="discovery-hero" data-reveal>
+      <div>
+        <p class="eyebrow">Updates / static feed</p>
+        <h1><LocalizedText zh="更新" en="Updates" /></h1>
+        <p><LocalizedText zh="把公开开发日志、摄影套图和项目进度按时间收在一起。每次构建都会自动重排。" en="A time-ordered stream of public dev logs, photography sets, and project progress. It is rebuilt automatically." /></p>
+      </div>
+      <a class="rss-link" href="/rss.xml">
+        <span aria-hidden="true">◔</span><LocalizedText zh="订阅 RSS" en="Subscribe via RSS" />
+      </a>
+    </header>
+
+    <ol class="updates-list" aria-label="站点更新">
+      {
+        updates.map((update, index) => (
+          <li class="update-item" data-reveal style={`--reveal-delay: ${Math.min(index * 60, 240)}ms;`}>
+            <time class="update-date" datetime={update.date.toISOString()}>{formatDate(update.date)}</time>
+            <article>
+              <div class="update-item-meta">
+                <span class={`update-source is-${update.source}`}><LocalizedText {...update.sourceLabel} /></span>
+                <span><LocalizedText {...update.location} /></span>
+              </div>
+              <h2><a href={update.url}><LocalizedText {...update.title} /></a></h2>
+              <p><LocalizedText {...update.description} /></p>
+              {
+                update.tags.length > 0 && (
+                  <ul class="update-tags" aria-label="标签">
+                    {update.tags.map((tag) => <li>{tag}</li>)}
+                  </ul>
+                )
+              }
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</BaseLayout>
+

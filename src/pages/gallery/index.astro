@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import GalleryGrid from "../../components/GalleryGrid.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const photoSets = (await getCollection("gallery", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const photoCount = photoSets.reduce((total, photoSet) => total + photoSet.data.photos.length, 0);
+---
+
+<BaseLayout title="摄影集" description="按套图收纳的摄影记录：点击一张标题图，在当前页面的悬浮阅读窗中顺着照片与说明慢慢往下看。">
+  <section class="gallery-page">
+    <header class="gallery-heading" data-reveal>
+      <div>
+        <p class="eyebrow">Visual notes / static archive</p>
+        <h1>摄影集</h1>
+        <p>小B的随拍记录</p>
+      </div>
+      <div class="gallery-count" aria-label={`当前 ${photoSets.length} 组套图，共 ${photoCount} 张照片`}>
+        <strong>{String(photoSets.length).padStart(2, "0")}</strong>
+        <span>组已归档套图</span>
+      </div>
+    </header>
+
+    <div class="gallery-intro" data-reveal>
+      <span aria-hidden="true">◌</span>
+      <p>点击标题图会在当前页面打开可下拉阅读的套图窗。现在放的是版式示例；换成自己的图片和说明后，新的套图会自动出现。</p>
+    </div>
+
+    <GalleryGrid photoSets={photoSets} />
+
+  </section>
+</BaseLayout>

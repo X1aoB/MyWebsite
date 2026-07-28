@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import JsonTool from "../../components/JsonTool.astro";
+import CsvTool from "../../components/CsvTool.astro";
+---
+
+<BaseLayout title="数据工具" description="无需上传数据、直接在浏览器运行的 JSON 与 CSV 小工具。">
+  <section class="page-hero">
+    <div class="container" data-reveal>
+      <div class="eyebrow">Local-first utilities</div>
+      <h1>数据工具</h1>
+      <p>为日常开发和资料检查准备的轻量工具。所有解析发生在当前浏览器，内容不会发送到本站或第三方服务。</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container tool-grid">
+      <a class="tool-card" href="#json-workbench" data-reveal>
+        <span class="tool-icon" aria-hidden="true">&#123; &#125;</span>
+        <h2>JSON 格式化与校验</h2>
+        <p>将格式杂乱的 JSON 变为可读结构，或压缩为单行，并在输入无效时给出浏览器原生解析错误。</p>
+        <span class="text-link">打开工具 <span aria-hidden="true">↓</span></span>
+      </a>
+      <a class="tool-card" href="#csv-workbench" data-reveal>
+        <span class="tool-icon" aria-hidden="true">CSV</span>
+        <h2>CSV 本地预览</h2>
+        <p>快速确认表头、行列数量、自动识别分隔符，并查看字段的数字、日期或文本类型。</p>
+        <span class="text-link">打开工具 <span aria-hidden="true">↓</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <JsonTool />
+      <CsvTool />
+    </div>
+  </section>
+</BaseLayout>

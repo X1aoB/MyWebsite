@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Giscus from "../../components/Giscus.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const formatDate = new Intl.DateTimeFormat("zh-CN", {
+  year: "numeric",
+  month: "long",
+  day: "numeric"
+}).format(post.data.pubDate);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <header class="article-header" data-reveal>
+    <div class="eyebrow">Development log</div>
+    <div class="article-meta"><time datetime={post.data.pubDate.toISOString()}>{formatDate}</time><span>·</span><span>{post.data.tags.join(" / ")}</span></div>
+    <h1>{post.data.title}</h1>
+    <p class="article-description">{post.data.description}</p>
+  </header>
+
+  <article class="article-content" data-reveal>
+    <Content />
+  </article>
+
+  <footer class="article-footer">
+    <a class="text-link" href="/journal/"><span aria-hidden="true">←</span> 返回开发日志</a>
+  </footer>
+  <Giscus />
+</BaseLayout>

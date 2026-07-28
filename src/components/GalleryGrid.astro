@@ -1,0 +1,263 @@
+---
+type PhotoAspect = "landscape" | "portrait" | "square";
+
+interface GalleryPhoto {
+  image: string;
+  alt: string;
+  caption: string;
+  note?: string;
+  aspect: PhotoAspect;
+}
+
+interface GallerySet {
+  id: string;
+  data: {
+    title: string;
+    date: Date;
+    location: string;
+    description: string;
+    cover: {
+      image: string;
+      alt: string;
+      aspect: PhotoAspect;
+    };
+    photos: GalleryPhoto[];
+    tags: string[];
+  };
+}
+
+interface Props {
+  photoSets: GallerySet[];
+}
+
+const { photoSets } = Astro.props;
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(date);
+---
+
+<ol class="gallery-set-grid" aria-label="摄影套图列表">
+  {
+    photoSets.map((photoSet, index) => {
+      const dialogId = `photo-set-dialog-${photoSet.id.replace(/[^a-z0-9_-]/gi, "-")}`;
+      const hashId = `photo-set-${photoSet.id.replace(/[^a-z0-9_-]/gi, "-")}`;
+      const dialogTitleId = `${dialogId}-title`;
+      const dialogDescriptionId = `${dialogId}-description`;
+
+      return (
+        <li class="gallery-set-item" data-reveal style={`--reveal-delay: ${index * 75}ms;`}>
+          <button
+            id={hashId}
+            class={`gallery-set-card ${photoSet.data.cover.aspect}`}
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls={dialogId}
+            aria-label={`打开套图：${photoSet.data.title}`}
+            data-photo-set-open
+            data-dialog-id={dialogId}
+            data-photo-set-hash={hashId}
+          >
+            <span class="gallery-set-cover">
+              <img
+                src={photoSet.data.cover.image}
+                alt={photoSet.data.cover.alt}
+                loading={index > 1 ? "lazy" : "eager"}
+                decoding="async"
+              />
+              <span class="gallery-set-cover-wash" aria-hidden="true"></span>
+              <span class="gallery-set-open" aria-hidden="true">
+                <span>↗</span>
+                <small>打开套图</small>
+              </span>
+            </span>
+            <span class="gallery-set-copy">
+              <span class="gallery-set-meta">
+                <time datetime={photoSet.data.date.toISOString()}>{formatDate(photoSet.data.date)}</time>
+                <span aria-hidden="true">·</span>
+                <span>{photoSet.data.location}</span>
+              </span>
+              <strong>{photoSet.data.title}</strong>
+              <span class="gallery-set-description">{photoSet.data.description}</span>
+              <span class="gallery-set-footer">
+                <span>{photoSet.data.photos.length} 张照片</span>
+                {
+                  photoSet.data.tags.length > 0 && (
+                    <span class="gallery-set-tags">
+                      {photoSet.data.tags.map((tag) => <span>{tag}</span>)}
+                    </span>
+                  )
+                }
+              </span>
+            </span>
+          </button>
+
+          <dialog
+            id={dialogId}
+            class="photo-set-dialog"
+            aria-labelledby={dialogTitleId}
+            aria-describedby={dialogDescriptionId}
+            data-photo-set-dialog
+            data-photo-set-hash={hashId}
+          >
+            <div class="photo-set-dialog-controls">
+              <button class="photo-set-dialog-close" type="button" aria-label={`关闭套图：${photoSet.data.title}`} data-photo-set-close>
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <article class="photo-set-dialog-content">
+              <header class="photo-set-dialog-header">
+                <p class="eyebrow">Photo set / {String(photoSet.data.photos.length).padStart(2, "0")} frames</p>
+                <h2 id={dialogTitleId}>{photoSet.data.title}</h2>
+                <p id={dialogDescriptionId} class="photo-set-dialog-lead">{photoSet.data.description}</p>
+                <div class="photo-set-dialog-facts">
+                  <div>
+                    <span>时间</span>
+                    <time datetime={photoSet.data.date.toISOString()}>{formatDate(photoSet.data.date)}</time>
+                  </div>
+                  <div>
+                    <span>地点</span>
+                    <strong>{photoSet.data.location}</strong>
+                  </div>
+                  <div>
+                    <span>照片</span>
+                    <strong>{photoSet.data.photos.length} 张</strong>
+                  </div>
+                </div>
+                {
+                  photoSet.data.tags.length > 0 && (
+                    <ul class="photo-set-dialog-tags" aria-label="套图标签">
+                      {photoSet.data.tags.map((tag) => <li>{tag}</li>)}
+                    </ul>
+                  )
+                }
+              </header>
+
+              <section class="photo-set-story-list" aria-label={`${photoSet.data.title} 的照片与说明`}>
+                <div class="photo-set-story-track" aria-hidden="true"></div>
+                {
+                  photoSet.data.photos.map((photo, photoIndex) => (
+                    <article
+                      class:list={[
+                        "photo-set-story-frame",
+                        `is-${photo.aspect}`,
+                        { "is-reversed": photoIndex % 2 === 1 }
+                      ]}
+                      data-dialog-reveal
+                      style={`--dialog-reveal-delay: ${Math.min(photoIndex * 65, 195)}ms;`}
+                    >
+                      <div class="photo-set-story-sequence" aria-hidden="true">
+                        <span>{String(photoIndex + 1).padStart(2, "0")}</span>
+                        <i></i>
+                      </div>
+                      <figure class="photo-set-story-photo">
+                        <img
+                          src={photo.image}
+                          alt={photo.alt}
+                          loading={photoIndex > 1 ? "lazy" : "eager"}
+                          decoding="async"
+                        />
+                      </figure>
+                      <div class="photo-set-story-copy">
+                        <p class="photo-set-story-count">Frame {String(photoIndex + 1).padStart(2, "0")} / {String(photoSet.data.photos.length).padStart(2, "0")}</p>
+                        <h3>{photo.caption}</h3>
+                        {photo.note && <p>{photo.note}</p>}
+                      </div>
+                    </article>
+                  ))
+                }
+              </section>
+
+              <footer class="photo-set-dialog-footer">
+                <p>这一套图先收到这里。下次想补一张照片或一句说明时，直接改对应的 Markdown 就行。</p>
+              </footer>
+            </article>
+          </dialog>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<script>
+  const initializePhotoSetDialogs = () => {
+    const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-photo-set-open]"));
+    const dialogs = Array.from(document.querySelectorAll<HTMLDialogElement>("[data-photo-set-dialog]"));
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const observers = new WeakMap<HTMLDialogElement, IntersectionObserver>();
+    const triggerByDialog = new WeakMap<HTMLDialogElement, HTMLButtonElement>();
+
+    const revealDialogFrames = (dialog: HTMLDialogElement) => {
+      const frames = Array.from(dialog.querySelectorAll<HTMLElement>("[data-dialog-reveal]"));
+      observers.get(dialog)?.disconnect();
+
+      if (prefersReducedMotion.matches) {
+        frames.forEach((frame) => frame.classList.add("is-visible"));
+        return;
+      }
+
+      frames.forEach((frame) => frame.classList.remove("is-visible"));
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { root: dialog, threshold: 0.16 }
+      );
+      frames.forEach((frame) => observer.observe(frame));
+      observers.set(dialog, observer);
+    };
+
+    const openDialog = (trigger: HTMLButtonElement, syncHash = true) => {
+      const dialogId = trigger.dataset.dialogId;
+      const dialog = dialogId ? document.getElementById(dialogId) : null;
+      if (!(dialog instanceof HTMLDialogElement) || typeof dialog.showModal !== "function") return;
+
+      triggerByDialog.set(dialog, trigger);
+      if (!dialog.open) dialog.showModal();
+      revealDialogFrames(dialog);
+
+      const hashId = trigger.dataset.photoSetHash;
+      if (syncHash && hashId && window.location.hash !== `#${hashId}`) {
+        window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${hashId}`);
+      }
+    };
+
+    triggers.forEach((trigger) => trigger.addEventListener("click", () => openDialog(trigger)));
+
+    dialogs.forEach((dialog) => {
+      dialog.querySelector<HTMLButtonElement>("[data-photo-set-close]")?.addEventListener("click", () => dialog.close());
+
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+
+      dialog.addEventListener("close", () => {
+        observers.get(dialog)?.disconnect();
+        const hashId = dialog.dataset.photoSetHash;
+        if (hashId && window.location.hash === `#${hashId}`) {
+          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+        }
+        triggerByDialog.get(dialog)?.focus();
+      });
+    });
+
+    const openFromHash = () => {
+      const hashId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+      if (!hashId.startsWith("photo-set-")) return;
+      const trigger = triggers.find((item) => item.dataset.photoSetHash === hashId);
+      if (trigger) openDialog(trigger, false);
+    };
+
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializePhotoSetDialogs, { once: true });
+  } else {
+    initializePhotoSetDialogs();
+  }
+</script>

@@ -1,0 +1,107 @@
+---
+import "../styles/global.css";
+import { site } from "../config/site";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import PreferenceBar from "../components/PreferenceBar.astro";
+import SiteRail from "../components/SiteRail.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.name, description = site.description } = Astro.props;
+const documentTitle = title === site.name ? title : `${title} · ${site.name}`;
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+---
+
+<!doctype html>
+<html lang={site.locale} data-theme="ice" data-locale="zh" data-document-title={documentTitle}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#eaf6ff" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{documentTitle}</title>
+    <script is:inline>
+      try {
+        const savedTheme = localStorage.getItem("x1ao-theme");
+        const savedLocale = localStorage.getItem("x1ao-locale");
+        if (savedTheme === "ice" || savedTheme === "holo") document.documentElement.dataset.theme = savedTheme;
+        if (savedLocale === "zh" || savedLocale === "en") {
+          document.documentElement.dataset.locale = savedLocale;
+          document.documentElement.lang = savedLocale === "en" ? "en" : "zh-CN";
+        }
+      } catch {
+        // Keep the static default when browser storage is unavailable.
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+    <button class="topbar-focus-trigger" type="button" data-preference-trigger>打开站点设置</button>
+    <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress></span></div>
+    <div class="theme-transition" aria-hidden="true"></div>
+    <PreferenceBar />
+    <div class="site-layout">
+      <Header />
+      <main id="main-content" class="site-main">
+        <slot />
+        <Footer />
+      </main>
+      <SiteRail />
+    </div>
+
+    <script>
+      import { initializeSitePreferences } from "../scripts/site-preferences";
+      import { initializeSiteSearch } from "../scripts/search-ui";
+
+      initializeSitePreferences();
+      initializeSiteSearch();
+
+      const initializePageMotion = () => {
+        const progress = document.querySelector<HTMLElement>("[data-scroll-progress]");
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const revealTargets = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+        const updateProgress = () => {
+          if (!progress) return;
+          const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const value = documentHeight > 0 ? (window.scrollY / documentHeight) * 100 : 0;
+          progress.style.transform = `scaleX(${Math.min(Math.max(value, 0), 100) / 100})`;
+        };
+
+        updateProgress();
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        window.addEventListener("resize", updateProgress);
+
+        if (prefersReducedMotion.matches) {
+          revealTargets.forEach((target) => target.classList.add("is-visible"));
+        } else {
+          document.documentElement.dataset.motion = "enabled";
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("is-visible");
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.14 }
+          );
+          revealTargets.forEach((target) => observer.observe(target));
+        }
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializePageMotion, { once: true });
+      } else {
+        initializePageMotion();
+      }
+    </script>
+  </body>
+</html>

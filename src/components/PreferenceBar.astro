@@ -1,0 +1,67 @@
+---
+import { site } from "../config/site";
+import LocalizedText from "./LocalizedText.astro";
+---
+
+<header class="preference-bar" data-preference-bar aria-label="站点设置" inert>
+  <div class="preference-bar-inner">
+    <a class="preference-brand" href="/" aria-label={`${site.name} 首页`}>
+      <span class="preference-mark"><img src={site.media.avatar.src} alt="" /></span>
+      <span>
+        <strong>{site.displayName}</strong>
+        <small>Data &amp; Systems</small>
+      </span>
+    </a>
+
+    <form class="preference-search" role="search" data-site-search-form>
+      <label class="sr-only" for="site-search-input"><LocalizedText zh="搜索全站内容" en="Search the site" /></label>
+      <span class="preference-search-icon" aria-hidden="true"></span>
+      <input
+        id="site-search-input"
+        type="search"
+        name="q"
+        placeholder="搜索文章、摄影、项目…"
+        autocomplete="off"
+        enterkeyhint="search"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-controls="site-search-suggestions"
+        data-site-search-input
+      />
+      <button class="preference-search-clear" type="button" aria-label="清除搜索" data-site-search-clear hidden>
+        <span aria-hidden="true">×</span><span class="sr-only"><LocalizedText zh="清除搜索" en="Clear search" /></span>
+      </button>
+      <div id="site-search-suggestions" class="preference-search-suggestions" role="listbox" aria-label="搜索建议" data-site-search-suggestions hidden></div>
+    </form>
+
+    <button class="preference-search-toggle" type="button" aria-expanded="false" aria-controls="site-search-input" data-site-search-toggle>
+      <span class="preference-search-icon" aria-hidden="true"></span>
+      <span class="sr-only"><LocalizedText zh="搜索全站" en="Search the site" /></span>
+    </button>
+
+    <div class="preference-controls">
+      <div class="preference-group" role="group" aria-label="主题">
+        <span class="preference-label">主题</span>
+        <div class="preference-segment">
+          <button type="button" data-theme-choice="ice" aria-pressed="true">
+            <span class="theme-dot theme-dot-ice" aria-hidden="true"></span>尘尘的白
+          </button>
+          <button type="button" data-theme-choice="holo" aria-pressed="false">
+            <span class="theme-dot theme-dot-spice" aria-hidden="true"></span>苹果与狼
+          </button>
+        </div>
+      </div>
+
+      <div class="preference-divider" aria-hidden="true"></div>
+
+      <div class="preference-group" role="group" aria-label="语言">
+        <span class="preference-label">语言</span>
+        <div class="preference-segment locale-segment">
+          <button type="button" data-locale-choice="zh" aria-pressed="true">中</button>
+          <button type="button" data-locale-choice="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

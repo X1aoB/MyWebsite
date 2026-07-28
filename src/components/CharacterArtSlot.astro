@@ -1,0 +1,50 @@
+---
+interface Props {
+  label?: string;
+  iceImageSrc?: string;
+  iceAlt?: string;
+  iceCaption?: string;
+  holoImageSrc?: string;
+  holoAlt?: string;
+  holoCaption?: string;
+}
+
+const {
+  label = "角色插画预留",
+  iceImageSrc = "",
+  iceAlt = "",
+  iceCaption = "里芙·贝斯特拉",
+  holoImageSrc = "",
+  holoAlt = "",
+  holoCaption = "赫萝"
+} = Astro.props;
+
+const hasArtwork = Boolean(iceImageSrc || holoImageSrc);
+---
+
+<figure class:list={["character-art-slot", { "has-holo-artwork": Boolean(holoImageSrc) }]} aria-label={iceCaption}>
+  {
+    hasArtwork ? (
+      <div class="character-art-media">
+        {iceImageSrc && <img class="character-art-image character-art-image-ice" src={iceImageSrc} alt={iceAlt} />}
+        {holoImageSrc && <img class="character-art-image character-art-image-holo" src={holoImageSrc} alt={holoAlt} />}
+      </div>
+    ) : (
+      <div class="character-art-placeholder" role="img" aria-label={label}>
+        <span class="crystal-mark" aria-hidden="true">✦</span>
+        <span class="character-art-label">{label}</span>
+        <small>4 : 5</small>
+      </div>
+    )
+  }
+  {
+    hasArtwork ? (
+      <figcaption>
+        <span class="character-art-caption character-art-caption-ice">{iceCaption}</span>
+        <span class="character-art-caption character-art-caption-holo">{holoCaption}</span>
+      </figcaption>
+    ) : (
+      <figcaption>未来放置主题插画</figcaption>
+    )
+  }
+</figure>

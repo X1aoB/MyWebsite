@@ -1,0 +1,57 @@
+---
+import LocalizedText from "../components/LocalizedText.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { buildContentIndex } from "../lib/content-index";
+import { getSearchTags, searchSources, sourceLabels } from "../lib/search";
+
+const index = await buildContentIndex();
+const tags = getSearchTags(index);
+const serializedIndex = JSON.stringify(index).replace(/</g, "\\u003c");
+---
+
+<BaseLayout title="搜索" description="搜索开发日志、摄影套图、项目和近况。">
+  <section class="search-page">
+    <header class="discovery-hero" data-reveal>
+      <div>
+        <p class="eyebrow">Search / static index</p>
+        <h1><LocalizedText zh="搜索全站" en="Search the site" /></h1>
+        <p><LocalizedText zh="搜索公开开发日志、摄影套图、项目和 Now 近况；草稿不会进入索引。" en="Search public dev logs, photography sets, projects, and Now notes. Drafts never enter the index." /></p>
+      </div>
+    </header>
+
+    <div class="search-page-panel" data-search-page data-reveal>
+      <form class="search-page-form" data-search-results-form>
+        <label class="search-field search-field-query">
+          <span><LocalizedText zh="关键词" en="Keywords" /></span>
+          <input type="search" name="q" autocomplete="off" placeholder="例如：Project Snow、摄影、ETL" data-search-results-input />
+        </label>
+        <label class="search-field">
+          <span><LocalizedText zh="内容来源" en="Content source" /></span>
+          <select name="source" data-search-results-source aria-label="内容来源">
+            <option value="all" data-zh="全部来源" data-en="All sources">全部来源</option>
+            {searchSources.map((source) => <option value={source} data-zh={sourceLabels[source].zh} data-en={sourceLabels[source].en}>{sourceLabels[source].zh}</option>)}
+          </select>
+        </label>
+        <label class="search-field">
+          <span><LocalizedText zh="标签" en="Tag" /></span>
+          <select name="tag" data-search-results-tag aria-label="标签">
+            <option value="all" data-zh="全部标签" data-en="All tags">全部标签</option>
+            {tags.map((tag) => <option value={tag}>{tag}</option>)}
+          </select>
+        </label>
+        <button class="button" type="submit"><LocalizedText zh="搜索" en="Search" /></button>
+      </form>
+
+      <p class="search-results-summary" aria-live="polite" data-search-results-summary></p>
+      <div class="search-results" data-search-results></div>
+      <noscript><p class="search-noscript">搜索和筛选需要启用浏览器的 JavaScript；本站内容仍可通过导航直接访问。</p></noscript>
+      <script is:inline type="application/json" data-search-index set:html={serializedIndex}></script>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { initializeSearchPage } from "../scripts/search-page";
+
+  initializeSearchPage();
+</script>
