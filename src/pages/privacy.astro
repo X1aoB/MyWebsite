@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LocalizedText from "../components/LocalizedText.astro";
+---
+
+<BaseLayout title="隐私与数据说明" description="小B个人网站的数据处理、第三方服务和照片发布说明。">
+  <section class="section privacy-page">
+    <div class="container">
+      <header class="page-hero" data-reveal>
+        <div class="eyebrow">Site note / privacy</div>
+        <h1><LocalizedText zh="隐私与数据说明" en="Privacy & data" /></h1>
+        <p>
+          <LocalizedText
+            zh="这里说明本站会处理什么、不会处理什么，以及发布照片和 Project Snow 资料时需要注意的边界。"
+            en="This page explains what the site does and does not process, along with the boundaries for publishing photographs and Project Snow material."
+          />
+        </p>
+      </header>
+
+      <div class="privacy-grid">
+        <article class="notice-panel" data-reveal>
+          <p class="section-kicker"><LocalizedText zh="本站本身" en="This site" /></p>
+          <h2><LocalizedText zh="静态页面，不上传工具输入" en="Static pages, local-only tools" /></h2>
+          <p>
+            <LocalizedText
+              zh="本站由 Astro 构建并部署在 Cloudflare Pages。JSON 和 CSV 工具只在你的浏览器内处理，文件不会上传到本站或第三方服务。本站没有账号系统，也不会主动收集表单内容。"
+              en="This site is built with Astro and deployed on Cloudflare Pages. The JSON and CSV tools run in your browser; files are not uploaded to this site or a third-party service. There is no account system and no form data is actively collected."
+            />
+          </p>
+        </article>
+
+        <article class="notice-panel" data-reveal>
+          <p class="section-kicker"><LocalizedText zh="浏览器偏好" en="Browser preferences" /></p>
+          <h2><LocalizedText zh="只保存主题和语言选择" en="Only theme and language choices" /></h2>
+          <p>
+            <LocalizedText
+              zh="主题和语言切换会保存在当前浏览器的本地存储中（x1ao-theme、x1ao-locale），用于记住你的显示偏好；清除浏览器站点数据即可删除。"
+              en="Theme and language choices are stored in this browser's local storage (x1ao-theme and x1ao-locale) so your display preference can persist; clearing this site's browser data removes them."
+            />
+          </p>
+        </article>
+
+        <article class="notice-panel" data-reveal>
+          <p class="section-kicker"><LocalizedText zh="第三方服务" en="Third-party services" /></p>
+          <h2><LocalizedText zh="按需加载评论和外部链接" en="Comments and external links load on demand" /></h2>
+          <p>
+            <LocalizedText
+              zh="启用 Giscus 后，文章页会加载 giscus.app 和 GitHub Discussions 的评论组件；评论需要使用 GitHub 账号，相关处理遵循 GitHub 和 Giscus 的政策。页面中的 Bilibili、Steam、LinkedIn、GitHub 和 BWiki 链接会跳转到对应站点。"
+              en="When Giscus is enabled, article pages load the giscus.app and GitHub Discussions comment component. Comments require a GitHub account and follow GitHub and Giscus policies. Bilibili, Steam, LinkedIn, GitHub, and BWiki links lead to their respective sites."
+            />
+          </p>
+        </article>
+
+        <article class="notice-panel" data-reveal>
+          <p class="section-kicker"><LocalizedText zh="照片与资料" en="Photos and sources" /></p>
+          <h2><LocalizedText zh="发布前自行检查公开范围" en="Check the public scope before publishing" /></h2>
+          <p>
+            <LocalizedText
+              zh="摄影集图片会随 Git 和静态站点一起发布。上传前请自行移除不希望公开的定位和设备信息，并只发布自己拥有版权或获得授权的照片。Project Snow 数据遵循 BWiki 来源页面的许可和署名要求，游戏及角色原始内容版权归其权利人。"
+              en="Gallery images are published with Git and the static site. Remove location and device metadata you do not wish to share, and publish only photos you own or are licensed to use. Project Snow data follows the license and attribution terms on its BWiki source pages; game and original character content belongs to its rights holders."
+            />
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

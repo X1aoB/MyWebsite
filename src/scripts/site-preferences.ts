@@ -39,6 +39,11 @@ const translations: Record<string, string> = {
   "访问 GitHub ↗": "Visit GitHub ↗",
   "尘尘的白工作台 · 静态优先": "Snowbreak workspace · static first",
   "站点链接": "Site links",
+  "站点在线": "Online",
+  "站点状态": "Site status",
+  "公开入口": "Public links",
+  "查看来源 ↗": "View source ↗",
+  "隐私与数据说明": "Privacy & data",
   "站点设置": "Site settings",
   "主题": "Theme",
   "尘尘的白": "Snowbreak",
@@ -251,7 +256,9 @@ const titleTranslations: Record<string, string> = {
   "数据工具 · Xiao B · Data & Systems": "Data Tools · Xiao B · Data & Systems",
   "关于 · Xiao B · Data & Systems": "About · Xiao B · Data & Systems",
   "页面未找到 · Xiao B · Data & Systems": "Page not found · Xiao B · Data & Systems",
-  "Project Snow：为可追溯 RAG 构建数据底座 · Xiao B · Data & Systems": "Project Snow: a traceable RAG data foundation · Xiao B · Data & Systems"
+  "Project Snow：为可追溯 RAG 构建数据底座 · Xiao B · Data & Systems": "Project Snow: a traceable RAG data foundation · Xiao B · Data & Systems",
+  "站点状态 · Xiao B · Data & Systems": "Site status · Xiao B · Data & Systems",
+  "隐私与数据说明 · Xiao B · Data & Systems": "Privacy & data · Xiao B · Data & Systems"
 };
 
 const originalTexts = new WeakMap<Text, string>();

@@ -15,6 +15,7 @@
 - Now 页面、自动更新流和 `/rss.xml`：不需要服务器，发布时从公开内容自动生成。
 - 面向未来项目案例的 Markdown 模板与动态路由；Project Snow 保持现有独立专页。
 - 可选 Giscus 评论；未配置时自动降级为 GitHub Discussions 引导。
+- 页脚包含版权、来源许可、社交入口、RSS、隐私说明与站点状态；`/privacy/` 和 `/status/` 均为静态页面。
 
 ## 本地运行
 
@@ -42,6 +43,8 @@ npm run preview
 - `src/config/now.ts` 是 Now 页的唯一内容入口；修改后页面与搜索索引会在构建时同步更新。
 - 未来公开项目放入 `src/content/projects/`。从 `project-case-template.md` 复制开始，`draft: true` 的案例不会被发布。
 - 名称、GitHub 及外部链接集中在 `src/config/site.ts`。
+- 页脚的版权、来源、主题署名与部署状态文字也集中在 `src/config/site.ts` 的 `site.legal` 中；图片来源不确定时不要猜测，确认后再补充。
+- 域名邮箱准备好后，只需填写 `site.social.email`，页脚会自动显示邮箱入口；留空时不会渲染占位链接。
 - 角色插画位于 `public/images/characters/`；在 `src/config/site.ts` 的 `media.heroCharacter.iceSrc`、`holoSrc` 与对应说明字段中维护。两张图会随主题平滑切换。
 - 将 `.env.example` 复制为 `.env` 后，可在本地设置站点 URL 与 Giscus ID；`.env` 不会提交到 Git。
 

@@ -17,7 +17,34 @@ export const site = {
   social: {
     bilibili: "https://space.bilibili.com/91372056",
     steam: "https://steamcommunity.com/profiles/76561198401024601/",
-    linkedIn: "https://www.linkedin.com/in/kaletu7116"
+    linkedIn: "https://www.linkedin.com/in/kaletu7116",
+    email: ""
+  },
+  legal: {
+    original: {
+      zh: "本站原创文章与摄影作品保留所有权利。",
+      en: "Original articles and photography on this site are reserved."
+    },
+    projectSnow: {
+      zh: "Project Snow 数据许可（以来源页面声明为准）：",
+      en: "Project Snow data license, subject to source-page notices:"
+    },
+    rights: {
+      zh: "游戏及角色原始内容版权归其权利人所有。",
+      en: "Game and original character content belongs to its respective rights holders."
+    },
+    deployment: {
+      zh: "静态部署于 Cloudflare Pages · 数据工具仅在浏览器内处理",
+      en: "Static deployment on Cloudflare Pages · data tools run in the browser"
+    },
+    theme: {
+      zh: "主题：尘尘的白 / 苹果与狼 · 页面与动效由小B制作",
+      en: "Themes: Snowbreak / Spice & Wolf · interface and motion by Xiao B"
+    },
+    status: {
+      zh: "静态站点运行于 Cloudflare Pages；暂未接入实时 uptime 监控。",
+      en: "Static site deployed on Cloudflare Pages; live uptime monitoring is not connected yet."
+    }
   },
   media: {
     avatar: {
@@ -34,7 +61,8 @@ export const site = {
     }
   },
   external: {
-    bWiki: "https://wiki.biligame.com/sonw/"
+    bWiki: "https://wiki.biligame.com/sonw/",
+    ccByNcSa: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
   }
 } as const;
 

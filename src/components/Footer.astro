@@ -3,21 +3,66 @@ import { site } from "../config/site";
 import LocalizedText from "./LocalizedText.astro";
 
 const year = new Date().getFullYear();
+
+const socialLinks = [
+  { label: "Bilibili", mark: "B", href: site.social.bilibili },
+  { label: "GitHub", mark: "GH", href: site.githubProfile },
+  { label: "LinkedIn", mark: "in", href: site.social.linkedIn },
+  { label: "Steam", mark: "S", href: site.social.steam },
+  { label: "Email", mark: "@", href: site.social.email ? `mailto:${site.social.email}` : "" }
+].filter((link) => link.href);
 ---
 
 <footer class="site-footer">
-  <div class="footer-topline">
-    <span>© {year} {site.displayName}</span>
-    <span>尘尘的白工作台 · 静态优先</span>
+  <div class="footer-information-grid">
+    <div class="footer-identity">
+      <div class="footer-topline">
+        <span>© {year} {site.displayName} · Xiao B · Data &amp; Systems</span>
+        <a class="footer-status" href="/status/">
+          <i aria-hidden="true"></i>
+          <LocalizedText zh="站点状态" en="Site status" />
+        </a>
+      </div>
+      <p class="footer-legal-line"><LocalizedText {...site.legal.original} /></p>
+      <p class="footer-legal-line">
+        <LocalizedText {...site.legal.projectSnow} />
+        <a class="license-badge" href={site.external.ccByNcSa} target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>
+        <a href={site.external.bWiki} target="_blank" rel="noreferrer"><LocalizedText zh="查看来源 ↗" en="View source ↗" /></a>
+      </p>
+      <p class="footer-legal-line"><LocalizedText {...site.legal.rights} /></p>
+      <p class="footer-legal-line"><LocalizedText {...site.legal.theme} /></p>
+    </div>
+
+    <div class="footer-social-block">
+      <p class="footer-kicker"><LocalizedText zh="公开入口" en="Public links" /></p>
+      <nav class="footer-social" aria-label="社交链接">
+        {socialLinks.map((link) => (
+          <a
+            class="footer-social-link"
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={link.label}
+            title={link.label}
+          >
+            <span aria-hidden="true">{link.mark}</span>
+          </a>
+        ))}
+      </nav>
+    </div>
   </div>
+
   <div class="footer-links" aria-label="站点链接">
     <a href="/journal/">开发日志</a>
     <a href="/projects/project-snow/">Project Snow</a>
     <a href="/tools/">数据工具</a>
     <a href="/gallery/">摄影集</a>
     <a href="/now/">Now</a>
+    <a href="/about/"><LocalizedText zh="关于" en="About" /></a>
     <a href="/updates/"><LocalizedText zh="更新" en="Updates" /></a>
+    <a href="/status/"><LocalizedText zh="站点状态" en="Site status" /></a>
     <a href="/rss.xml"><LocalizedText zh="RSS 订阅" en="RSS feed" /></a>
-    <a href={site.githubProfile} target="_blank" rel="noreferrer">GitHub ↗</a>
+    <a href="/privacy/"><LocalizedText zh="隐私与数据说明" en="Privacy &amp; data" /></a>
   </div>
+  <p class="footer-build-note"><LocalizedText {...site.legal.deployment} /></p>
 </footer>
