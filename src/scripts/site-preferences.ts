@@ -529,9 +529,11 @@ const initializePreferenceBar = () => {
 
   let hideTimer: number | undefined;
   const isAtTop = () => window.scrollY <= 2;
+  const isMobileViewport = () => window.matchMedia("(max-width: 760px)").matches;
   const hasBarFocus = () => bar.matches(":focus-within");
   const setBarVisible = (visible: boolean) => {
-    const shouldShow = visible && isAtTop();
+    // Mobile keeps the compact controls available without requiring a hover gesture.
+    const shouldShow = isMobileViewport() || (visible && isAtTop());
     root.classList.toggle("topbar-visible", shouldShow);
     bar.inert = !shouldShow;
   };
@@ -562,6 +564,10 @@ const initializePreferenceBar = () => {
     if (!isAtTop()) setBarVisible(false);
   }, { passive: true });
 
+  window.addEventListener("resize", () => {
+    setBarVisible(isMobileViewport() || isAtTop());
+  }, { passive: true });
+
   bar.addEventListener("pointerenter", () => {
     clearHideTimer();
     setBarVisible(true);
@@ -578,6 +584,8 @@ const initializePreferenceBar = () => {
     setBarVisible(true);
     window.setTimeout(() => bar.querySelector<HTMLButtonElement>("[data-theme-choice]")?.focus(), 0);
   });
+
+  setBarVisible(isMobileViewport());
 };
 
 export const initializeSitePreferences = () => {
