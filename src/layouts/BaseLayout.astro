@@ -3,7 +3,6 @@ import "../styles/global.css";
 import { site } from "../config/site";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import PreferenceBar from "../components/PreferenceBar.astro";
 import SiteRail from "../components/SiteRail.astro";
 
 interface Props {
@@ -45,7 +44,6 @@ const canonical = new URL(Astro.url.pathname, site.url).toString();
     <button class="topbar-focus-trigger" type="button" data-preference-trigger>打开站点设置</button>
     <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress></span></div>
     <div class="theme-transition" aria-hidden="true"></div>
-    <PreferenceBar />
     <div class="site-layout">
       <Header />
       <main id="main-content" class="site-main">

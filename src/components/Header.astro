@@ -1,5 +1,6 @@
 ---
 import LocalizedText from "./LocalizedText.astro";
+import PreferenceBar from "./PreferenceBar.astro";
 import { profile } from "../config/profile";
 import { navigation, site } from "../config/site";
 
@@ -9,6 +10,8 @@ const isActive = (href: string) =>
 ---
 
 <aside class="site-sidebar" data-site-header>
+  <PreferenceBar />
+
   <div class="sidebar-topline">
     <a class="sidebar-brand" href="/" aria-label={`${site.name} 首页`}>
       <span class="profile-avatar" aria-hidden="true">

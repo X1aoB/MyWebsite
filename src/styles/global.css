@@ -4837,13 +4837,67 @@ html[data-motion="enabled"] [data-reveal].is-visible {
 
   .site-sidebar {
     position: sticky;
-    top: 52px;
-    display: block;
+    z-index: 70;
+    top: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    gap: 8px;
+    align-items: center;
     min-height: 0;
-    padding: 11px 16px;
+    padding: 7px 10px;
     background: rgba(249, 253, 255, 0.9);
     border-bottom: 1px solid rgba(57, 145, 193, 0.18);
     backdrop-filter: blur(16px);
+    transition: transform 260ms cubic-bezier(0.2, 0.78, 0.25, 1);
+  }
+
+  .site-sidebar.mobile-bar-hidden {
+    transform: translateY(calc(-100% - 1px));
+  }
+
+  .site-sidebar .preference-bar,
+  .site-sidebar .preference-bar-inner,
+  .site-sidebar .sidebar-topline {
+    display: contents;
+  }
+
+  .site-sidebar .preference-bar {
+    position: static;
+    width: auto;
+    height: auto;
+    max-height: none;
+    margin: 0;
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .site-sidebar .preference-brand {
+    display: none;
+  }
+
+  .site-sidebar .sidebar-brand {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .site-sidebar .preference-search-toggle {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .site-sidebar .preference-controls {
+    grid-column: 3;
+    grid-row: 1;
+    min-width: 0;
+    margin-left: 0;
+  }
+
+  .site-sidebar .menu-toggle {
+    grid-column: 4;
+    grid-row: 1;
   }
 
   .sidebar-brand {
@@ -4890,6 +4944,10 @@ html[data-motion="enabled"] [data-reveal].is-visible {
     border-color: rgba(57, 145, 193, 0.24);
   }
 
+  .site-sidebar .preference-search {
+    z-index: 4;
+  }
+
   .site-sidebar .primary-nav {
     position: absolute;
     top: calc(100% + 7px);
@@ -4906,6 +4964,7 @@ html[data-motion="enabled"] [data-reveal].is-visible {
     box-shadow: 0 15px 38px rgba(39, 101, 139, 0.16);
     opacity: 0;
     transform: translateY(-8px);
+    z-index: 3;
     transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
   }
 
@@ -5934,44 +5993,14 @@ html[data-theme="holo"] .site-footer {
 }
 
 @media (max-width: 760px) {
-  .preference-bar {
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    max-height: 0;
-    margin: 0;
-    overflow: visible;
-    visibility: visible;
-    pointer-events: none;
-    opacity: 1;
-    transform: none;
-    transition: height 260ms cubic-bezier(0.2, 0.78, 0.25, 1), max-height 260ms cubic-bezier(0.2, 0.78, 0.25, 1);
-  }
-
-  html.topbar-visible .preference-bar {
-    height: 58px;
-    max-height: 58px;
-    transform: none;
-  }
-
-  .preference-bar-inner {
+  .site-sidebar .preference-bar-inner {
     gap: 8px;
-    min-height: 52px;
-    padding: 7px 8px 7px 10px;
-    border-top: 0;
-    border-radius: 0 0 12px 12px;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(calc(-100% - 8px));
-    transition: opacity 180ms ease, transform 260ms cubic-bezier(0.2, 0.78, 0.25, 1);
-  }
-
-  html.topbar-visible .preference-bar-inner {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
   }
 
   .preference-summary,
@@ -7277,6 +7306,10 @@ html[data-theme="holo"] .photo-lightbox-close:hover {
   backdrop-filter: blur(18px);
 }
 
+.preference-search-suggestions[hidden] {
+  display: none;
+}
+
 .preference-search-suggestion {
   display: grid;
   gap: 3px;
@@ -7909,12 +7942,12 @@ html[data-theme="holo"] .nav-icon[data-spice-icon="coin"]::after {
 }
 
 @media (max-width: 760px) {
-  .preference-search {
+  .site-sidebar .preference-search {
     position: absolute;
     top: calc(100% + 8px);
-    right: 0;
-    left: 0;
-    width: 100%;
+    right: 10px;
+    left: 10px;
+    width: auto;
     min-width: 0;
     margin: 0;
     visibility: hidden;
@@ -7924,7 +7957,7 @@ html[data-theme="holo"] .nav-icon[data-spice-icon="coin"]::after {
     transition: visibility 180ms ease, opacity 180ms ease, transform 220ms cubic-bezier(0.2, 0.76, 0.24, 1);
   }
 
-  .preference-bar.is-search-open .preference-search {
+  .site-sidebar .preference-bar.is-search-open .preference-search {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;

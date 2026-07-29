@@ -506,23 +506,36 @@ const updateTheme = (theme: Theme, origin?: HTMLElement) => {
 const initializePreferenceBar = () => {
   const root = document.documentElement;
   const bar = document.querySelector<HTMLElement>("[data-preference-bar]");
+  const sidebar = document.querySelector<HTMLElement>("[data-site-header]");
   const accessTrigger = document.querySelector<HTMLButtonElement>("[data-preference-trigger]");
   if (!bar) return;
 
   let hideTimer: number | undefined;
   let lastScrollY = window.scrollY;
+  let mobileDirection = 0;
+  let mobileDirectionDistance = 0;
   const isAtTop = () => window.scrollY <= 2;
   const isMobileViewport = () => window.matchMedia("(max-width: 760px)").matches;
   const hasBarFocus = () => bar.matches(":focus-within");
   const setBarVisible = (visible: boolean) => {
-    const shouldShow = isMobileViewport() ? visible : visible && isAtTop();
+    const mobile = isMobileViewport();
+    const shouldShow = mobile ? visible : visible && isAtTop();
     root.classList.toggle("topbar-visible", shouldShow);
-    bar.inert = !shouldShow;
+    if (mobile) {
+      bar.inert = false;
+      if (sidebar) sidebar.inert = !shouldShow;
+      sidebar?.classList.toggle("mobile-bar-hidden", !shouldShow);
+    } else {
+      bar.inert = !shouldShow;
+      if (sidebar) sidebar.inert = false;
+      sidebar?.classList.remove("mobile-bar-hidden");
+    }
   };
   const clearHideTimer = () => {
     if (hideTimer !== undefined) window.clearTimeout(hideTimer);
   };
   const hideSoon = () => {
+    if (isMobileViewport()) return;
     clearHideTimer();
     hideTimer = window.setTimeout(() => {
       if (!bar.matches(":hover") && !hasBarFocus()) setBarVisible(false);
@@ -547,10 +560,22 @@ const initializePreferenceBar = () => {
     const currentScrollY = window.scrollY;
     if (isMobileViewport()) {
       const delta = currentScrollY - lastScrollY;
-      if (isAtTop() || delta < -3) {
+      if (isAtTop()) {
         setBarVisible(true);
-      } else if (delta > 3 && !hasBarFocus() && !bar.classList.contains("is-search-open")) {
-        setBarVisible(false);
+        mobileDirectionDistance = 0;
+      } else if (Math.abs(delta) >= 1 && !hasBarFocus() && !bar.classList.contains("is-search-open")) {
+        const nextDirection = delta > 0 ? 1 : -1;
+        if (nextDirection !== mobileDirection) {
+          mobileDirection = nextDirection;
+          mobileDirectionDistance = 0;
+        }
+        mobileDirectionDistance += Math.abs(delta);
+
+        // Require a deliberate direction change before moving the unified bar.
+        if (mobileDirectionDistance >= 16) {
+          setBarVisible(nextDirection < 0);
+          mobileDirectionDistance = 0;
+        }
       }
     } else if (!isAtTop()) {
       setBarVisible(false);
@@ -560,6 +585,8 @@ const initializePreferenceBar = () => {
 
   window.addEventListener("resize", () => {
     lastScrollY = window.scrollY;
+    mobileDirection = 0;
+    mobileDirectionDistance = 0;
     setBarVisible(isAtTop());
   }, { passive: true });
 
