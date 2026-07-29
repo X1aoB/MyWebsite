@@ -1069,7 +1069,7 @@ svg {
 
 .pipeline {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
   margin-top: 30px;
 }
@@ -2000,6 +2000,10 @@ html[data-motion="enabled"] [data-reveal].is-visible {
 
   .pipeline-step:nth-child(3)::after {
     display: block;
+  }
+
+  .pipeline-step:nth-child(4)::after {
+    display: none;
   }
 }
 

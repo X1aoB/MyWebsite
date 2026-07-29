@@ -3,13 +3,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { site } from "../../config/site";
 ---
 
-<BaseLayout title="Project Snow" description="基于可追溯数据底座逐步构建的尘白禁区世界观 RAG 项目。">
+<BaseLayout title="Project Snow" description="从可追溯数据底座进入本地 RAG MVP，验证尘白禁区角色对话的检索、引用与语境控制。">
   <section class="section">
     <div class="container project-hero">
       <article class="project-summary" data-reveal>
         <div class="eyebrow">PROJECT / 01</div>
         <h1>Project Snow</h1>
-        <p>基于 RAG 架构的《尘白禁区》世界观智能对话系统。项目先构建可持续更新的数据采集与治理链路，再逐步加入剧情结构化、检索、角色一致性与对话服务。</p>
+        <p>基于 RAG 架构的《尘白禁区》角色陪伴型对话系统。数据链路已经从采集进入本地 MVP：现在验证证据检索、角色专属资料优先级、对话模式和装甲 / 时装语境；在线服务仍未部署。</p>
         <div class="button-row" style="margin-top: 24px">
           <a class="button" href={site.repositories.projectSnow} target="_blank" rel="noreferrer">查看 GitHub 源码 ↗</a>
           <a class="button button-secondary" href="/journal/project-snow-data-foundation/">阅读项目总览</a>
@@ -17,11 +17,11 @@ import { site } from "../../config/site";
       </article>
       <aside class="status-panel" data-reveal>
         <div>
-          <span class="status-badge">第一阶段已实现</span>
-          <strong>原始数据采集与来源治理</strong>
-          <p>当前重点是可信数据层，而不是提前包装一个不可验证的聊天界面。</p>
+          <span class="status-badge">本地 MVP 验证中</span>
+          <strong>检索、引用与角色语境已跑通</strong>
+          <p>Project Snow/App 已提供 FastAPI 本地接口和静态预览；检索结果保留原始页面引用，关系候选仍需人工审核，不会自动写入正式图谱。</p>
         </div>
-        <div class="tag-list"><span class="tag">Crawler</span><span class="tag">Manifest</span><span class="tag">Provenance</span></div>
+        <div class="tag-list"><span class="tag">FastAPI</span><span class="tag">Retrieval</span><span class="tag">Evidence</span><span class="tag">Local MVP</span></div>
       </aside>
     </div>
   </section>
@@ -31,15 +31,16 @@ import { site } from "../../config/site";
       <div class="section-header" data-reveal>
         <div>
           <div class="section-kicker">系统链路</div>
-          <h2 id="pipeline-title">先让每一段数据都能回到来源。</h2>
+          <h2 id="pipeline-title">从可追溯资料到本地对话验证。</h2>
         </div>
-        <p>已实现的阶段以原始资料与状态记录为边界；后续阶段会在不丢失溯源能力的前提下增加结构化和检索。</p>
+        <p>采集和状态治理已经形成基础；应用层继续构建 lakehouse、索引、证据画像和关系审核，MVP 对话只读取本地运行时产物。</p>
       </div>
       <div class="pipeline">
-        <article class="pipeline-step" data-reveal><span class="step-number">01 / now</span><h3>页面发现与采集</h3><p>从受控入口发现 Wiki 页面，保存原始 HTML 或维基文本，不下载媒体二进制。</p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">02 / now</span><h3>状态与清单</h3><p>以哈希、抓取状态、运行报告和索引文件支持增量更新与可恢复批次。</p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">03 / next</span><h3>结构化与检索</h3><p>将剧情、角色和关系整理为可查询的数据模型，并保留来源位置。</p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">04 / next</span><h3>受控 RAG 服务</h3><p>独立部署在线体验，提供来源引用、限流与滥用防护；长期使用引导本地部署。</p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">01 / done</span><h3>页面发现与采集</h3><p>从受控入口发现 Wiki 页面，保存原始 HTML 或维基文本，不下载媒体二进制。</p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">02 / done</span><h3>状态、清单与增量运行</h3><p>以哈希、抓取状态、运行报告和索引文件支持增量更新、分批恢复与目录校验。</p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">03 / now</span><h3>证据检索与意图重排</h3><p>已生成 lakehouse、词法索引和本地向量索引；偏好、关系、语音、经历等问题会优先角色直接证据，并保留页面引用。</p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">04 / now</span><h3>对话模式与角色语境</h3><p>MVP 支持沉浸式陪伴与角色助手两种模式，会话隔离；消息可自动识别装甲 / 时装并关联对应证据。</p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">05 / next</span><h3>独立受控 RAG 服务</h3><p>未来再独立部署在线体验，补齐匿名限额、来源引用、服务端密钥和滥用防护；长期使用引导本地部署。</p></article>
       </div>
     </div>
   </section>
@@ -48,11 +49,12 @@ import { site } from "../../config/site";
     <div class="container split-panel">
       <div data-reveal>
         <div class="section-kicker">路线图</div>
-        <h2 id="roadmap-title">从资料收集到可引用的回答。</h2>
+        <h2 id="roadmap-title">从资料收集到可引用的角色回应。</h2>
         <div class="timeline" style="margin-top: 24px">
-          <article class="timeline-card"><span class="timeline-phase">已完成</span><div><h3>原始数据采集层</h3><p>覆盖剧情、角色资料、皮肤、语音、心意内容、家具和物品背景；支持规则分类、增量更新与校验。</p></div></article>
-          <article class="timeline-card"><span class="timeline-phase">进行中</span><div><h3>数据治理与结构化</h3><p>整理稳定的阅读索引和关系数据，为后续 ETL 与知识库构建准备可验证输入。</p></div></article>
-          <article class="timeline-card"><span class="timeline-phase">下一阶段</span><div><h3>检索、角色一致性与对话</h3><p>建立带引用的检索结果，随后接入受控模型服务；公开体验不暴露密钥，也不绕过来源网站规则。</p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">已完成</span><div><h3>原始数据采集与溯源</h3><p>覆盖剧情、角色资料、皮肤、语音、心意内容、家具和物品背景；保留页面地址、哈希、分类和运行状态，支持增量更新。</p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">已验证</span><div><h3>本地检索与 MVP 对话</h3><p>应用层已生成 lakehouse、词法 / 向量索引和角色证据画像；对话返回引用，并按问题意图优先角色专属邮件、语音、个人故事和随机事件等证据。</p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">进行中</span><div><h3>关系图谱人工审核</h3><p>确定性关系可供查询，模型抽取的关系候选进入分批审核；候选和二次模型意见都不会自动升级为正式图谱边。</p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">下一阶段</span><div><h3>独立在线体验</h3><p>后续再接入受控模型服务和公网入口；每次回答保留可访问来源，并在服务端处理限流、Turnstile、密钥和成本控制。</p></div></article>
         </div>
       </div>
       <aside class="license-note" data-reveal>
@@ -67,10 +69,10 @@ import { site } from "../../config/site";
 
   <section class="section-tight">
     <div class="container notice-panel" data-reveal>
-      <div class="section-kicker">未来在线体验</div>
-      <h2>RAG 试玩服务尚未上线。</h2>
-      <p>上线时将采用匿名限额、来源引用和服务端密钥保护。需要长期使用的用户将可从 GitHub 获取本地部署说明，并自行选择本地模型或自己的 API 凭据。</p>
-      <div class="button-row" style="margin-top: 18px"><a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer">关注项目进展 ↗</a></div>
+      <div class="section-kicker">本地验证 / 在线服务</div>
+      <h2>本地 MVP 已可运行，公网 RAG 尚未上线。</h2>
+      <p>在 Project_Snow/App 中可以启动 FastAPI 与静态预览，使用本地运行时数据验证检索、引用和两种对话模式；公开服务后再补齐匿名限额、Turnstile、服务端密钥和滥用防护。长期使用仍以 GitHub 本地部署为主。</p>
+      <div class="button-row" style="margin-top: 18px"><a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer">查看项目运行说明 ↗</a></div>
     </div>
   </section>
 </BaseLayout>
