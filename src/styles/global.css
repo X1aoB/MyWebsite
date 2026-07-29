@@ -973,14 +973,77 @@ svg {
 }
 
 .comments-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
   padding: 30px;
   margin-bottom: 100px;
   border-radius: var(--radius-md);
 }
 
+.comments-panel::before {
+  position: absolute;
+  z-index: -1;
+  top: -96px;
+  right: -80px;
+  width: 220px;
+  height: 220px;
+  content: "";
+  border: 1px solid rgba(60, 159, 214, 0.16);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(125, 211, 252, 0.2), transparent 68%);
+  pointer-events: none;
+}
+
 .comments-panel h2 {
   margin: 0 0 18px;
   font-size: 1.35rem;
+}
+
+.giscus-shell {
+  min-height: 112px;
+}
+
+.giscus-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 96px;
+  padding: 16px 18px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(241, 249, 255, 0.6);
+  font-size: 0.88rem;
+}
+
+.giscus-loading[hidden] {
+  display: none;
+}
+
+.giscus-loading-mark {
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--ice);
+  border-radius: 50%;
+  animation: giscus-pulse 1.2s linear infinite;
+}
+
+.giscus-shell iframe.giscus-frame {
+  display: block;
+  width: 100%;
+  min-height: 360px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+}
+
+@keyframes giscus-pulse {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .giscus-fallback {
@@ -4911,6 +4974,26 @@ html[data-theme="holo"] .status-panel,
 html[data-theme="holo"] .pipeline-step {
   background: linear-gradient(145deg, rgba(255, 252, 239, 0.94), rgba(255, 232, 182, 0.76));
   box-shadow: 0 12px 30px rgba(102, 61, 30, 0.08);
+}
+
+html[data-theme="holo"] .comments-panel::before {
+  border-color: rgba(161, 91, 31, 0.2);
+  background: radial-gradient(circle, rgba(240, 190, 76, 0.24), transparent 68%);
+}
+
+html[data-theme="holo"] .giscus-loading {
+  color: #806044;
+  border-color: rgba(139, 82, 34, 0.24);
+  background: rgba(255, 244, 215, 0.62);
+}
+
+html[data-theme="holo"] .giscus-loading-mark {
+  border-color: rgba(139, 82, 34, 0.26);
+  border-top-color: #d17a2f;
+}
+
+html[data-theme="holo"] .giscus-fallback a {
+  color: #a64e25;
 }
 
 html[data-theme="holo"] .about-bio-template > div,

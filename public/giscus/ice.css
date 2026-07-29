@@ -1,0 +1,62 @@
+:root {
+  --color-canvas-default: #ffffff;
+  --color-canvas-subtle: #f1f9ff;
+  --color-border-default: rgba(72, 149, 198, 0.28);
+  --color-border-muted: rgba(72, 149, 198, 0.16);
+  --color-neutral-muted: rgba(60, 159, 214, 0.12);
+  --color-fg-default: #18364e;
+  --color-fg-muted: #58758c;
+  --color-accent-fg: #126f9f;
+  --color-accent-emphasis: #3c9fd6;
+  --color-accent-muted: rgba(60, 159, 214, 0.2);
+  --color-success-fg: #2d9c80;
+  --color-attention-fg: #9a6a08;
+  --color-danger-fg: #b7435b;
+}
+
+body {
+  color: var(--color-fg-default);
+  background: transparent;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.gsc-main,
+.gsc-comments,
+.gsc-comment-box,
+.gsc-comment {
+  color: var(--color-fg-default);
+}
+
+.gsc-comment-box,
+.gsc-comment {
+  border-color: var(--color-border-default);
+  border-radius: 8px;
+}
+
+.gsc-comment-box-tabs,
+.gsc-comment-box-textarea,
+.gsc-reactions-count,
+.gsc-direct-reaction-button {
+  border-color: var(--color-border-muted);
+  background: var(--color-canvas-subtle);
+}
+
+.gsc-comment-box-textarea:focus {
+  border-color: var(--color-accent-emphasis);
+  box-shadow: 0 0 0 3px var(--color-accent-muted);
+}
+
+.gsc-comment-box-tabs button[aria-selected="true"],
+.gsc-comment-box-tabs button:hover,
+.gsc-reactions-count:hover,
+.gsc-direct-reaction-button:hover {
+  color: var(--color-accent-fg);
+}
+
+a {
+  color: var(--color-accent-fg);
+}
+
+button {
+  border-radius: 6px;
+}

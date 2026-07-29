@@ -10,12 +10,19 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
   {
     enabled ? (
       <div
+        class="giscus-shell"
         data-giscus-root
         data-repo={giscus.repo}
         data-repo-id={giscus.repoId}
         data-category={giscus.category}
         data-category-id={giscus.categoryId}
-      ></div>
+        data-giscus-state="idle"
+      >
+        <div class="giscus-loading" data-giscus-loading role="status" aria-live="polite">
+          <span class="giscus-loading-mark" aria-hidden="true"></span>
+          <span data-giscus-loading-copy>评论组件将在接近此处时加载</span>
+        </div>
+      </div>
     ) : (
       <div class="giscus-fallback">
         <p>评论区将在站点部署配置完成后启用。</p>
@@ -33,22 +40,115 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
       const host = document.querySelector("[data-giscus-root]");
 
       if (host) {
-        const script = document.createElement("script");
-        script.src = "https://giscus.app/client.js";
-        script.async = true;
-        script.crossOrigin = "anonymous";
-        script.setAttribute("data-repo", host.dataset.repo || "");
-        script.setAttribute("data-repo-id", host.dataset.repoId || "");
-        script.setAttribute("data-category", host.dataset.category || "General");
-        script.setAttribute("data-category-id", host.dataset.categoryId || "");
-        script.setAttribute("data-mapping", "pathname");
-        script.setAttribute("data-strict", "1");
-        script.setAttribute("data-reactions-enabled", "1");
-        script.setAttribute("data-emit-metadata", "0");
-        script.setAttribute("data-input-position", "top");
-        script.setAttribute("data-theme", "dark_dimmed");
-        script.setAttribute("data-lang", "zh-CN");
-        host.append(script);
+        const loading = host.querySelector("[data-giscus-loading]");
+        const loadingCopy = host.querySelector("[data-giscus-loading-copy]");
+        const origin = "https://giscus.app";
+        const root = document.documentElement;
+        let observer;
+        let frameObserver;
+        let loaded = false;
+
+        const getTheme = () => {
+          const theme = root.dataset.theme === "holo" ? "holo" : "ice";
+          if (window.location.protocol !== "https:") return "light";
+          return new URL(`/giscus/${theme}.css`, window.location.origin).toString();
+        };
+
+        const getLocale = () => (root.dataset.locale === "en" ? "en" : "zh-CN");
+
+        const updateLoadingCopy = () => {
+          if (!loadingCopy) return;
+          loadingCopy.textContent = getLocale() === "en"
+            ? "Comments load when this section is near the viewport"
+            : "评论组件将在接近此处时加载";
+        };
+
+        const sendConfig = () => {
+          if (!loaded) return;
+          const frame = host.querySelector("iframe.giscus-frame");
+          frame?.contentWindow?.postMessage(
+            { giscus: { setConfig: { theme: getTheme(), lang: getLocale() } } },
+            origin
+          );
+        };
+
+        const observeFrame = () => {
+          frameObserver = new MutationObserver(() => {
+            const frame = host.querySelector("iframe.giscus-frame");
+            if (!frame) return;
+            frame.setAttribute("loading", "lazy");
+            frame.setAttribute("title", getLocale() === "en" ? "Comments" : "评论区");
+            loading?.setAttribute("hidden", "true");
+            host.dataset.giscusState = "loaded";
+            loaded = true;
+            sendConfig();
+            frameObserver?.disconnect();
+          });
+          frameObserver.observe(host, { childList: true, subtree: true });
+        };
+
+        const load = () => {
+          if (host.dataset.giscusLoaded === "true") return;
+          host.dataset.giscusLoaded = "true";
+          host.dataset.giscusState = "loading";
+          const script = document.createElement("script");
+          script.src = `${origin}/client.js`;
+          script.async = true;
+          script.crossOrigin = "anonymous";
+          script.setAttribute("data-repo", host.dataset.repo || "");
+          script.setAttribute("data-repo-id", host.dataset.repoId || "");
+          script.setAttribute("data-category", host.dataset.category || "General");
+          script.setAttribute("data-category-id", host.dataset.categoryId || "");
+          script.setAttribute("data-mapping", "pathname");
+          script.setAttribute("data-strict", "1");
+          script.setAttribute("data-reactions-enabled", "1");
+          script.setAttribute("data-emit-metadata", "0");
+          script.setAttribute("data-input-position", "top");
+          script.setAttribute("data-theme", getTheme());
+          script.setAttribute("data-lang", getLocale());
+          script.setAttribute("data-loading", "lazy");
+          script.addEventListener("error", () => {
+            host.dataset.giscusState = "error";
+            loading?.removeAttribute("hidden");
+            if (loadingCopy) {
+              loadingCopy.textContent = getLocale() === "en"
+                ? "Comments are temporarily unavailable"
+                : "评论组件暂时无法加载";
+            }
+          }, { once: true });
+          observeFrame();
+          host.append(script);
+        };
+
+        const scheduleLoad = () => {
+          const idle = window.requestIdleCallback;
+          if (typeof idle === "function") {
+            idle(load, { timeout: 1200 });
+          } else {
+            window.setTimeout(load, 80);
+          }
+        };
+
+        updateLoadingCopy();
+        window.addEventListener("site-locale-change", () => {
+          updateLoadingCopy();
+          sendConfig();
+        });
+
+        const themeObserver = new MutationObserver(() => sendConfig());
+        themeObserver.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+
+        if ("IntersectionObserver" in window) {
+          observer = new IntersectionObserver((entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              observer?.disconnect();
+              scheduleLoad();
+            }
+          }, { rootMargin: "320px 0px" });
+          observer.observe(host);
+        } else {
+          scheduleLoad();
+        }
       }
     </script>
   )
