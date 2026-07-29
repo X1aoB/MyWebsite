@@ -1,0 +1,353 @@
+---
+import LocalizedText from "./LocalizedText.astro";
+import { site } from "../config/site";
+---
+
+<section class="model-iq-dashboard" aria-labelledby="model-iq-dashboard-title" data-model-iq>
+  <header class="model-iq-dashboard-head">
+    <div>
+      <div class="section-kicker"><LocalizedText zh="公开摘要" en="Live public summary" /></div>
+      <h2 id="model-iq-dashboard-title"><LocalizedText zh="当前模型表现" en="Current model performance" /></h2>
+      <p><LocalizedText zh="按 Codex Radar 公开摘要整理当前模型分数、任务通过情况与相对排名。" en="Current model scores, passed tasks, and relative rankings from the Codex Radar public summary." /></p>
+    </div>
+    <div class="model-iq-actions">
+      <button type="button" data-model-iq-refresh>
+        <span aria-hidden="true">↻</span><LocalizedText zh="刷新" en="Refresh" />
+      </button>
+      <a href={site.external.codexRadar} target="_blank" rel="noreferrer">
+        <LocalizedText zh="数据来源" en="Data source" /><span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="model-iq-livebar">
+    <p data-model-iq-status role="status" aria-live="polite">
+      <i aria-hidden="true"></i><LocalizedText zh="正在读取公开摘要…" en="Loading public summary…" />
+    </p>
+    <p><LocalizedText zh="摘要更新时间" en="Summary updated" /> <time data-model-iq-updated>—</time></p>
+  </div>
+
+  <div class="model-iq-loading" data-model-iq-loading aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="model-iq-content" data-model-iq-content data-no-translate hidden>
+    <section class="model-iq-overview" aria-label="模型 IQ 概览" data-model-iq-overview>
+      <div class="model-iq-overview-item is-leading">
+        <span data-overview-label="leader">当前最高</span>
+        <strong data-model-iq-leader-score>—</strong>
+        <small data-model-iq-leader-name>—</small>
+      </div>
+      <div class="model-iq-overview-item">
+        <span data-overview-label="average">平均分</span>
+        <strong data-model-iq-average>—</strong>
+        <small data-overview-copy="average">当前公开模型</small>
+      </div>
+      <div class="model-iq-overview-item">
+        <span data-overview-label="passRate">总通过率</span>
+        <strong data-model-iq-pass-rate>—</strong>
+        <small data-model-iq-pass-tasks>—</small>
+      </div>
+      <div class="model-iq-overview-item">
+        <span data-overview-label="models">参与比较</span>
+        <strong data-model-iq-count>—</strong>
+        <small data-overview-copy="models">模型配置</small>
+      </div>
+    </section>
+
+    <div class="model-iq-controls">
+      <div class="model-iq-filter-field">
+        <span data-controls-label="family">模型族</span>
+        <div class="model-iq-filter" role="group" aria-label="模型族筛选" data-model-iq-filters></div>
+      </div>
+      <label class="model-iq-sort-field">
+        <span data-controls-label="sort">排序</span>
+        <select data-model-iq-sort aria-label="模型 IQ 排序方式">
+          <option value="score">IQ 分数</option>
+          <option value="pass-rate">任务通过率</option>
+          <option value="name">模型名称</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="model-iq-ranking-head">
+      <div>
+        <span data-ranking-title>模型排名</span>
+        <small data-ranking-copy>按 IQ 分数排序：100+ 超高 · 90+ 高 · 80+ 中 · 80 以下低</small>
+      </div>
+      <strong data-model-iq-visible-count>—</strong>
+    </div>
+    <ol class="model-iq-ranking" data-model-iq-ranking aria-label="模型 IQ 排名"></ol>
+  </div>
+
+  <p class="model-iq-empty" data-model-iq-empty hidden></p>
+
+  <footer class="model-iq-source-note">
+    <p><LocalizedText zh="IQ 为 Codex Radar 的第三方基准分，不代表通用智商，也不是本站独立测评；结果会受任务集、采样和发布状态影响。" en="IQ is Codex Radar's third-party benchmark score, not general intelligence and not an independent test by this site. Results depend on its task set, sampling, and publication status." /></p>
+    <p><LocalizedText zh="数据来自" en="Data from" /> <a href={site.external.codexRadar} target="_blank" rel="noreferrer">Codex 雷达 codexradar.com ↗</a></p>
+  </footer>
+</section>
+
+<script>
+  import { classifyModelIq, iqHueForScore, modelIqEndpoint, parseModelIqSummary, type ModelIqRow, type ModelIqSummary, type ModelIqTier } from "../lib/model-iq";
+
+  type Family = "all" | "sol" | "terra" | "luna" | "gpt-5.5" | "other";
+  type SortMode = "score" | "pass-rate" | "name";
+
+  const initializeModelIqViewer = () => {
+    const root = document.querySelector<HTMLElement>("[data-model-iq]");
+    if (!root) return;
+
+    const status = root.querySelector<HTMLElement>("[data-model-iq-status]");
+    const updated = root.querySelector<HTMLTimeElement>("[data-model-iq-updated]");
+    const refresh = root.querySelector<HTMLButtonElement>("[data-model-iq-refresh]");
+    const loading = root.querySelector<HTMLElement>("[data-model-iq-loading]");
+    const content = root.querySelector<HTMLElement>("[data-model-iq-content]");
+    const empty = root.querySelector<HTMLElement>("[data-model-iq-empty]");
+    const filters = root.querySelector<HTMLElement>("[data-model-iq-filters]");
+    const sort = root.querySelector<HTMLSelectElement>("[data-model-iq-sort]");
+    const ranking = root.querySelector<HTMLOListElement>("[data-model-iq-ranking]");
+    let snapshot: ModelIqSummary | null = null;
+    let selectedFamily: Family = "all";
+    let sortMode: SortMode = "score";
+    let controller: AbortController | undefined;
+
+    const locale = () => document.documentElement.dataset.locale === "en" ? "en" : "zh";
+    const text = (zh: string, en: string) => locale() === "en" ? en : zh;
+    const formatDate = (value: string) => {
+      const date = new Date(value);
+      if (Number.isNaN(date.valueOf())) return value;
+      return new Intl.DateTimeFormat(locale() === "en" ? "en-US" : "zh-CN", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(date);
+    };
+    const familyOf = (row: ModelIqRow): Family => {
+      const value = `${row.model} ${row.label}`.toLowerCase();
+      if (value.includes("sol")) return "sol";
+      if (value.includes("terra")) return "terra";
+      if (value.includes("luna")) return "luna";
+      if (value.includes("gpt-5.5")) return "gpt-5.5";
+      return "other";
+    };
+    const familyLabel = (family: Family) => ({
+      all: text("全部", "All"),
+      sol: "Sol",
+      terra: "Terra",
+      luna: "Luna",
+      "gpt-5.5": "5.5",
+      other: text("其他", "Other")
+    })[family];
+    const iqTierLabel = (tier: ModelIqTier) => {
+      const labels: Record<ModelIqTier, [string, string]> = {
+        xhigh: ["超高", "Extra high"],
+        high: ["高", "High"],
+        medium: ["中", "Medium"],
+        low: ["低", "Low"]
+      };
+      return text(...labels[tier]);
+    };
+    const passRate = (row: ModelIqRow) => row.tasks > 0 ? row.passed / row.tasks : 0;
+    const setStatus = (message: string, state: "loading" | "success" | "error") => {
+      if (!status) return;
+      const copy = document.createElement("span");
+      copy.textContent = message;
+      status.replaceChildren(document.createElement("i"), copy);
+      status.dataset.state = state;
+    };
+
+    const renderStaticCopy = () => {
+      const overviewCopy: Record<string, [string, string]> = {
+        leader: ["当前最高", "Current leader"],
+        average: ["平均分", "Average score"],
+        passRate: ["总通过率", "Overall pass rate"],
+        models: ["参与比较", "Compared"]
+      };
+      root.querySelectorAll<HTMLElement>("[data-overview-label]").forEach((node) => {
+        const copy = overviewCopy[node.dataset.overviewLabel ?? ""];
+        if (copy) node.textContent = text(...copy);
+      });
+      const overviewDetails: Record<string, [string, string]> = {
+        average: ["当前公开模型", "public model configs"],
+        models: ["模型配置", "model configs"]
+      };
+      root.querySelectorAll<HTMLElement>("[data-overview-copy]").forEach((node) => {
+        const copy = overviewDetails[node.dataset.overviewCopy ?? ""];
+        if (copy) node.textContent = text(...copy);
+      });
+      root.querySelector<HTMLElement>("[data-controls-label='family']")!.textContent = text("模型族", "Model family");
+      root.querySelector<HTMLElement>("[data-controls-label='sort']")!.textContent = text("排序", "Sort by");
+      root.querySelector<HTMLElement>("[data-ranking-title]")!.textContent = text("模型排名", "Model ranking");
+      root.querySelector<HTMLElement>("[data-ranking-copy]")!.textContent = text("按 IQ 分数排序：100+ 超高 · 90+ 高 · 80+ 中 · 80 以下低", "Sorted by IQ: 100+ extra high · 90+ high · 80+ medium · below 80 low");
+      root.querySelector<HTMLElement>("[data-model-iq-content]")?.setAttribute("aria-label", text("模型 IQ 数据与排名", "Model IQ data and ranking"));
+      root.querySelector<HTMLElement>("[data-model-iq-overview]")?.setAttribute("aria-label", text("模型 IQ 概览", "Model IQ overview"));
+      root.querySelector<HTMLElement>("[data-model-iq-filters]")?.setAttribute("aria-label", text("模型族筛选", "Model family filters"));
+      sort?.setAttribute("aria-label", text("模型 IQ 排序方式", "Model IQ sort order"));
+      ranking?.setAttribute("aria-label", text("模型 IQ 排名", "Model IQ ranking"));
+      if (sort) {
+        sort.options[0].textContent = text("IQ 分数", "IQ score");
+        sort.options[1].textContent = text("任务通过率", "Pass rate");
+        sort.options[2].textContent = text("模型名称", "Model name");
+      }
+    };
+
+    const renderFilters = () => {
+      if (!snapshot || !filters) return;
+      const available = new Set(snapshot.rows.map(familyOf));
+      const familyOrder: Family[] = ["sol", "terra", "luna", "gpt-5.5", "other"];
+      const families: Family[] = ["all", ...familyOrder.filter((family) => available.has(family))];
+      filters.replaceChildren();
+      families.forEach((family) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = familyLabel(family);
+        button.dataset.family = family;
+        button.setAttribute("aria-pressed", String(selectedFamily === family));
+        button.addEventListener("click", () => {
+          selectedFamily = family;
+          render();
+        });
+        filters.append(button);
+      });
+    };
+
+    const visibleRows = () => {
+      if (!snapshot) return [];
+      const rows = snapshot.rows.filter((row) => selectedFamily === "all" || familyOf(row) === selectedFamily);
+      return rows.sort((a, b) => {
+        if (sortMode === "pass-rate") return passRate(b) - passRate(a) || b.score - a.score;
+        if (sortMode === "name") return a.label.localeCompare(b.label, locale() === "en" ? "en" : "zh-CN");
+        return b.score - a.score || passRate(b) - passRate(a);
+      });
+    };
+
+    const renderOverview = () => {
+      if (!snapshot) return;
+      const leader = snapshot.rows[0];
+      const average = snapshot.rows.reduce((total, row) => total + row.score, 0) / snapshot.rows.length;
+      const passed = snapshot.rows.reduce((total, row) => total + row.passed, 0);
+      const tasks = snapshot.rows.reduce((total, row) => total + row.tasks, 0);
+      root.querySelector<HTMLElement>("[data-model-iq-leader-score]")!.textContent = leader.score.toFixed(1);
+      root.querySelector<HTMLElement>("[data-model-iq-leader-name]")!.textContent = leader.label;
+      root.querySelector<HTMLElement>("[data-model-iq-average]")!.textContent = average.toFixed(1);
+      root.querySelector<HTMLElement>("[data-model-iq-pass-rate]")!.textContent = tasks ? `${((passed / tasks) * 100).toFixed(1)}%` : "—";
+      root.querySelector<HTMLElement>("[data-model-iq-pass-tasks]")!.textContent = text(`${passed} / ${tasks} 次任务`, `${passed} / ${tasks} tasks`);
+      root.querySelector<HTMLElement>("[data-model-iq-count]")!.textContent = String(snapshot.rows.length);
+    };
+
+    const renderRanking = () => {
+      if (!snapshot || !ranking) return;
+      const rows = visibleRows();
+      const scores = snapshot.rows.map((entry) => entry.score);
+      const minScore = Math.min(...scores);
+      const maxScore = Math.max(...scores);
+      ranking.replaceChildren();
+      rows.forEach((row, index) => {
+        const item = document.createElement("li");
+        item.className = "model-iq-rank-row";
+        item.style.setProperty("--rank-order", String(index));
+        item.style.setProperty("--iq-hue", String(iqHueForScore(row.score, minScore, maxScore)));
+        const tier = classifyModelIq(row.score);
+        item.setAttribute("aria-label", `${row.label}, IQ ${row.score.toFixed(1)}, ${iqTierLabel(tier)}`);
+
+        const model = document.createElement("div");
+        model.className = "model-iq-rank-model";
+        const name = document.createElement("strong");
+        name.textContent = row.label;
+        model.append(name);
+
+        const score = document.createElement("div");
+        score.className = "model-iq-rank-score";
+        const scoreValue = document.createElement("strong");
+        scoreValue.textContent = row.score.toFixed(1);
+        const scoreState = document.createElement("span");
+        scoreState.className = `is-${tier}`;
+        scoreState.textContent = iqTierLabel(tier);
+        score.append(scoreValue, scoreState);
+
+        const metrics = document.createElement("div");
+        metrics.className = "model-iq-rank-meta";
+        const metric = (value: string, label: string) => {
+          const cell = document.createElement("span");
+          const strong = document.createElement("strong");
+          strong.textContent = value;
+          const small = document.createElement("small");
+          small.textContent = label;
+          cell.append(strong, small);
+          return cell;
+        };
+        metrics.append(
+          metric(String(row.passed), text("通过", "passed")),
+          metric(String(row.tasks), text("任务", "tasks")),
+          metric(`${(passRate(row) * 100).toFixed(1)}%`, text("通过率", "pass rate"))
+        );
+        item.append(model, score, metrics);
+        ranking.append(item);
+      });
+      root.querySelector<HTMLElement>("[data-model-iq-visible-count]")!.textContent = text(`${rows.length} 项`, `${rows.length} shown`);
+    };
+
+    const render = () => {
+      if (!snapshot || !content || !empty || !updated) return;
+      renderStaticCopy();
+      renderOverview();
+      renderFilters();
+      renderRanking();
+      updated.dateTime = snapshot.updatedAt;
+      updated.textContent = formatDate(snapshot.updatedAt);
+      content.hidden = false;
+      empty.hidden = true;
+    };
+
+    const load = async () => {
+      controller?.abort();
+      controller = new AbortController();
+      const timeout = window.setTimeout(() => controller?.abort(), 8000);
+      refresh && (refresh.disabled = true);
+      if (!snapshot && loading) loading.hidden = false;
+      setStatus(text("正在读取公开摘要…", "Loading public summary…"), "loading");
+      try {
+        const response = await fetch(modelIqEndpoint, {
+          signal: controller.signal,
+          headers: { Accept: "application/json" }
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const next = parseModelIqSummary(await response.json());
+        if (!next) throw new Error("invalid public summary");
+        snapshot = next;
+        render();
+        setStatus(text("公开摘要已同步", "Public summary synced"), "success");
+      } catch {
+        if (empty) {
+          empty.hidden = false;
+          empty.textContent = text("暂时无法读取公开摘要，请稍后重试或打开数据来源。", "The public summary is temporarily unavailable. Try again later or open the data source.");
+        }
+        if (!snapshot && content) content.hidden = true;
+        setStatus(text("读取失败", "Unable to load"), "error");
+      } finally {
+        window.clearTimeout(timeout);
+        if (loading) loading.hidden = true;
+        refresh && (refresh.disabled = false);
+      }
+    };
+
+    sort?.addEventListener("change", () => {
+      sortMode = sort.value as SortMode;
+      renderRanking();
+    });
+    refresh?.addEventListener("click", () => void load());
+    window.addEventListener("site-locale-change", () => {
+      if (snapshot) render();
+    });
+    void load();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeModelIqViewer, { once: true });
+  } else {
+    initializeModelIqViewer();
+  }
+</script>

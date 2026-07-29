@@ -1,10 +1,19 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import LocalizedText from "../../components/LocalizedText.astro";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const projectGroups = [...new Set(posts.map((post) => post.data.project))].map((project) => ({
+  project,
+  posts: posts.filter((post) => post.data.project === project)
+}));
+
+const projectAnchor = (project: string) =>
+  `journal-project-${project.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/gi, "-").replace(/^-|-$/g, "")}`;
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(date);
@@ -20,20 +29,40 @@ const formatDate = (date: Date) =>
   </section>
 
   <section class="section-tight">
-    <div class="container article-list">
+    <div class="container journal-project-list">
       {
-        posts.map((post) => (
-          <article class="article-card" data-reveal>
-            <div class={`article-accent ${post.data.accent}`} aria-hidden="true">
-              LOG / {post.data.pubDate.getFullYear()}
+        projectGroups.map((group) => (
+          <section class="journal-project-group" id={projectAnchor(group.project)} data-reveal>
+            <header class="journal-project-heading">
+              <div>
+                <div class="section-kicker">Project log</div>
+                <h2>{group.project}</h2>
+                <p><LocalizedText zh={`${group.posts.length} 篇开发记录`} en={`${group.posts.length} dev log${group.posts.length === 1 ? "" : "s"}`} /></p>
+              </div>
+              {group.project === "Project Snow" && (
+                <a class="text-link" href="/projects/project-snow/">
+                  <LocalizedText zh="查看项目" en="View project" /><span aria-hidden="true">↗</span>
+                </a>
+              )}
+            </header>
+            <div class="article-list">
+              {
+                group.posts.map((post) => (
+                  <article class="article-card" data-reveal>
+                    <div class={`article-accent ${post.data.accent}`} aria-hidden="true">
+                      LOG / {post.data.pubDate.getFullYear()}
+                    </div>
+                    <div>
+                      <div class="article-meta"><time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time><span>·</span><span>{post.data.tags.join(" / ")}</span></div>
+                      <h3><a href={`/journal/${post.id}/`}>{post.data.title}</a></h3>
+                      <p>{post.data.description}</p>
+                      <a class="text-link" href={`/journal/${post.id}/`}>阅读文章 <span aria-hidden="true">→</span></a>
+                    </div>
+                  </article>
+                ))
+              }
             </div>
-            <div>
-              <div class="article-meta"><time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time><span>·</span><span>{post.data.tags.join(" / ")}</span></div>
-              <h2><a href={`/journal/${post.id}/`}>{post.data.title}</a></h2>
-              <p>{post.data.description}</p>
-              <a class="text-link" href={`/journal/${post.id}/`}>阅读文章 <span aria-hidden="true">→</span></a>
-            </div>
-          </article>
+          </section>
         ))
       }
     </div>

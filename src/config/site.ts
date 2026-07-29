@@ -58,7 +58,9 @@ export const site = {
   },
   external: {
     bWiki: "https://wiki.biligame.com/sonw/",
-    ccByNcSa: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    ccByNcSa: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    codexRadar: "https://codexradar.com/#model-ratings",
+    codexRadarSummary: "https://codexradar.com/current.json"
   }
 } as const;
 
@@ -66,7 +68,7 @@ export const navigation = [
   { href: "/", label: "首页", icon: "⌂", spiceIcon: "apple" },
   { href: "/journal/", label: "开发日志", icon: "≡", spiceIcon: "wheat" },
   { href: "/projects/project-snow/", label: "Project Snow", icon: "✦", spiceIcon: "constellation" },
-  { href: "/tools/", label: "数据工具", icon: "⌘", spiceIcon: "tool-grid" },
+  { href: "/tools/", label: "工具", icon: "⌘", spiceIcon: "tool-grid" },
   { href: "/gallery/", label: "摄影集", icon: "◌", spiceIcon: "field" },
   { href: "/now/", label: "Now", icon: "◔", spiceIcon: "coin" },
   { href: "/about/", label: "关于", icon: "◎", spiceIcon: "tail" }

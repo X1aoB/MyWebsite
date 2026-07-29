@@ -15,6 +15,7 @@ interface GallerySet {
     title: string;
     date: Date;
     location: string;
+    equipment: string;
     description: string;
     cover: {
       image: string;
@@ -42,6 +43,7 @@ const formatDate = (date: Date) =>
       const hashId = `photo-set-${photoSet.id.replace(/[^a-z0-9_-]/gi, "-")}`;
       const dialogTitleId = `${dialogId}-title`;
       const dialogDescriptionId = `${dialogId}-description`;
+      const equipment = photoSet.data.equipment || "待补充";
 
       return (
         <li class="gallery-set-item" data-reveal style={`--reveal-delay: ${index * 75}ms;`}>
@@ -78,7 +80,7 @@ const formatDate = (date: Date) =>
               <strong>{photoSet.data.title}</strong>
               <span class="gallery-set-description">{photoSet.data.description}</span>
               <span class="gallery-set-footer">
-                <span>{photoSet.data.photos.length} 张照片</span>
+                <span class="gallery-set-equipment"><span>设备</span><strong>{equipment}</strong></span>
                 {
                   photoSet.data.tags.length > 0 && (
                     <span class="gallery-set-tags">
@@ -105,7 +107,7 @@ const formatDate = (date: Date) =>
             </div>
             <article class="photo-set-dialog-content">
               <header class="photo-set-dialog-header">
-                <p class="eyebrow">Photo set / {String(photoSet.data.photos.length).padStart(2, "0")} frames</p>
+                <p class="eyebrow">Image set / {String(photoSet.data.photos.length).padStart(2, "0")} frames</p>
                 <h2 id={dialogTitleId}>{photoSet.data.title}</h2>
                 <p id={dialogDescriptionId} class="photo-set-dialog-lead">{photoSet.data.description}</p>
                 <div class="photo-set-dialog-facts">
@@ -118,8 +120,8 @@ const formatDate = (date: Date) =>
                     <strong>{photoSet.data.location}</strong>
                   </div>
                   <div>
-                    <span>照片</span>
-                    <strong>{photoSet.data.photos.length} 张</strong>
+                    <span>设备</span>
+                    <strong>{equipment}</strong>
                   </div>
                 </div>
                 {
@@ -131,8 +133,7 @@ const formatDate = (date: Date) =>
                 }
               </header>
 
-              <section class="photo-set-story-list" aria-label={`${photoSet.data.title} 的照片与说明`}>
-                <div class="photo-set-story-track" aria-hidden="true"></div>
+              <section class="photo-set-story-list" aria-label={`${photoSet.data.title} 的影像`}>
                 {
                   photoSet.data.photos.map((photo, photoIndex) => (
                     <article
@@ -144,31 +145,29 @@ const formatDate = (date: Date) =>
                       data-dialog-reveal
                       style={`--dialog-reveal-delay: ${Math.min(photoIndex * 65, 195)}ms;`}
                     >
-                      <div class="photo-set-story-sequence" aria-hidden="true">
-                        <span>{String(photoIndex + 1).padStart(2, "0")}</span>
-                        <i></i>
-                      </div>
-                      <figure class="photo-set-story-photo">
+                      <button
+                        class="photo-set-story-photo"
+                        type="button"
+                        aria-haspopup="dialog"
+                        aria-label={`查看「${photo.alt}」大图`}
+                        data-photo-lightbox-open
+                        data-photo-lightbox-src={photo.image}
+                        data-photo-lightbox-alt={photo.alt}
+                      >
                         <img
                           src={photo.image}
                           alt={photo.alt}
-                          loading={photoIndex > 1 ? "lazy" : "eager"}
+                          width={photo.aspect === "portrait" ? 900 : 1200}
+                          height={photo.aspect === "portrait" ? 1200 : 900}
+                          loading="lazy"
                           decoding="async"
                         />
-                      </figure>
-                      <div class="photo-set-story-copy">
-                        <p class="photo-set-story-count">Frame {String(photoIndex + 1).padStart(2, "0")} / {String(photoSet.data.photos.length).padStart(2, "0")}</p>
-                        <h3>{photo.caption}</h3>
-                        {photo.note && <p>{photo.note}</p>}
-                      </div>
+                        <span class="photo-expand-mark" aria-hidden="true">⌕</span>
+                      </button>
                     </article>
                   ))
                 }
               </section>
-
-              <footer class="photo-set-dialog-footer">
-                <p>这一套图先收到这里。下次想补一张照片或一句说明时，直接改对应的 Markdown 就行。</p>
-              </footer>
             </article>
           </dialog>
         </li>
@@ -177,10 +176,23 @@ const formatDate = (date: Date) =>
   }
 </ol>
 
+<dialog class="photo-lightbox" data-photo-lightbox aria-labelledby="photo-lightbox-title">
+  <div class="photo-lightbox-frame">
+    <p id="photo-lightbox-title" class="sr-only">大图预览</p>
+    <button class="photo-lightbox-close" type="button" aria-label="关闭大图预览" data-photo-lightbox-close>
+      <span aria-hidden="true">×</span>
+    </button>
+    <img data-photo-lightbox-image alt="" width="1600" height="1200" decoding="async" />
+  </div>
+</dialog>
+
 <script>
   const initializePhotoSetDialogs = () => {
     const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-photo-set-open]"));
     const dialogs = Array.from(document.querySelectorAll<HTMLDialogElement>("[data-photo-set-dialog]"));
+    const lightbox = document.querySelector<HTMLDialogElement>("[data-photo-lightbox]");
+    const lightboxImage = lightbox?.querySelector<HTMLImageElement>("[data-photo-lightbox-image]");
+    const lightboxTriggers = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-photo-lightbox-open]"));
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const observers = new WeakMap<HTMLDialogElement, IntersectionObserver>();
     const triggerByDialog = new WeakMap<HTMLDialogElement, HTMLButtonElement>();
@@ -243,6 +255,46 @@ const formatDate = (date: Date) =>
         triggerByDialog.get(dialog)?.focus();
       });
     });
+
+    if (lightbox && lightboxImage && typeof lightbox.showModal === "function") {
+      let lightboxTrigger: HTMLButtonElement | undefined;
+
+      const closeLightbox = () => {
+        if (lightbox.open) lightbox.close();
+      };
+
+      lightboxTriggers.forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          const src = trigger.dataset.photoLightboxSrc;
+          const alt = trigger.dataset.photoLightboxAlt;
+          if (!src) return;
+          lightboxTrigger = trigger;
+          lightboxImage.src = src;
+          lightboxImage.alt = alt || "";
+          if (!lightbox.open) lightbox.showModal();
+        });
+      });
+
+      lightbox.querySelector<HTMLButtonElement>("[data-photo-lightbox-close]")?.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      lightbox.addEventListener("cancel", (event) => {
+        event.preventDefault();
+        closeLightbox();
+      });
+      lightbox.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeLightbox();
+        }
+      });
+      lightbox.addEventListener("close", () => {
+        lightboxImage.removeAttribute("src");
+        lightboxImage.alt = "";
+        lightboxTrigger?.focus();
+      });
+    }
 
     const openFromHash = () => {
       const hashId = decodeURIComponent(window.location.hash.replace(/^#/, ""));

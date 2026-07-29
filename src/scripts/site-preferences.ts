@@ -22,6 +22,10 @@ const translations: Record<string, string> = {
   "首页": "Home",
   "开发日志": "Dev Log",
   "数据工具": "Data Tools",
+  "工具": "Tools",
+  "工具索引": "Tool index",
+  "模型 IQ 对比表": "Model IQ comparison table",
+  "Project log": "Project log",
   "摄影集": "Photography",
   "关于": "About",
   "打开导航菜单": "Open navigation menu",
@@ -33,9 +37,7 @@ const translations: Record<string, string> = {
   "持续推进": "In progress",
   "先把采集、增量更新与来源链路做扎实，再进入检索与 RAG 阶段。": "Build reliable collection, incremental updates, and provenance first; retrieval and RAG come next.",
   "快速入口": "Quick links",
-  "本地数据工具": "Local data tools",
   "关于与作品集": "About & portfolio",
-  "工具与照片均以静态文件发布；数据工具只在浏览器内处理输入内容。": "Tools and photos are published as static files; data-tool inputs stay in your browser.",
   "访问 GitHub ↗": "Visit GitHub ↗",
   "尘尘的白工作台 · 静态优先": "Snowbreak workspace · static first",
   "站点链接": "Site links",
@@ -79,7 +81,6 @@ const translations: Record<string, string> = {
   "第一篇开发日志正在整理中。": "The first development log is being prepared.",
   "继续探索": "Keep exploring",
   "更多功能与展示": "More features & showcases",
-  "JSON 与 CSV 在浏览器内处理，数据不上传。": "JSON and CSV are processed in the browser; no data is uploaded.",
   "打开工具": "Open tools",
   "用于收纳自己拍摄的照片，以及每一张的简短上下文。": "A home for photographs I take, along with a small piece of context for each one.",
   "进入相册": "Open gallery",
@@ -92,10 +93,13 @@ const translations: Record<string, string> = {
   "组已归档套图": "archived photo sets",
   "摄影套图列表": "Photo-set list",
   "打开套图": "Open set",
+  "图片按原始比例排列，点按任意画面即可放大查看。": "Images keep their original proportions; select any frame to view it large.",
   "点击标题图会在当前页面打开可下拉阅读的套图窗。现在放的是版式示例；换成自己的图片和说明后，新的套图会自动出现。": "Select a cover to open a scrollable photo-set window on this page. The current entry is a layout sample; replace it with your own images and notes, and new sets will appear automatically.",
   "返回摄影集": "Back to photography",
   "时间": "Date",
   "地点": "Place",
+  "设备": "Equipment",
+  "影像": "Images",
   "照片": "Photos",
   "套图标签": "Photo-set tags",
   "这一套图看到这里就先收好。下次想补一张照片或一句说明时，直接改对应的 Markdown 就行。": "That is this set for now. When you want to add another photo or a line of context, edit its Markdown file directly.",
@@ -126,11 +130,6 @@ const translations: Record<string, string> = {
   "这是用于预览相册版式的原创几何占位图；上传自己的横幅照片后可直接替换此文件中的 image 路径与文字。": "An original geometric placeholder for previewing the gallery layout. Replace its image path and copy with your own landscape photo.",
   "这是用于预览竖幅作品卡片的原创几何占位图；可替换为人像、建筑或任何竖构图照片。": "An original geometric placeholder for a vertical work card. Replace it with a portrait, building, or any vertical composition.",
   "这是用于预览方形作品卡片的原创几何占位图；可替换为街景、静物或任意方形裁切照片。": "An original geometric placeholder for a square work card. Replace it with a street scene, still life, or any square crop.",
-  "为日常开发和资料检查准备的轻量工具。所有解析发生在当前浏览器，内容不会发送到本站或第三方服务。": "Lightweight tools for everyday development and data checks. All parsing happens in this browser; nothing is sent to this site or a third party.",
-  "JSON 格式化与校验": "JSON formatting & validation",
-  "将格式杂乱的 JSON 变为可读结构，或压缩为单行，并在输入无效时给出浏览器原生解析错误。": "Turn untidy JSON into readable structure, minify it to one line, and get native browser parsing errors for invalid input.",
-  "CSV 本地预览": "Local CSV preview",
-  "快速确认表头、行列数量、自动识别分隔符，并查看字段的数字、日期或文本类型。": "Quickly check headers and dimensions, detect separators, and inspect number, date, or text field types.",
   "Build notes / 中文优先": "Build notes / Chinese first",
   "小B的项目开发路程": "Xiao B's project development journey",
   "阅读文章": "Read article",
@@ -259,29 +258,6 @@ const translations: Record<string, string> = {
   "页面未找到": "Page not found",
   "这条路径还没有被收录。回到首页，从开发日志、项目或数据工具重新进入。": "This path has not been archived. Return home and re-enter through the dev log, project, or data tools.",
   "返回首页": "Back home",
-  "粘贴 JSON 后在本地完成格式化、压缩和语法检查。内容不会离开当前浏览器。": "Paste JSON to format, minify, and check syntax locally. Content never leaves this browser.",
-  "输入": "Input",
-  "仅本地处理": "Local only",
-  "JSON 操作": "JSON actions",
-  "格式化": "Format",
-  "压缩": "Minify",
-  "校验": "Validate",
-  "清空": "Clear",
-  "输出": "Output",
-  "2 空格缩进": "2-space indent",
-  "处理后的内容会显示在这里": "Processed content will appear here",
-  "输出操作": "Output actions",
-  "复制输出": "Copy output",
-  "等待输入 JSON。": "Waiting for JSON input.",
-  "CSV 本地预览与字段统计": "Local CSV preview & field statistics",
-  "选择 CSV 或 TSV 文件后，在浏览器内识别分隔符、预览前 50 行，并推断每一列的基础类型。文件不会上传。": "Choose a CSV or TSV file to detect its delimiter, preview the first 50 rows, and infer basic column types in the browser. The file is not uploaded.",
-  "选择一个 CSV / TSV 文件": "Choose a CSV / TSV file",
-  "支持带引号字段和 UTF-8 文本；仅在本地浏览器内解析。": "Quoted fields and UTF-8 text are supported; parsing happens only in the local browser.",
-  "选择文件": "Choose file",
-  "清空结果": "Clear results",
-  "等待选择文件。": "Waiting for a file.",
-  "字段类型统计": "Field type statistics",
-  "CSV 数据预览": "CSV data preview",
   "例如：{ \"project\": \"Project Snow\", \"phase\": 1 }": "Example: { \"project\": \"Project Snow\", \"phase\": 1 }",
   "关闭大图预览": "Close large preview",
   "查看上一张": "View previous",
@@ -294,7 +270,8 @@ const titleTranslations: Record<string, string> = {
   "摄影集 · Xiao B · Data & Systems": "Photography · Xiao B · Data & Systems",
   "三段光 · Xiao B · Data & Systems": "Three passes of light · Xiao B · Data & Systems",
   "开发日志 · Xiao B · Data & Systems": "Dev Log · Xiao B · Data & Systems",
-  "数据工具 · Xiao B · Data & Systems": "Data Tools · Xiao B · Data & Systems",
+  "工具 · Xiao B · Data & Systems": "Tools · Xiao B · Data & Systems",
+  "模型 IQ 雷达 · Xiao B · Data & Systems": "Model IQ radar · Xiao B · Data & Systems",
   "关于 · Xiao B · Data & Systems": "About · Xiao B · Data & Systems",
   "页面未找到 · Xiao B · Data & Systems": "Page not found · Xiao B · Data & Systems",
   "Project Snow：为可追溯 RAG 构建数据底座 · Xiao B · Data & Systems": "Project Snow: a traceable RAG data foundation · Xiao B · Data & Systems",
@@ -336,11 +313,11 @@ const translateValue = (value: string, locale: Locale) => {
   const countMatch = value.match(/^当前 (\d+) 张作品$/);
   if (countMatch) return `${countMatch[1]} archived works`;
 
-  const setSummaryMatch = value.match(/^当前 (\d+) 组套图，共 (\d+) 张照片$/);
+  const setSummaryMatch = value.match(/^当前 (\d+) 组套图，共 (\d+) 个画面$/);
   if (setSummaryMatch) {
     const setLabel = setSummaryMatch[1] === "1" ? "photo set" : "photo sets";
-    const photoLabel = setSummaryMatch[2] === "1" ? "photo" : "photos";
-    return `${setSummaryMatch[1]} ${setLabel}, ${setSummaryMatch[2]} ${photoLabel}`;
+    const frameLabel = setSummaryMatch[2] === "1" ? "image" : "images";
+    return `${setSummaryMatch[1]} ${setLabel}, ${setSummaryMatch[2]} ${frameLabel}`;
   }
 
   const photoCountMatch = value.match(/^(\d+) 张照片$/);
@@ -351,6 +328,9 @@ const translateValue = (value: string, locale: Locale) => {
 
   const storyLabelMatch = value.match(/^(.+) 的照片与说明$/);
   if (storyLabelMatch) return `${translations[storyLabelMatch[1]] || storyLabelMatch[1]} — photos & notes`;
+
+  const imageLabelMatch = value.match(/^(.+) 的影像$/);
+  if (imageLabelMatch) return `${translations[imageLabelMatch[1]] || imageLabelMatch[1]} — images`;
 
   const openPhotoSetMatch = value.match(/^打开套图：(.+)$/);
   if (openPhotoSetMatch) return `Open photo set: ${translations[openPhotoSetMatch[1]] || openPhotoSetMatch[1]}`;
@@ -450,6 +430,8 @@ const loadThemeArtwork = (theme: Theme) => {
   document.querySelectorAll<HTMLImageElement>(`[data-theme-image="${theme}"]`).forEach((image) => {
     const source = image.dataset.src;
     if (source && image.getAttribute("src") !== source) image.setAttribute("src", source);
+    const srcset = image.dataset.srcset;
+    if (srcset && image.getAttribute("srcset") !== srcset) image.setAttribute("srcset", srcset);
     if (source) {
       image.loading = "eager";
       image.setAttribute("fetchpriority", "high");
@@ -528,12 +510,12 @@ const initializePreferenceBar = () => {
   if (!bar) return;
 
   let hideTimer: number | undefined;
+  let lastScrollY = window.scrollY;
   const isAtTop = () => window.scrollY <= 2;
   const isMobileViewport = () => window.matchMedia("(max-width: 760px)").matches;
   const hasBarFocus = () => bar.matches(":focus-within");
   const setBarVisible = (visible: boolean) => {
-    // Mobile keeps the compact controls available without requiring a hover gesture.
-    const shouldShow = isMobileViewport() || (visible && isAtTop());
+    const shouldShow = isMobileViewport() ? visible : visible && isAtTop();
     root.classList.toggle("topbar-visible", shouldShow);
     bar.inert = !shouldShow;
   };
@@ -548,6 +530,7 @@ const initializePreferenceBar = () => {
   };
 
   window.addEventListener("pointermove", (event) => {
+    if (isMobileViewport()) return;
     if (isAtTop() && event.clientY <= 18) {
       clearHideTimer();
       setBarVisible(true);
@@ -557,22 +540,36 @@ const initializePreferenceBar = () => {
   }, { passive: true });
 
   window.addEventListener("pointerdown", (event) => {
-    if (isAtTop() && event.clientY <= 18) setBarVisible(true);
+    if (!isMobileViewport() && isAtTop() && event.clientY <= 18) setBarVisible(true);
   }, { passive: true });
 
   window.addEventListener("scroll", () => {
-    if (!isAtTop()) setBarVisible(false);
+    const currentScrollY = window.scrollY;
+    if (isMobileViewport()) {
+      const delta = currentScrollY - lastScrollY;
+      if (isAtTop() || delta < -3) {
+        setBarVisible(true);
+      } else if (delta > 3 && !hasBarFocus() && !bar.classList.contains("is-search-open")) {
+        setBarVisible(false);
+      }
+    } else if (!isAtTop()) {
+      setBarVisible(false);
+    }
+    lastScrollY = currentScrollY;
   }, { passive: true });
 
   window.addEventListener("resize", () => {
-    setBarVisible(isMobileViewport() || isAtTop());
+    lastScrollY = window.scrollY;
+    setBarVisible(isAtTop());
   }, { passive: true });
 
   bar.addEventListener("pointerenter", () => {
+    if (isMobileViewport()) return;
     clearHideTimer();
     setBarVisible(true);
   });
   bar.addEventListener("pointerleave", (event) => {
+    if (isMobileViewport()) return;
     if (isAtTop() && event.clientY <= 18) return;
     hideSoon();
   });
@@ -585,7 +582,7 @@ const initializePreferenceBar = () => {
     window.setTimeout(() => bar.querySelector<HTMLButtonElement>("[data-theme-choice]")?.focus(), 0);
   });
 
-  setBarVisible(isMobileViewport());
+  setBarVisible(isAtTop());
 };
 
 export const initializeSitePreferences = () => {

@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LocalizedText from "../../components/LocalizedText.astro";
+import ModelIqViewer from "../../components/ModelIqViewer.astro";
+---
+
+<BaseLayout title="模型 IQ 雷达" description="读取 Codex Radar 公开摘要，查看模型 IQ 分数、任务通过率与相对排名。">
+  <section class="page-hero model-iq-page-hero">
+    <div class="container" data-reveal>
+      <a class="text-link model-iq-back" href="/tools/"><span aria-hidden="true">←</span><LocalizedText zh="返回工具" en="Back to tools" /></a>
+      <div class="eyebrow">AI tools / public benchmark</div>
+      <h1><LocalizedText zh="模型 IQ 雷达" en="Model IQ radar" /></h1>
+      <p><LocalizedText zh="把公开模型摘要整理成更容易比较的排名视图。这里不运行模型，也不会向外部服务上传你的内容。" en="A clearer ranking view of a public model summary. This page does not run models or upload your content to an external service." /></p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container" data-reveal>
+      <ModelIqViewer />
+    </div>
+  </section>
+</BaseLayout>

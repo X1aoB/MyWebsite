@@ -11,7 +11,17 @@ const isActive = (href: string) =>
 <aside class="site-sidebar" data-site-header>
   <div class="sidebar-topline">
     <a class="sidebar-brand" href="/" aria-label={`${site.name} 首页`}>
-      <span class="profile-avatar" aria-hidden="true"><img src={site.media.avatar.src} alt="" /></span>
+      <span class="profile-avatar" aria-hidden="true">
+        <img
+          src={site.media.avatar.src}
+          srcset="/images/characters/holo-avatar-96.webp 96w, /images/characters/holo-avatar.webp 320w"
+          sizes="(max-width: 760px) 44px, 76px"
+          alt=""
+          width="320"
+          height="320"
+          decoding="async"
+        />
+      </span>
       <span class="profile-copy">
         <span class="profile-name">{site.displayName}</span>
         <span class="profile-subtitle">Xiao B · Data &amp; Systems</span>

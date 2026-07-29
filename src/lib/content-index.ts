@@ -54,7 +54,9 @@ export const buildContentIndex = async (): Promise<SearchIndexEntry[]> => {
       tags: [...photoSet.data.tags],
       url: toGalleryHashUrl(photoSet.id),
       date: asDate(photoSet.data.date),
-      searchText: stripMarkdown(`${photoSet.data.title}\n${photoSet.data.description}\n${photoSet.data.location}\n${photoCopy}`)
+      searchText: stripMarkdown(
+        `${photoSet.data.title}\n${photoSet.data.description}\n${photoSet.data.location}\n${photoSet.data.equipment}\n${photoCopy}`
+      )
     };
   });
 
@@ -106,4 +108,3 @@ export const buildContentIndex = async (): Promise<SearchIndexEntry[]> => {
     (a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id)
   );
 };
-

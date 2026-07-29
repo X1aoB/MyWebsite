@@ -12,8 +12,8 @@ import { site } from "../config/site";
         <h1><LocalizedText zh="站点状态" en="Site status" /></h1>
         <p>
           <LocalizedText
-            zh="这里记录站点目前如何运行，以及哪些服务仍然没有接入。页面内容和数据工具保持静态优先，状态说明也尽量诚实而简单。"
-            en="This page records how the site currently runs and which services are not connected yet. Pages and data tools stay static-first, with a deliberately simple status note."
+            zh="这里记录站点目前如何运行，以及哪些服务仍然没有接入。页面保持静态优先，外部公开数据只在对应页面按需读取。"
+            en="This page records how the site currently runs and which services are not connected yet. Pages stay static-first, while public external data is read only where a page needs it."
           />
         </p>
       </header>
@@ -60,7 +60,7 @@ import { site } from "../config/site";
             </div>
             <div>
               <dt><LocalizedText zh="数据工具" en="Data tools" /></dt>
-              <dd><LocalizedText zh="仅在浏览器本地处理" en="Processed locally in browser" /></dd>
+              <dd><LocalizedText zh="暂未公开可运行工具" en="No runnable tools published yet" /></dd>
             </div>
           </dl>
         </article>

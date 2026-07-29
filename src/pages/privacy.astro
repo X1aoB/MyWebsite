@@ -20,11 +20,11 @@ import LocalizedText from "../components/LocalizedText.astro";
       <div class="privacy-grid">
         <article class="notice-panel" data-reveal>
           <p class="section-kicker"><LocalizedText zh="本站本身" en="This site" /></p>
-          <h2><LocalizedText zh="静态页面，不上传工具输入" en="Static pages, local-only tools" /></h2>
+          <h2><LocalizedText zh="静态页面，不收集工具输入" en="Static pages, no tool input collection" /></h2>
           <p>
             <LocalizedText
-              zh="本站由 Astro 构建并部署在 Cloudflare Pages。JSON 和 CSV 工具只在你的浏览器内处理，文件不会上传到本站或第三方服务。本站没有账号系统，也不会主动收集表单内容。"
-              en="This site is built with Astro and deployed on Cloudflare Pages. The JSON and CSV tools run in your browser; files are not uploaded to this site or a third-party service. There is no account system and no form data is actively collected."
+              zh="本站由 Astro 构建并部署在 Cloudflare Pages。目前数据工具分类暂未公开可运行工具；模型 IQ 页面只读取 Codex Radar 的公开摘要，不接收或上传你的输入。本站没有账号系统，也不会主动收集表单内容。"
+              en="This site is built with Astro and deployed on Cloudflare Pages. The data-tools category does not currently publish runnable tools; the Model IQ page only reads Codex Radar's public summary and does not receive or upload your input. There is no account system and no form data is actively collected."
             />
           </p>
         </article>
@@ -45,8 +45,8 @@ import LocalizedText from "../components/LocalizedText.astro";
           <h2><LocalizedText zh="按需加载评论和外部链接" en="Comments and external links load on demand" /></h2>
           <p>
             <LocalizedText
-              zh="启用 Giscus 后，文章页会加载 giscus.app 和 GitHub Discussions 的评论组件；评论需要使用 GitHub 账号，相关处理遵循 GitHub 和 Giscus 的政策。页面中的 Bilibili、Steam、LinkedIn、GitHub 和 BWiki 链接会跳转到对应站点。"
-              en="When Giscus is enabled, article pages load the giscus.app and GitHub Discussions comment component. Comments require a GitHub account and follow GitHub and Giscus policies. Bilibili, Steam, LinkedIn, GitHub, and BWiki links lead to their respective sites."
+              zh="启用 Giscus 后，文章页会加载 giscus.app 和 GitHub Discussions 的评论组件；评论需要使用 GitHub 账号，相关处理遵循 GitHub 和 Giscus 的政策。模型 IQ 页面会从 codexradar.com 读取公开摘要。页面中的 Bilibili、Steam、LinkedIn、GitHub 和 BWiki 链接会跳转到对应站点。"
+              en="When Giscus is enabled, article pages load the giscus.app and GitHub Discussions comment component. Comments require a GitHub account and follow GitHub and Giscus policies. The Model IQ page reads a public summary from codexradar.com. Bilibili, Steam, LinkedIn, GitHub, and BWiki links lead to their respective sites."
             />
           </p>
         </article>

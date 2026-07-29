@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { site } from "../../config/site";
+import Giscus from "../../components/Giscus.astro";
 ---
 
 <BaseLayout title="Project Snow" description="从可追溯数据底座进入本地 RAG MVP，验证尘白禁区角色对话的检索、引用与语境控制。">
@@ -75,4 +76,5 @@ import { site } from "../../config/site";
       <div class="button-row" style="margin-top: 18px"><a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer">查看项目运行说明 ↗</a></div>
     </div>
   </section>
+  <Giscus />
 </BaseLayout>

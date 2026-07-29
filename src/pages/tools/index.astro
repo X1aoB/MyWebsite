@@ -1,39 +1,53 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import JsonTool from "../../components/JsonTool.astro";
-import CsvTool from "../../components/CsvTool.astro";
+import LocalizedText from "../../components/LocalizedText.astro";
 ---
 
-<BaseLayout title="数据工具" description="无需上传数据、直接在浏览器运行的 JSON 与 CSV 小工具。">
+<BaseLayout title="工具" description="按数据工具与 AI 工具分类整理的小工具入口。">
   <section class="page-hero">
     <div class="container" data-reveal>
-      <div class="eyebrow">Local-first utilities</div>
-      <h1>数据工具</h1>
-      <p>为日常开发和资料检查准备的轻量工具。所有解析发生在当前浏览器，内容不会发送到本站或第三方服务。</p>
+      <div class="eyebrow">Tool directory</div>
+      <h1><LocalizedText zh="工具" en="Tools" /></h1>
+      <p><LocalizedText zh="把不同用途的小工具分开收纳。选择分类中的工具后，会进入对应的独立页面。" en="Utilities are grouped by purpose. Select a tool to open its dedicated page." /></p>
     </div>
   </section>
 
   <section class="section-tight">
-    <div class="container tool-grid">
-      <a class="tool-card" href="#json-workbench" data-reveal>
-        <span class="tool-icon" aria-hidden="true">&#123; &#125;</span>
-        <h2>JSON 格式化与校验</h2>
-        <p>将格式杂乱的 JSON 变为可读结构，或压缩为单行，并在输入无效时给出浏览器原生解析错误。</p>
-        <span class="text-link">打开工具 <span aria-hidden="true">↓</span></span>
-      </a>
-      <a class="tool-card" href="#csv-workbench" data-reveal>
-        <span class="tool-icon" aria-hidden="true">CSV</span>
-        <h2>CSV 本地预览</h2>
-        <p>快速确认表头、行列数量、自动识别分隔符，并查看字段的数字、日期或文本类型。</p>
-        <span class="text-link">打开工具 <span aria-hidden="true">↓</span></span>
-      </a>
-    </div>
-  </section>
+    <div class="container tool-directory">
+      <section class="tool-category" aria-labelledby="ai-tools-title" data-reveal>
+        <header class="tool-category-heading">
+          <div>
+            <div class="section-kicker">AI tools</div>
+            <h2 id="ai-tools-title"><LocalizedText zh="AI 工具" en="AI tools" /></h2>
+          </div>
+          <p><LocalizedText zh="整理模型观察、公开基准和后续 AI 实验入口。" en="Model observations, public benchmarks, and future AI experiments." /></p>
+        </header>
+        <div class="tool-entry-grid">
+          <a class="tool-entry" href="/tools/model-iq/">
+            <span class="tool-entry-icon" aria-hidden="true">IQ</span>
+            <span class="tool-entry-copy">
+              <span class="tool-entry-status"><i aria-hidden="true"></i><LocalizedText zh="公开数据" en="Public data" /></span>
+              <strong><LocalizedText zh="模型 IQ 雷达" en="Model IQ radar" /></strong>
+              <span><LocalizedText zh="查看模型分数、任务通过率、排名和更新时间。" en="Explore model scores, pass rates, rankings, and update times." /></span>
+            </span>
+            <span class="tool-entry-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
 
-  <section class="section-tight">
-    <div class="container">
-      <JsonTool />
-      <CsvTool />
+      <section class="tool-category" aria-labelledby="data-tools-title" data-reveal>
+        <header class="tool-category-heading">
+          <div>
+            <div class="section-kicker">Data tools</div>
+            <h2 id="data-tools-title"><LocalizedText zh="数据工具" en="Data tools" /></h2>
+          </div>
+          <p><LocalizedText zh="用于格式整理、数据预览和本地分析的小工具。" en="Utilities for formatting, previewing, and local data analysis." /></p>
+        </header>
+        <div class="tool-category-empty">
+          <span aria-hidden="true">∅</span>
+          <p><LocalizedText zh="暂时没有公开工具，后续会在这里逐步补充。" en="No public tools yet. New utilities will be added here over time." /></p>
+        </div>
+      </section>
     </div>
   </section>
 </BaseLayout>

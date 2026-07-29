@@ -20,6 +20,12 @@ const {
 } = Astro.props;
 
 const hasArtwork = Boolean(iceImageSrc || holoImageSrc);
+const responsiveSrcSet = (src: string, sourceWidth: number) =>
+  src.endsWith(".webp")
+    ? `${src.replace(/\.webp$/, "-320.webp")} 320w, ${src.replace(/\.webp$/, "-640.webp")} 640w, ${src} ${sourceWidth}w`
+    : undefined;
+const iceImageSrcSet = iceImageSrc ? responsiveSrcSet(iceImageSrc, 1200) : undefined;
+const holoImageSrcSet = holoImageSrc ? responsiveSrcSet(holoImageSrc, 900) : undefined;
 ---
 
 <figure class:list={["character-art-slot", { "has-holo-artwork": Boolean(holoImageSrc) }]} aria-label={iceCaption}>
@@ -33,6 +39,8 @@ const hasArtwork = Boolean(iceImageSrc || holoImageSrc);
             alt={iceAlt}
             width="1200"
             height="1200"
+            srcset={iceImageSrcSet}
+            sizes="(max-width: 760px) 314px, 272px"
             loading="eager"
             decoding="async"
             fetchpriority="high"
@@ -43,6 +51,8 @@ const hasArtwork = Boolean(iceImageSrc || holoImageSrc);
           <img
             class="character-art-image character-art-image-holo"
             data-src={holoImageSrc}
+            data-srcset={holoImageSrcSet}
+            sizes="(max-width: 760px) 314px, 272px"
             alt={holoAlt}
             width="900"
             height="900"

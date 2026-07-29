@@ -6,6 +6,7 @@ tags:
   - Project Snow
   - 数据工程
   - RAG
+project: "Project Snow"
 accent: ice
 draft: false
 ---

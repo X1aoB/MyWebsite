@@ -9,7 +9,7 @@
 | 站点名称、域名、GitHub、社交链接、仓库链接 | `src/config/site.ts` |
 | 自我介绍、首页简介、About 页面和联系方式状态 | `src/config/profile.ts` |
 | 开发日志 | `src/content/blog/*.md` |
-| 摄影套图说明 | `src/content/gallery/*.md` |
+| 摄影套图与设备信息 | `src/content/gallery/*.md` |
 | Now 页面近况 | `src/config/now.ts` |
 | 未来项目案例 | `src/content/projects/*.md` |
 | 照片和角色插画 | `public/images/` |
@@ -65,7 +65,7 @@ draft: false
 
 ## 3. 添加一套摄影图
 
-摄影集按“**一套图一份 Markdown**”维护：列表页只显示标题图，点击后会在当前页面打开可下拉阅读的悬浮窗，并按 `photos` 的顺序展示照片和说明。
+摄影集按“**一套图一份 Markdown**”维护：列表页只显示标题图，点击后会在当前页面打开可下拉阅读的悬浮窗。窗口以图片网格为主，点击任意画面可打开大图预览；`equipment` 会显示在套图信息中。
 
 1. 将这一套图的图片放到 `public/images/gallery/`，例如 `public/images/gallery/2026-summer-walk-cover.webp`、`public/images/gallery/2026-summer-walk-01.webp`。
 2. 在 `src/content/gallery/` 新建一份 Markdown，例如 `2026-summer-walk.md`：
@@ -76,6 +76,7 @@ title: 夏日散步
 date: 2026-07-24
 location: 上海松江
 description: 傍晚出门绕了一圈，把天空、树影和路边的小细节收进同一套图里。
+equipment: 相机型号 / 手机型号 / 镜头组合
 cover:
   image: /images/gallery/2026-summer-walk-cover.webp
   alt: 傍晚天空下的湖边步道，作为套图标题图
@@ -97,7 +98,7 @@ draft: false
 ---
 ```
 
-`cover` 是列表页的标题图，`photos` 是悬浮阅读窗里顺序展示的内容。`note` 和 `aspect` 都可以不写；图片横竖比例不同时，填写 `landscape`、`portrait` 或 `square` 会让版式更贴合原图。
+`cover` 是列表页的标题图，`photos` 是悬浮阅读窗里顺序展示的内容，`equipment` 是公开展示的设备信息。`caption` 和 `note` 会保留在内容数据中供搜索与后续整理，但不会在图片窗口内显示；`aspect` 都可以不写，图片横竖比例不同时填写 `landscape`、`portrait` 或 `square` 会让网格更贴合原图。
 
 图片建议优先使用 WebP 或 JPEG，单张尽量控制在 1–3 MB 内。上传前移除 EXIF 中不希望公开的 GPS 信息；地点可以只写城市、区域或留空，不必写精确位置。
 

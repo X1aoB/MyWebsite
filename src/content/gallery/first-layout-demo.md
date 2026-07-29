@@ -2,6 +2,7 @@
 title: 三段光
 date: 2026-07-24
 location: 替换为城市或区域
+equipment: 待补充设备信息
 description: 这是用于预览套图阅读方式的原创几何示例。之后可以把它替换成一次散步、一段旅程，或一组想留住的日常片段。
 cover:
   image: /images/gallery/dawn-placeholder.svg

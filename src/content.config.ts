@@ -12,6 +12,7 @@ const blog = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     tags: z.array(z.string()).min(1),
+    project: z.string().default("未分类"),
     accent: z.enum(["ice", "mint", "violet"]),
     draft: z.boolean().default(false)
   })
@@ -26,6 +27,7 @@ const gallery = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     location: z.string(),
+    equipment: z.string().default("待补充"),
     description: z.string(),
     cover: z.object({
       image: z.string(),

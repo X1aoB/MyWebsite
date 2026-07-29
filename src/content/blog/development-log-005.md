@@ -6,6 +6,7 @@ tags:
   - Project Snow
   - 对话伴侣
   - AI 助手
+project: "Project Snow"
 accent: ice
 draft: false
 ---
