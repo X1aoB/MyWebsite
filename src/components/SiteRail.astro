@@ -1,5 +1,8 @@
 ---
-import { site } from "../config/site";
+import LocalizedText from "./LocalizedText.astro";
+import { getUpdates } from "../lib/updates";
+
+const latestUpdates = (await getUpdates()).slice(0, 3);
 ---
 
 <aside class="site-rail" aria-label="站点索引">
@@ -23,9 +26,22 @@ import { site } from "../config/site";
     </nav>
   </section>
 
-  <section class="rail-note">
-    <span aria-hidden="true">✦</span>
-    <p>工具与照片均以静态文件发布；数据工具只在浏览器内处理输入内容。</p>
-    <a href={site.githubProfile} target="_blank" rel="noreferrer">访问 GitHub ↗</a>
+  <section class="rail-note rail-updates">
+    <div class="rail-note-heading">
+      <span aria-hidden="true">✦</span>
+      <p class="rail-label">最新更新</p>
+      <a href="/updates/">查看全部 ↗</a>
+    </div>
+    <ol class="rail-update-list">
+      {latestUpdates.map((update) => (
+        <li>
+          <a href={update.url}>
+            <time datetime={update.date.toISOString()}>{update.date.toLocaleDateString("zh-CN")}</time>
+            <span class="rail-update-source"><LocalizedText {...update.sourceLabel} /></span>
+            <strong><LocalizedText {...update.title} /></strong>
+          </a>
+        </li>
+      ))}
+    </ol>
   </section>
 </aside>

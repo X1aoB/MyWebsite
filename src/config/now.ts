@@ -9,6 +9,7 @@ export type LocalizedNowCopy = {
 };
 
 export type NowItem = {
+  publishedAt: string;
   title: LocalizedNowCopy;
   description: LocalizedNowCopy;
   tags?: string[];
@@ -22,70 +23,57 @@ export type NowSection = {
 };
 
 export const now = {
-  updatedAt: "2026-07-26",
+  updatedAt: "2026-07-29",
   intro: {
     zh: "小B的龙门阵和随想",
     en: "Xiao B's ramblings and thoughts"
   },
   sections: [
     {
-      id: "now-focus",
-      label: { zh: "当前专注", en: "Current focus" },
-      title: { zh: "先把能持续推进的事，慢慢做扎实。", en: "Making the things worth continuing a little more solid." },
+      id: "now-daily",
+      label: { zh: "", en: "" },
+      title: { zh: "日常分享", en: "Daily sharing" },
       items: [
         {
-          title: { zh: "Project Snow 的数据链路", en: "Project Snow's data pipeline" },
+          publishedAt: "2026-07-29T14:24:30+08:00",
+          title: { zh: "实习、网站和一点随拍", en: "Internship, site-building, and a few snapshots" },
           description: {
-            zh: "继续整理采集、增量更新与来源溯源，为之后的结构化、检索和对话阶段打底。",
-            en: "Continuing collection, incremental updates, and provenance work before the later structuring, retrieval, and dialogue stages."
+            zh: "现在住在上海松江，工作之余继续搭网站，偶尔打乒乓球、徒步和拍照；想到什么就记录一点。",
+            en: "Based in Songjiang, Shanghai, I keep building this site outside work, play table tennis, hike, and take photos when I can."
           },
-          tags: ["Project Snow", "数据工程", "RAG"]
-        },
-        {
-          title: { zh: "数据开发与数据分析作品集", en: "A data-development and analytics portfolio" },
-          description: {
-            zh: "把学习和实习之外真正做过的工程实践整理成可以回看的记录。",
-            en: "Turning real engineering practice beyond study and internship work into things I can look back on."
-          },
-          tags: ["Python", "ETL", "数据分析"]
+          tags: []
         }
       ]
     },
     {
-      id: "now-recent",
-      label: { zh: "最近在玩 / 看 / 拍", en: "Recently playing / watching / shooting" },
-      title: { zh: "游戏、照片和一些不太需要解释的碎片。", en: "Games, photos, and fragments that do not need much explanation." },
+      id: "now-games",
+      label: { zh: "", en: "" },
+      title: { zh: "游戏讨论", en: "Game discussions" },
       items: [
         {
-          title: { zh: "在玩的游戏", en: "Games in the rotation" },
+          publishedAt: "2026-07-29T14:24:30+08:00",
+          title: { zh: "最近在玩的几款游戏", en: "Games in the current rotation" },
           description: {
-            zh: "尘白禁区、异环、公主连接、棕色尘埃 2，偶尔也会开 CS2、以撒结合，或者什么都玩一点点。",
-            en: "Snowbreak, Neverness to Everness, Princess Connect!, and BrownDust2—plus occasional CS2, The Binding of Isaac, and a little of everything else."
+            zh: "尘白禁区、异环、公主连接、棕色尘埃 2，偶尔也开 CS2、以撒的结合，什么都玩一点，也欢迎聊聊游戏体验。",
+            en: "Snowbreak, Neverness to Everness, Princess Connect!, and BrownDust2, plus occasional CS2 and The Binding of Isaac. I play a little of everything and am always up for a chat."
           },
-          tags: ["游戏", "尘白禁区"]
-        },
-        {
-          title: { zh: "摄影集", en: "Photography archive" },
-          description: {
-            zh: "正在把摄影集从版式示例慢慢换成自己的套图：一组照片，加上一点当时的上下文。",
-            en: "Slowly replacing the photography layout demo with my own sets: a group of photos and a little context from the moment."
-          },
-          tags: ["摄影", "套图"]
+          tags: []
         }
       ]
     },
     {
-      id: "now-next",
-      label: { zh: "下一步", en: "Next" },
-      title: { zh: "让网站更像一个能持续使用的工作台。", en: "Making this site feel more like a workspace I can keep using." },
+      id: "now-ideas",
+      label: { zh: "", en: "" },
+      title: { zh: "项目灵感", en: "Project ideas" },
       items: [
         {
-          title: { zh: "持续写与持续更新", en: "Write and update consistently" },
+          publishedAt: "2026-07-29T14:24:30+08:00",
+          title: { zh: "Project Snow 与角色对话", en: "Project Snow and character dialogue" },
           description: {
-            zh: "补齐开发日志、摄影套图和可公开的项目案例，也继续把这个站点本身往前搭。",
-            en: "Add dev logs, photography sets, and publishable project cases while continuing to build the site itself."
+            zh: "正在尝试把尘白禁区的世界资料整理成可追溯的数据底座，再逐步探索角色对话和助手形态；目前先把爬虫、增量更新和语料规范化做好。",
+            en: "I am turning Snowbreak world material into a traceable data foundation before exploring character dialogue and an assistant form; for now, the focus is crawling, incremental updates, and corpus cleanup."
           },
-          tags: ["开发日志", "作品集"]
+          tags: []
         }
       ]
     }

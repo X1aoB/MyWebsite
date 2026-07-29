@@ -8,9 +8,19 @@ const updatedAt = new Intl.DateTimeFormat("zh-CN", {
   month: "long",
   day: "numeric"
 }).format(new Date(now.updatedAt));
+
+const formatItemDateTime = (date: string) =>
+  new Intl.DateTimeFormat("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  }).format(new Date(date));
 ---
 
-<BaseLayout title="Now" description="小B当前正在推进、最近在玩和接下来准备做的事情。">
+<BaseLayout title="Now" description="小B的日常分享、游戏讨论和项目灵感栏目。">
   <section class="now-page">
     <header class="discovery-hero" data-reveal>
       <div>
@@ -27,32 +37,32 @@ const updatedAt = new Intl.DateTimeFormat("zh-CN", {
     <div class="now-board">
       {
         now.sections.map((section, sectionIndex) => (
-          <section id={section.id} class="now-section" data-reveal style={`--reveal-delay: ${sectionIndex * 90}ms;`}>
+          <section
+            id={section.id}
+            class={`now-section ${section.items.length === 0 ? "now-section-empty" : ""}`}
+            data-reveal
+            style={`--reveal-delay: ${sectionIndex * 90}ms;`}
+          >
             <header>
-              <p class="section-kicker"><LocalizedText {...section.label} /></p>
+              {(section.label.zh || section.label.en) && <p class="section-kicker"><LocalizedText {...section.label} /></p>}
               <h2><LocalizedText {...section.title} /></h2>
             </header>
-            <div class="now-item-list">
-              {
+            {section.items.length > 0 && (
+              <div class="now-item-list">
+                {
                 section.items.map((item) => (
                   <article class="now-item">
+                    <time class="now-item-time" datetime={item.publishedAt}>{formatItemDateTime(item.publishedAt)}</time>
                     <h3><LocalizedText {...item.title} /></h3>
                     <p><LocalizedText {...item.description} /></p>
-                    {
-                      item.tags && item.tags.length > 0 && (
-                        <ul class="now-tags" aria-label="相关标签">
-                          {item.tags.map((tag) => <li>{tag}</li>)}
-                        </ul>
-                      )
-                    }
                   </article>
                 ))
-              }
-            </div>
+                }
+              </div>
+            )}
           </section>
         ))
       }
     </div>
   </section>
 </BaseLayout>
-
