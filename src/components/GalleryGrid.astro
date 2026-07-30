@@ -182,7 +182,19 @@ const formatDate = (date: Date) =>
     <button class="photo-lightbox-close" type="button" aria-label="关闭大图预览" data-photo-lightbox-close>
       <span aria-hidden="true">×</span>
     </button>
-    <img data-photo-lightbox-image alt="" width="1600" height="1200" decoding="async" />
+    <button
+      class="photo-lightbox-image-button"
+      type="button"
+      aria-label="切换图片放大状态"
+      aria-pressed="false"
+      data-photo-lightbox-zoom
+    >
+      <img data-photo-lightbox-image alt="" width="1600" height="1200" decoding="async" />
+      <span class="photo-lightbox-zoom-mark" aria-hidden="true">
+        <span class="photo-lightbox-zoom-in">＋</span>
+        <span class="photo-lightbox-zoom-out">−</span>
+      </span>
+    </button>
   </div>
 </dialog>
 
@@ -192,6 +204,7 @@ const formatDate = (date: Date) =>
     const dialogs = Array.from(document.querySelectorAll<HTMLDialogElement>("[data-photo-set-dialog]"));
     const lightbox = document.querySelector<HTMLDialogElement>("[data-photo-lightbox]");
     const lightboxImage = lightbox?.querySelector<HTMLImageElement>("[data-photo-lightbox-image]");
+    const lightboxZoomControl = lightbox?.querySelector<HTMLButtonElement>("[data-photo-lightbox-zoom]");
     const lightboxTriggers = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-photo-lightbox-open]"));
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const observers = new WeakMap<HTMLDialogElement, IntersectionObserver>();
@@ -256,8 +269,14 @@ const formatDate = (date: Date) =>
       });
     });
 
-    if (lightbox && lightboxImage && typeof lightbox.showModal === "function") {
+    if (lightbox && lightboxImage && lightboxZoomControl && typeof lightbox.showModal === "function") {
       let lightboxTrigger: HTMLButtonElement | undefined;
+
+      const resetLightboxZoom = () => {
+        lightboxZoomControl.setAttribute("aria-pressed", "false");
+        lightboxZoomControl.style.removeProperty("--photo-zoom-x");
+        lightboxZoomControl.style.removeProperty("--photo-zoom-y");
+      };
 
       const closeLightbox = () => {
         if (lightbox.open) lightbox.close();
@@ -269,10 +288,30 @@ const formatDate = (date: Date) =>
           const alt = trigger.dataset.photoLightboxAlt;
           if (!src) return;
           lightboxTrigger = trigger;
+          resetLightboxZoom();
           lightboxImage.src = src;
           lightboxImage.alt = alt || "";
           if (!lightbox.open) lightbox.showModal();
         });
+      });
+
+      lightboxZoomControl.addEventListener("click", (event) => {
+        const shouldZoom = lightboxZoomControl.getAttribute("aria-pressed") !== "true";
+
+        if (shouldZoom) {
+          const rect = lightboxZoomControl.getBoundingClientRect();
+          const hasPointerPosition =
+            event.clientX >= rect.left &&
+            event.clientX <= rect.right &&
+            event.clientY >= rect.top &&
+            event.clientY <= rect.bottom;
+          const zoomX = hasPointerPosition ? ((event.clientX - rect.left) / rect.width) * 100 : 50;
+          const zoomY = hasPointerPosition ? ((event.clientY - rect.top) / rect.height) * 100 : 50;
+          lightboxZoomControl.style.setProperty("--photo-zoom-x", `${Math.max(0, Math.min(100, zoomX))}%`);
+          lightboxZoomControl.style.setProperty("--photo-zoom-y", `${Math.max(0, Math.min(100, zoomY))}%`);
+        }
+
+        lightboxZoomControl.setAttribute("aria-pressed", String(shouldZoom));
       });
 
       lightbox.querySelector<HTMLButtonElement>("[data-photo-lightbox-close]")?.addEventListener("click", closeLightbox);
@@ -290,6 +329,7 @@ const formatDate = (date: Date) =>
         }
       });
       lightbox.addEventListener("close", () => {
+        resetLightboxZoom();
         lightboxImage.removeAttribute("src");
         lightboxImage.alt = "";
         lightboxTrigger?.focus();

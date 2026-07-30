@@ -105,19 +105,6 @@ const translations: Record<string, string> = {
   "这一套图看到这里就先收好。下次想补一张照片或一句说明时，直接改对应的 Markdown 就行。": "That is this set for now. When you want to add another photo or a line of context, edit its Markdown file directly.",
   "回到全部套图": "Back to all sets",
   "这一套图先收到这里。下次想补一张照片或一句说明时，直接改对应的 Markdown 就行。": "That is this set for now. When you want to add another photo or a line of context, edit its Markdown file directly.",
-  "三段光": "Three passes of light",
-  "替换为城市或区域": "Replace with city or area",
-  "这是用于预览套图阅读方式的原创几何示例。之后可以把它替换成一次散步、一段旅程，或一组想留住的日常片段。": "An original geometric example for previewing photo-set reading. Replace it later with a walk, a trip, or a group of everyday moments you want to keep.",
-  "第一张：晨光先落在画面中央。": "First: morning light lands in the middle of the frame.",
-  "这里可以写下当时的天气、走到这里的原因，或只是一个很短的念头。": "This can hold the weather, why you came here, or simply a short thought.",
-  "第二张：光从窗边慢慢拉长。": "Second: light slowly lengthens from the window.",
-  "竖幅图片会保留自己的比例，不需要为了网格裁成同一种尺寸。": "Portrait photos keep their own proportions; they do not need to be cropped into one grid size.",
-  "第三张：夜色把前面的片段收起来。": "Third: night gathers the earlier frames back in.",
-  "一套图中的照片和说明会依次向下展开，适合把画面当成小故事来整理。": "Photos and notes unfold one after another, making it easy to arrange a set as a small story.",
-  "蓝白渐变与圆形光晕组成的横向几何封面图": "A landscape geometric cover of blue-white gradients and circular glow",
-  "蓝白渐变与圆形光晕组成的横向几何图": "A landscape geometric image of blue-white gradients and circular glow",
-  "带有冰晶线条和光斑的竖向几何图": "A portrait geometric image with icy lines and light spots",
-  "深蓝与冰蓝色块组成的方形几何图": "A square geometric image of deep and ice-blue blocks",
   "晨光占位图": "Dawn placeholder",
   "冰窗占位图": "Ice-window placeholder",
   "夜行占位图": "Night-walk placeholder",
@@ -261,14 +248,14 @@ const translations: Record<string, string> = {
   "例如：{ \"project\": \"Project Snow\", \"phase\": 1 }": "Example: { \"project\": \"Project Snow\", \"phase\": 1 }",
   "关闭大图预览": "Close large preview",
   "查看上一张": "View previous",
-  "查看下一张": "View next"
+  "查看下一张": "View next",
+  "切换图片放大状态": "Toggle image zoom"
 };
 
 const titleTranslations: Record<string, string> = {
   "搜索 · Xiao B · Data & Systems": "Search · Xiao B · Data & Systems",
   "更新 · Xiao B · Data & Systems": "Updates · Xiao B · Data & Systems",
   "摄影集 · Xiao B · Data & Systems": "Photography · Xiao B · Data & Systems",
-  "三段光 · Xiao B · Data & Systems": "Three passes of light · Xiao B · Data & Systems",
   "开发日志 · Xiao B · Data & Systems": "Dev Log · Xiao B · Data & Systems",
   "工具 · Xiao B · Data & Systems": "Tools · Xiao B · Data & Systems",
   "模型 IQ 雷达 · Xiao B · Data & Systems": "Model IQ radar · Xiao B · Data & Systems",
