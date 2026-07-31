@@ -6,7 +6,7 @@ export const site = {
   displayName: "小B",
   description: "小B 的个人站：记录 Project Snow、数据开发与分析实践、摄影和个人工具。",
   locale: "zh-CN",
-  url: configuredSiteUrl || "https://example.com",
+  url: configuredSiteUrl || "https://xiaob.dev",
   githubAccount: "X1aoB",
   githubDisplayName: "Xiao B",
   githubProfile: "https://github.com/X1aoB",

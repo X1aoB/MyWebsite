@@ -20,7 +20,13 @@ const formatDate = new Intl.DateTimeFormat("zh-CN", {
 }).format(post.data.pubDate);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate}
+  keywords={post.data.tags}
+>
   <header class="article-header" data-reveal>
     <div class="eyebrow">Development log</div>
     <div class="article-meta"><time datetime={post.data.pubDate.toISOString()}>{formatDate}</time><span>·</span><span>{post.data.tags.join(" / ")}</span></div>
