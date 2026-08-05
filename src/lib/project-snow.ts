@@ -13,16 +13,16 @@ export const projectSnowRecord = {
     en: "Project Snow"
   } satisfies LocalizedCopy,
   description: {
-    zh: "从可追溯数据底座进入本地 RAG MVP：验证证据检索、角色专属资料优先级、对话模式和装甲 / 时装语境。",
-    en: "A traceable data foundation now powers a local RAG MVP, validating evidence retrieval, character-specific priorities, dialogue modes, and armor / costume context."
+    zh: "Project Snow 已进入 22 角色本地测试阶段：混合检索、证据与关系审核、双模式聊天客户端、会话持久化和反馈回归已经串成完整链路。",
+    en: "Project Snow is now a 22-character local preview, connecting hybrid retrieval, evidence and relationship review, dual-mode chat, persistent sessions, and feedback regression."
   } satisfies LocalizedCopy,
   status: {
-    zh: "本地 MVP 验证中",
-    en: "Local MVP validation"
+    zh: "本地测试版 0.2.3",
+    en: "Local preview 0.2.3"
   } satisfies LocalizedCopy,
-  updatedAt: "2026-07-29",
-  tags: ["Project Snow", "数据工程", "RAG", "检索", "证据引用", "角色语境"],
-  techStack: ["Python", "FastAPI", "Retrieval", "DuckDB", "Evidence citations", "Graph review"],
+  updatedAt: "2026-08-05",
+  tags: ["Project Snow", "数据工程", "RAG", "混合检索", "证据审核", "角色对话"],
+  techStack: ["Python", "FastAPI", "SQLite FTS5", "Sentence Transformers", "DuckDB", "Electron"],
   repository: site.repositories.projectSnow,
   url: "/projects/project-snow/"
 } as const;
