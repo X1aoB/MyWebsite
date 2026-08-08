@@ -13,15 +13,15 @@ export const projectSnowRecord = {
     en: "Project Snow"
   } satisfies LocalizedCopy,
   description: {
-    zh: "Project Snow 已进入 22 角色本地测试阶段：混合检索、证据与关系审核、双模式聊天客户端、会话持久化和反馈回归已经串成完整链路。",
-    en: "Project Snow is now a 22-character local preview, connecting hybrid retrieval, evidence and relationship review, dual-mode chat, persistent sessions, and feedback regression."
+    zh: "Project Snow 的 v0.3.0 多模态 Agent 基线已经完成，v0.5.0 正在重构沉浸式与助手双入口、共享世界状态和工作台体验。",
+    en: "Project Snow has completed its v0.3.0 multimodal Agent baseline. v0.5.0 is rebuilding the immersive and assistant entry points, shared world state, and workspace experience."
   } satisfies LocalizedCopy,
   status: {
-    zh: "本地测试版 0.2.3",
-    en: "Local preview 0.2.3"
+    zh: "v0.5.0 开发中",
+    en: "v0.5.0 in development"
   } satisfies LocalizedCopy,
-  updatedAt: "2026-08-05",
-  tags: ["Project Snow", "数据工程", "RAG", "混合检索", "证据审核", "角色对话"],
+  updatedAt: "2026-08-08",
+  tags: ["Project Snow", "数据工程", "RAG", "多模态 Agent", "双入口 UI", "角色对话"],
   techStack: ["Python", "FastAPI", "SQLite FTS5", "Sentence Transformers", "DuckDB", "Electron"],
   repository: site.repositories.projectSnow,
   url: "/projects/project-snow/"

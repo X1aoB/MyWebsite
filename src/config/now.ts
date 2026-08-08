@@ -23,7 +23,7 @@ export type NowSection = {
 };
 
 export const now = {
-  updatedAt: "2026-07-29",
+  updatedAt: "2026-08-08",
   intro: {
     zh: "小B的龙门阵和随想",
     en: "Xiao B's ramblings and thoughts"
@@ -67,11 +67,11 @@ export const now = {
       title: { zh: "项目灵感", en: "Project ideas" },
       items: [
         {
-          publishedAt: "2026-07-29T14:24:30+08:00",
-          title: { zh: "Project Snow 与角色对话", en: "Project Snow and character dialogue" },
+          publishedAt: "2026-08-08T20:00:00+08:00",
+          title: { zh: "Project Snow 的双入口 UI 与多模态助手", en: "Project Snow's dual-entry UI and multimodal assistant" },
           description: {
-            zh: "正在尝试把尘白禁区的世界资料整理成可追溯的数据底座，再逐步探索角色对话和助手形态；目前先把爬虫、增量更新和语料规范化做好。",
-            en: "I am turning Snowbreak world material into a traceable data foundation before exploring character dialogue and an assistant form; for now, the focus is crawling, incremental updates, and corpus cleanup."
+            zh: "v0.3.0 多模态 Agent 基线已经完成；现在正在重构沉浸式与助手双入口、共享世界状态和内部工作台，并计划在月末争取开放受控网页试玩。",
+            en: "The v0.3.0 multimodal Agent baseline is complete. I am now rebuilding the immersive and assistant entry points, shared world state, and internal workspace, aiming for a controlled web preview by the end of the month."
           },
           tags: []
         }

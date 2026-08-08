@@ -182,7 +182,7 @@ const translations: Record<string, string> = {
   "RAG 试玩服务尚未上线。": "The RAG demo is not online yet.",
   "上线时将采用匿名限额、来源引用和服务端密钥保护。需要长期使用的用户将可从 GitHub 获取本地部署说明，并自行选择本地模型或自己的 API 凭据。": "When released, it will use anonymous quotas, source citations, and server-side key protection. Long-term users will be able to obtain local-deployment instructions from GitHub and choose a local model or their own API credentials.",
   "关注项目进展 ↗": "Follow project progress ↗",
-  "采集与溯源已进入本地检索 / 对话 MVP；在线服务仍待独立部署。": "Collection and provenance have entered a local retrieval / dialogue MVP; the online service is still awaiting independent deployment.",
+  "v0.3 多模态 Agent 基线已完成；v0.5 双入口 UI 正在开发，月末争取开放受控试玩。": "The v0.3 multimodal Agent baseline is complete; the v0.5 dual-entry UI is in development, with a controlled preview targeted for the end of the month.",
   "本地 MVP 验证中": "Local MVP validation",
   "检索、引用与角色语境已跑通": "Retrieval, citations, and character context are working",
   "Project Snow/App 已提供 FastAPI 本地接口和静态预览；检索结果保留原始页面引用，关系候选仍需人工审核，不会自动写入正式图谱。": "Project Snow/App provides a local FastAPI API and static preview; retrieval results keep original page citations, and relationship candidates still require human review rather than being written to the canonical graph automatically.",
