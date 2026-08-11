@@ -25,19 +25,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <aside class="about-card about-links-card" data-reveal>
         <div class="section-kicker">我的链接</div>
         <ul class="about-link-list" aria-label="小B的链接">
-          {profile.links.map((link) =>
-            link.href ? (
-              <li>
-                <a href={link.href} target="_blank" rel="noreferrer">
-                  <span><b>{link.label}</b><small><LocalizedText {...link.description} /></small></span><i aria-hidden="true">↗</i>
-                </a>
-              </li>
-            ) : (
-              <li class="about-link-placeholder">
-                <span><b>{link.label}</b><small><LocalizedText {...link.description} /></small></span><i><LocalizedText {...link.status!} /></i>
-              </li>
-            )
-          )}
+          {profile.links.map((link) => (
+            <li>
+              <a href={link.href} target="_blank" rel="noreferrer">
+                <span><b>{link.label}</b><small><LocalizedText {...link.description} /></small></span><i aria-hidden="true">↗</i>
+              </a>
+            </li>
+          ))}
         </ul>
       </aside>
     </div>

@@ -14,8 +14,7 @@ export type LocalizedCopy = {
 type ProfileLink = {
   label: string;
   description: LocalizedCopy;
-  href?: string;
-  status?: LocalizedCopy;
+  href: string;
 };
 
 export const profile = {
@@ -37,15 +36,15 @@ export const profile = {
       en: "Hi, I’m Xiao B."
     },
     summary: {
-      zh: "大四在读 · 某外企实习中 · 什么都会一点，也什么都想试试",
-      en: "Final-year student · Interning at a foreign company · Knows a little about many things and wants to try even more"
+      zh: "Project Snow 开发中 · 数据与 AI 工程实践 · 用作品记录过程",
+      en: "Building Project Snow · Data and AI engineering practice · Documenting the process through finished work"
     },
     details: [
       {
         label: { zh: "现在的我", en: "Right now" },
         value: {
-          zh: "现居上海松江，家乡四川绵阳。大四在读，正在某外企实习；一边把 Project Snow 往前推，一边看看自己还能折腾点什么。",
-          en: "Based in Songjiang, Shanghai and originally from Mianyang, Sichuan. I’m a final-year student interning at a foreign company, moving Project Snow forward while seeing what else I can build."
+          zh: "目前主要推进 Project Snow 的网页版试玩，继续打磨对话体验、数据链路与部署细节。",
+          en: "My main focus is preparing Project Snow's web preview and refining its dialogue experience, data pipeline, and deployment."
         }
       },
       {
@@ -72,12 +71,12 @@ export const profile = {
     ],
     current: {
       title: {
-        zh: "上学 / 实习 / 推项目 / 搭网站，试试看能不能把喜欢的东西慢慢做成作品集。",
-        en: "Study / internship / project work / site-building — seeing if I can slowly turn the things I like into a portfolio."
+        zh: "推进 Project Snow / 打磨网页试玩 / 记录开发过程。",
+        en: "Building Project Snow / polishing the web preview / documenting the development process."
       },
       description: {
-        zh: "现在一边在某外企实习，一边推进 Project Snow、继续搭网站，顺手补数据开发和数据分析方向的工程实践。",
-        en: "I’m interning at a foreign company while moving Project Snow forward, continuing to build this site, and picking up the engineering practice needed for data development and analytics."
+        zh: "目前正在为 Project Snow 的网页版试玩做上线准备，同时继续补齐数据开发、数据分析和 AI 应用方向的工程实践。",
+        en: "I’m preparing Project Snow's web preview for release while continuing hands-on work in data development, analytics, and applied AI."
       }
     },
     contact: {
@@ -86,8 +85,8 @@ export const profile = {
         en: "I know a little about many things, but I’d much rather talk about something genuinely interesting together."
       },
       description: {
-        zh: "数据工程、知识库 / RAG、个人工具、游戏、摄影、乒乓球和徒步都能聊；工作相关沟通可以通过 GitHub、LinkedIn 或 admin@xiaob.dev 联系。",
-        en: "Data engineering, knowledge bases / RAG, personal tools, games, photography, table tennis, and hiking are all fair game. For professional contact, reach me through GitHub, LinkedIn, or admin@xiaob.dev."
+        zh: "数据工程、知识库 / RAG、个人工具、游戏和摄影都能聊；项目反馈与技术交流可以通过 GitHub 进行。",
+        en: "Data engineering, knowledge bases / RAG, personal tools, games, and photography are all fair game. Project feedback and technical discussion are welcome on GitHub."
       }
     }
   },
@@ -101,48 +100,12 @@ export const profile = {
       href: site.githubProfile
     },
     {
-      label: "LinkedIn",
-      description: {
-        zh: "职业经历与数据方向探索",
-        en: "Professional experience and data-focused growth"
-      },
-      href: site.social.linkedIn
-    },
-    {
       label: "Project Snow",
       description: {
         zh: "尘白禁区知识库与对话项目源码",
         en: "Snowbreak knowledge-base and dialogue project source"
       },
       href: site.repositories.projectSnow
-    },
-    {
-      label: "Bilibili",
-      description: {
-        zh: "游戏、视频与日常内容",
-        en: "Games, videos, and everyday posts"
-      },
-      href: site.social.bilibili
-    },
-    {
-      label: "Steam",
-      description: {
-        zh: "游戏主页与公开资料",
-        en: "Game profile and public activity"
-      },
-      href: site.social.steam
-    },
-    {
-      label: "域名邮箱",
-      description: {
-        zh: "公开联系邮箱，欢迎交流项目、数据开发和合作想法。",
-        en: "Public contact address for projects, data development, and collaboration."
-      },
-      href: `mailto:${site.social.email}`,
-      status: {
-        zh: "公开联系",
-        en: "Available"
-      }
     }
   ] satisfies ProfileLink[]
 } as const;

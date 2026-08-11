@@ -5,11 +5,7 @@ import LocalizedText from "./LocalizedText.astro";
 const year = new Date().getFullYear();
 
 const socialLinks = [
-  { label: "Bilibili", mark: "B", href: site.social.bilibili },
-  { label: "GitHub", mark: "GH", href: site.githubProfile },
-  { label: "LinkedIn", mark: "in", href: site.social.linkedIn },
-  { label: "Steam", mark: "S", href: site.social.steam },
-  { label: "Email", mark: "@", href: site.social.email ? `mailto:${site.social.email}` : "" }
+  { label: "GitHub", mark: "GH", href: site.githubProfile }
 ].filter((link) => link.href);
 ---
 

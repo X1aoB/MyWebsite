@@ -14,12 +14,6 @@ export const site = {
     website: "https://github.com/X1aoB/MyWebsite",
     projectSnow: "https://github.com/X1aoB/Project_Snow"
   },
-  social: {
-    bilibili: "https://space.bilibili.com/91372056",
-    steam: "https://steamcommunity.com/profiles/76561198401024601/",
-    linkedIn: "https://www.linkedin.com/in/kaletu7116",
-    email: "admin@xiaob.dev"
-  },
   legal: {
     original: {
       zh: "本站原创文章与摄影作品保留所有权利。",
