@@ -48,13 +48,13 @@ const projectShots = [
 ];
 ---
 
-<BaseLayout title="Project Snow" description="Project Snow 的 v0.3.0 多模态 Agent 基线已经完成，v0.5.0 正在重构沉浸式与助手双入口及内部工作台。">
+<BaseLayout title="Project Snow" description="Project Snow 的 v0.5.0 人格与沉浸式基线已经完成，独立公网体验正在进行部署验证与私有验收准备。">
   <section class="section">
     <div class="container project-hero">
       <article class="project-summary" data-reveal>
-        <div class="eyebrow">PROJECT / 01 · V0.5.0 IN DEVELOPMENT</div>
+        <div class="eyebrow">PROJECT / 01 · V0.5.0 BASELINE COMPLETE</div>
         <h1>Project Snow</h1>
-        <p><LocalizedText zh="基于可追溯资料构建的《尘白禁区》角色对话项目。v0.3.0 已完成多模态 Agent 基线；当前 v0.5.0 正在把体验重构为沉浸式陪伴与角色助手两个独立入口，并让两种模式共享关系、称呼、时装语境与世界状态。" en="A Snowbreak character-dialogue project built on traceable source material. v0.3.0 completed the multimodal Agent baseline; v0.5.0 is now rebuilding the experience around separate immersive-companion and character-assistant entry points while sharing relationships, forms of address, costume context, and world state." /></p>
+        <p><LocalizedText zh="基于可追溯资料构建的《尘白禁区》角色对话项目。v0.5.0 已完成角色人格、沉浸式陪伴与助手双入口基线；新的面对面到场流程加入了概率先开口事件和移动动画，整体体验进一步向 Gal 靠拢。" en="A Snowbreak character-dialogue project built on traceable source material. v0.5.0 completes the character-persona baseline plus separate immersive-companion and assistant entry points. Face-to-face arrivals now include probabilistic character-first greetings and transition animation, moving the experience closer to a visual novel." /></p>
         <div class="button-row" style="margin-top: 24px">
           <a class="button" href={site.repositories.projectSnow} target="_blank" rel="noreferrer"><LocalizedText zh="查看 GitHub 源码 ↗" en="View GitHub source ↗" /></a>
           <a class="button button-secondary" href="/journal/?project=project-snow"><LocalizedText zh="阅读 Project Snow 日志" en="Read Project Snow logs" /></a>
@@ -62,11 +62,11 @@ const projectShots = [
       </article>
       <aside class="status-panel" data-reveal>
         <div>
-          <span class="status-badge"><LocalizedText zh="v0.5 双入口 UI 开发中" en="v0.5 dual-entry UI in development" /></span>
-          <strong><LocalizedText zh="沉浸式、助手与内部工作台正在统一到新界面" en="Immersive, assistant, and workspace experiences are being unified" /></strong>
-          <p><LocalizedText zh="模式选择页、深冰蓝沉浸式入口、白色 / 钴蓝助手入口与固定侧栏工作台均已实测 390 / 820 / 1440 布局；当前仍在最终回归、portable 打包与签名提交之前。" en="The mode selector, deep ice-blue immersive entry, white/cobalt assistant entry, and fixed-sidebar workspace have been tested at 390, 820, and 1440 widths. Final regression, portable packaging, and the signed release commit are still pending." /></p>
+          <span class="status-badge"><LocalizedText zh="v0.5 基线完成 · 私有验收准备中" en="v0.5 baseline complete · private acceptance preparation" /></span>
+          <strong><LocalizedText zh="16 核 16GB 服务器正在准备全量部署" en="A 16-core, 16 GB server is being prepared for full deployment" /></strong>
+          <p><LocalizedText zh="公网进程只暴露独立的沉浸式 API 与静态客户端，不挂载内部工作台、附件、语音或 Agent 接口；当前仍在全量测试、迁移校验与生产 Compose 检查阶段，尚未开放试玩。" en="The public process exposes only an isolated immersive API and static client; internal workspace, attachment, voice, and Agent endpoints are not mounted. Full tests, migration validation, and production Compose checks are still in progress, and the preview is not open." /></p>
         </div>
-        <div class="tag-list"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Multimodal Agent</span><span class="tag">Electron</span></div>
+        <div class="tag-list"><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">Qdrant</span><span class="tag">Neo4j</span><span class="tag">Docker</span></div>
       </aside>
     </div>
   </section>
@@ -76,15 +76,15 @@ const projectShots = [
       <div class="section-header" data-reveal>
         <div>
           <div class="section-kicker"><LocalizedText zh="最新快照" en="Latest snapshot" /></div>
-          <h2 id="snapshot-title"><LocalizedText zh="多模态 Agent 已成为基线，下一步是把两种体验真正分开。" en="The multimodal Agent is now the baseline; the next step is a clear split between two experiences." /></h2>
+          <h2 id="snapshot-title"><LocalizedText zh="v0.5 基线已经合入主线，下一步是安全地完成公网私有验收。" en="The v0.5 baseline has landed on main; the next step is a secure private acceptance of the public deployment." /></h2>
         </div>
-        <p><LocalizedText zh="以下数据来自 2026 年 8 月 8 日的本地开发分支。v0.3.0 已完成并签名保存；v0.5.0 的测试数字属于阶段性回归，不代表正式版本或公网服务已经上线。" en="These figures reflect the local development branch as of August 8, 2026. v0.3.0 is complete and signed; v0.5.0 test counts are interim regression results, not a release or public service." /></p>
+        <p><LocalizedText zh="以下数据来自 2026 年 8 月 14 日的 v0.5 主线基线与公网部署分支。主线能力已经验证；公网部署仍处于独立分支的验证阶段，不代表服务已经开放。" en="These figures reflect the v0.5 mainline baseline and public-deployment branch as of August 14, 2026. Mainline capabilities are validated; the public deployment remains under validation on an isolated branch and is not open." /></p>
       </div>
       <div class="project-metrics" data-reveal>
         <article><strong>22</strong><span><LocalizedText zh="名可对话角色" en="dialogue characters" /></span></article>
-        <article><strong>176</strong><span><LocalizedText zh="条预设验证问题" en="validation prompts" /></span></article>
-        <article><strong>179 + 1</strong><span><LocalizedText zh="项通过 / 权限跳过" en="passed / permission-skipped" /></span></article>
-        <article class="project-metric-wide"><strong>8,799 / 5,463 / 6,642</strong><span><LocalizedText zh="文档 / 节点 / 关系通过架构校验" en="documents / nodes / relationships validated" /></span></article>
+        <article><strong>234 + 1</strong><span><LocalizedText zh="项主线测试通过 / 跳过" en="mainline tests passed / skipped" /></span></article>
+        <article><strong>5,919</strong><span><LocalizedText zh="个可发布图谱节点" en="publishable graph nodes" /></span></article>
+        <article class="project-metric-wide"><strong>7,698</strong><span><LocalizedText zh="条可追溯图谱关系进入发布视图" en="traceable graph edges in the publishable view" /></span></article>
       </div>
     </div>
   </section>
@@ -96,14 +96,14 @@ const projectShots = [
           <div class="section-kicker"><LocalizedText zh="从证据到对话" en="From evidence to dialogue" /></div>
           <h2 id="pipeline-title"><LocalizedText zh="不是只给模型一份角色设定，而是给每一步留下边界。" en="Not just a character prompt—each stage has an explicit boundary." /></h2>
         </div>
-        <p><LocalizedText zh="原始语料保持只读；索引、图谱候选、聊天记录与反馈留在本地运行时目录。对话只读取派生产物，不会反向污染采集资料。" en="Raw source material remains read-only. Indexes, graph candidates, chat history, and feedback stay in local runtime storage, and dialogue never writes back into collected data." /></p>
+        <p><LocalizedText zh="原始语料保持只读，公网只读取带哈希和许可元数据的发布产物。API Key 不写入数据库，聊天历史默认由浏览器携带，反馈则进入独立的限期存储与清理流程。" en="Raw source material remains read-only, and the public service reads only release artifacts with hashes and license metadata. API keys are not written to the database, chat history is carried by the browser by default, and feedback follows a separate retention and cleanup path." /></p>
       </div>
       <div class="pipeline project-pipeline">
         <article class="pipeline-step" data-reveal><span class="step-number">01 / SOURCE</span><h3><LocalizedText zh="采集与溯源" en="Collection & provenance" /></h3><p><LocalizedText zh="保留页面地址、正文、哈希、分类和运行状态，支持增量发现与失败恢复。" en="Preserve URLs, text, hashes, categories, and run state for incremental discovery and recovery." /></p></article>
         <article class="pipeline-step" data-reveal><span class="step-number">02 / RETRIEVAL</span><h3><LocalizedText zh="混合检索" en="Hybrid retrieval" /></h3><p><LocalizedText zh="SQLite FTS5 与本地中文向量经 RRF 融合，再按角色和资料层级重排证据。" en="SQLite FTS5 and local Chinese vectors are fused with RRF, then reranked by character and evidence tier." /></p></article>
         <article class="pipeline-step" data-reveal><span class="step-number">03 / V0.3 AGENT</span><h3><LocalizedText zh="多模态 Agent 基线" en="Multimodal Agent baseline" /></h3><p><LocalizedText zh="多 Provider、图片 / 文档 / 音频、STT / TTS、25 个工具、持久化状态机、审批与 Artifact 已在 v0.3.0 完成。" en="v0.3.0 completed multiple providers, images, documents, audio, STT/TTS, 25 tools, a persistent state machine, approvals, and Artifacts." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">04 / V0.5 UI</span><h3><LocalizedText zh="沉浸式 / 助手双入口" en="Immersive / assistant entries" /></h3><p><LocalizedText zh="两套历史彼此隔离，但共享确认关系、称呼、时装语境与世界状态；内部工作台统一放入固定侧栏。" en="Histories remain separate while sharing confirmed relationships, forms of address, costume context, and world state; the internal workspace moves into a fixed sidebar." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">05 / PREVIEW</span><h3><LocalizedText zh="受控网页试玩" en="Controlled web preview" /></h3><p><LocalizedText zh="月末目标是准备服务器与试玩入口，具体开放形式、限额、安全边界与成本控制仍在设计。" en="The end-of-month target is a server-backed preview; access format, quotas, security boundaries, and cost controls are still being designed." /></p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">04 / V0.5 UI</span><h3><LocalizedText zh="Gal 化沉浸式体验" en="Visual-novel-style immersion" /></h3><p><LocalizedText zh="双入口、共享人物状态与固定侧栏已经形成基线；面对面到场加入概率先开口事件和移动动画，场景背景仍待后续补齐。" en="Dual entry points, shared character state, and the fixed sidebar now form the baseline. Face-to-face arrivals add probabilistic character-first greetings and transition animation, while scene backgrounds remain future work." /></p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">05 / PRIVATE ACCEPTANCE</span><h3><LocalizedText zh="隔离公网面与安全验收" en="Isolated public surface and security acceptance" /></h3><p><LocalizedText zh="FastAPI、PostgreSQL、Qdrant、Neo4j、Caddy 与 Cloudflare Tunnel 采用独立生产编排；试玩按钮会等私有验收和二次确认后再接入本站。" en="FastAPI, PostgreSQL, Qdrant, Neo4j, Caddy, and Cloudflare Tunnel use an isolated production stack. The play button will reach this site only after private acceptance and a second explicit approval." /></p></article>
       </div>
     </div>
   </section>
@@ -112,10 +112,10 @@ const projectShots = [
     <div class="container">
       <div class="section-header" data-reveal>
         <div>
-          <div class="section-kicker"><LocalizedText zh="上一阶段界面记录" en="Previous interface stage" /></div>
-          <h2 id="showcase-title"><LocalizedText zh="这些画面记录了 v0.2.3，v0.5 完成后会统一替换。" en="These screens document v0.2.3 and will be replaced once v0.5 is complete." /></h2>
+          <div class="section-kicker"><LocalizedText zh="旧界面记录" en="Previous interface record" /></div>
+          <h2 id="showcase-title"><LocalizedText zh="这些画面记录了 v0.2.3；新的 Gal 风沉浸式 UI 正在进入部署验收。" en="These screens document v0.2.3; the new visual-novel-style immersive UI is entering deployment acceptance." /></h2>
         </div>
-        <p><LocalizedText zh="截图用于保留项目演进过程，不代表正在开发的 v0.5 最终外观。点击任意图片可以完整查看上一阶段界面。" en="These screenshots preserve the project's evolution and do not represent the final v0.5 appearance. Select any image to inspect the previous interface." /></p>
+        <p><LocalizedText zh="当前截图仍是旧阶段记录，不代表已经完成的 v0.5 基线外观；待私有部署稳定后再统一替换。点击任意图片可以完整查看上一阶段界面。" en="These screenshots remain a record of the previous stage and do not represent the completed v0.5 baseline. They will be replaced after the private deployment stabilizes. Select any image to inspect the earlier interface." /></p>
       </div>
       <div class="project-showcase">
         {projectShots.map((shot, index) => (
@@ -148,12 +148,12 @@ const projectShots = [
     <div class="container split-panel">
       <div data-reveal>
         <div class="section-kicker"><LocalizedText zh="当前边界与下一步" en="Current boundaries & next steps" /></div>
-        <h2 id="roadmap-title"><LocalizedText zh="从可运行的 Agent，推进到两种清晰、稳定的使用体验。" en="From a working Agent to two clear and stable experiences." /></h2>
+        <h2 id="roadmap-title"><LocalizedText zh="从本地可运行，推进到边界清晰、可回滚的公网体验。" en="From a working local product to a bounded, rollback-ready public experience." /></h2>
         <div class="timeline" style="margin-top: 24px">
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="已完成" en="Complete" /></span><div><h3><LocalizedText zh="v0.3.0 多模态 Agent 基线" en="v0.3.0 multimodal Agent baseline" /></h3><p><LocalizedText zh="Provider Registry、附件与语音、持久化 Agent、SSE、审批、Artifact、取消 / 重试 / 恢复和 25 个工具已经完成，170 项测试通过、1 项因 Windows 符号链接权限跳过。" en="Provider Registry, attachments and voice, persistent Agents, SSE, approvals, Artifacts, cancel/retry/resume, and 25 tools are complete, with 170 tests passing and one skipped for Windows symlink permissions." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="进行中" en="In progress" /></span><div><h3><LocalizedText zh="v0.5.0 双入口与工作台重构" en="v0.5.0 dual-entry and workspace rebuild" /></h3><p><LocalizedText zh="正在统一模式选择页、沉浸式入口、助手入口、固定侧栏工作台、Electron 路由与反馈上下文；阶段性回归为 179 项通过、1 项跳过。" en="The mode selector, immersive entry, assistant entry, fixed-sidebar workspace, Electron routing, and feedback context are being unified; interim regression stands at 179 passed and one skipped." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="月末目标" en="End-of-month target" /></span><div><h3><LocalizedText zh="服务器与受控网站试玩" en="Server-backed controlled web preview" /></h3><p><LocalizedText zh="待 v0.5 最终回归和 portable 打包稳定后，再决定试玩入口、访问限额与反馈方式，不会直接暴露本地测试环境。" en="After v0.5 final regression and portable packaging are stable, decide the preview entry, quotas, and feedback flow without exposing the local test environment." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="后续探索" en="Later" /></span><div><h3><LocalizedText zh="角色头像、语音与跨设备助手" en="Character portraits, voice, and cross-device assistance" /></h3><p><LocalizedText zh="继续补充识图、语音识别、角色语音、助手工具与手机 / 电脑联动；所有高权限工具仍需明确审批和审计。" en="Continue with vision, speech recognition, character voice, assistant tools, and phone/desktop integration while keeping high-privilege tools behind explicit approval and audit." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="已完成" en="Complete" /></span><div><h3><LocalizedText zh="v0.5.0 人格与沉浸式基线" en="v0.5.0 persona and immersive baseline" /></h3><p><LocalizedText zh="22 名角色、双入口、共享人物状态、面对面到场流程、固定侧栏工作台与可发布图谱已经合入主线；234 项测试通过、1 项因权限跳过。" en="Twenty-two characters, dual entry points, shared character state, face-to-face arrivals, the fixed-sidebar workspace, and a publishable graph have landed on main; 234 tests pass and one is skipped for permissions." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="进行中" en="In progress" /></span><div><h3><LocalizedText zh="16 核服务器全量部署与私有验收" en="Full deployment and private acceptance on a 16-core server" /></h3><p><LocalizedText zh="公网分支正在验证数据库迁移、生产 Compose、镜像固定、备份恢复、限流、BYOK、反馈加密与 30 天清理；Cloudflare Access 会在验收期间保持开启。" en="The public branch is validating database migrations, production Compose, pinned images, backup and restore, rate limits, BYOK, encrypted feedback, and 30-day cleanup. Cloudflare Access remains enabled throughout acceptance." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="验收后" en="After acceptance" /></span><div><h3><LocalizedText zh="受控网站试玩" en="Controlled web preview" /></h3><p><LocalizedText zh="部署完成后先内部测试数日；只有 Provider 真钥匙 smoke、安全边界与回滚流程都通过，并再次确认后，才会把试玩入口接入本站。" en="After deployment, the service will undergo several days of internal testing. The play entry reaches this site only after real-provider smoke tests, security boundaries, and rollback paths pass and a second approval is given." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="后续探索" en="Later" /></span><div><h3><LocalizedText zh="场景背景、角色语音与跨设备助手" en="Scene backgrounds, character voice, and cross-device assistance" /></h3><p><LocalizedText zh="继续补齐 Gal 化场景背景、角色语音、助手工具与手机 / 电脑联动；所有高权限工具仍需明确审批和审计。" en="Continue with visual-novel-style scene backgrounds, character voice, assistant tools, and phone/desktop integration while keeping high-privilege tools behind explicit approval and audit." /></p></div></article>
         </div>
       </div>
       <aside class="license-note license-note-compact" data-reveal>
@@ -168,7 +168,7 @@ const projectShots = [
         <ul class="license-note-list">
           <li><span><LocalizedText zh="来源" en="Source" /></span><a href={site.external.bWiki} target="_blank" rel="noreferrer">BWiki ↗</a></li>
           <li><span><LocalizedText zh="许可" en="License" /></span><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0 ↗</a></li>
-          <li><span><LocalizedText zh="隐私" en="Privacy" /></span><em><LocalizedText zh="原始语料、聊天记录、反馈与密钥不随源码发布" en="Raw corpora, chats, feedback, and secrets stay out of commits" /></em></li>
+          <li><span><LocalizedText zh="隐私" en="Privacy" /></span><em><LocalizedText zh="API Key 不入库；历史默认在浏览器；反馈限期保留" en="API keys stay out of the database; history stays in the browser; feedback is retained temporarily" /></em></li>
         </ul>
       </aside>
     </div>
@@ -176,9 +176,9 @@ const projectShots = [
 
   <section class="section-tight">
     <div class="container notice-panel" data-reveal>
-      <div class="section-kicker"><LocalizedText zh="本地验证 / 在线服务" en="Local preview / public service" /></div>
-      <h2><LocalizedText zh="v0.5.0 仍在开发，月末争取开放受控网页试玩。" en="v0.5.0 remains in development, with a controlled web preview targeted for the end of the month." /></h2>
-      <p><LocalizedText zh="当前仓库提供源码、依赖与运行说明，但不会打包受许可约束的 Wiki 语料、个人聊天历史或模型密钥。公开体验会独立部署，并在入口确定后补充限额、服务端密钥、权限审批与成本控制。" en="The repository provides source code, dependencies, and operating notes, but does not package license-bound Wiki corpora, personal chat history, or model secrets. The public preview will be deployed separately with quotas, server-side secrets, permission approvals, and cost controls once the access design is settled." /></p>
+      <div class="section-kicker"><LocalizedText zh="私有验收 / 在线服务" en="Private acceptance / public service" /></div>
+      <h2><LocalizedText zh="v0.5.0 基线已经完成；公网服务正在部署验证，尚未开放试玩。" en="The v0.5.0 baseline is complete; the public service is under deployment validation and is not open yet." /></h2>
+      <p><LocalizedText zh="公网服务与内部工作台完全分离，默认由用户自带模型凭据；API Key 只进入短期、绑定匿名会话的加密凭据，不写入数据库。聊天历史默认保留在浏览器，反馈数据采用独立加密、去重、限流与 30 天清理。私有验收期间继续由 Cloudflare Access 隔离。" en="The public service is fully separated from the internal workspace and uses user-provided model credentials by default. API keys enter only short-lived encrypted credentials bound to an anonymous session and are not written to the database. Chat history remains in the browser by default, while feedback uses separate encryption, deduplication, rate limiting, and 30-day cleanup. Cloudflare Access remains the private acceptance gate." /></p>
       <div class="button-row" style="margin-top: 18px"><a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer"><LocalizedText zh="查看项目运行说明 ↗" en="View setup instructions ↗" /></a></div>
     </div>
   </section>
