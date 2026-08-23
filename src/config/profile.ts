@@ -43,8 +43,8 @@ export const profile = {
       {
         label: { zh: "现在的我", en: "Right now" },
         value: {
-          zh: "目前主要推进 Project Snow 的网页版试玩，继续打磨对话体验、数据链路与部署细节。",
-          en: "My main focus is preparing Project Snow's web preview and refining its dialogue experience, data pipeline, and deployment."
+          zh: "Project Snow 0.9.2 小规模测试版已经上线，目前继续根据真实反馈打磨对话体验、数据链路与部署细节。",
+          en: "Project Snow 0.9.2 is now live as a small-scale test; I am refining its dialogue experience, data pipeline, and deployment through real feedback."
         }
       },
       {
@@ -71,12 +71,12 @@ export const profile = {
     ],
     current: {
       title: {
-        zh: "推进 Project Snow / 打磨网页试玩 / 记录开发过程。",
-        en: "Building Project Snow / polishing the web preview / documenting the development process."
+        zh: "维护 Project Snow 公开测试 / 修 Bug / 评估 TTS。",
+        en: "Maintaining the Project Snow public test / fixing bugs / evaluating TTS."
       },
       description: {
-        zh: "目前正在为 Project Snow 的网页版试玩做上线准备，同时继续补齐数据开发、数据分析和 AI 应用方向的工程实践。",
-        en: "I’m preparing Project Snow's web preview for release while continuing hands-on work in data development, analytics, and applied AI."
+        zh: "Project Snow 的网页版试玩已经开放，目前先服务小规模测试、收集反馈并完善安全与交互，同时继续补齐数据开发、数据分析和 AI 应用方向的工程实践。",
+        en: "Project Snow's web experience is now open. I am keeping the test small while collecting feedback and improving safety and interaction, alongside continued work in data development, analytics, and applied AI."
       }
     },
     contact: {
@@ -106,6 +106,14 @@ export const profile = {
         en: "Snowbreak knowledge-base and dialogue project source"
       },
       href: site.repositories.projectSnow
+    },
+    {
+      label: "Project Snow 试玩",
+      description: {
+        zh: "0.9.2 小规模公开测试入口",
+        en: "0.9.2 small-scale public test"
+      },
+      href: site.external.projectSnowPlay
     }
   ] satisfies ProfileLink[]
 } as const;

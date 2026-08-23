@@ -1197,6 +1197,14 @@ svg {
   margin-top: 30px;
 }
 
+.project-pipeline {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.project-pipeline .pipeline-step:nth-child(3n)::after {
+  display: none;
+}
+
 .pipeline-step {
   position: relative;
   min-height: 176px;
@@ -3225,6 +3233,14 @@ html[data-motion="enabled"] [data-reveal].is-visible {
   }
 
   .pipeline-step:nth-child(4)::after {
+    display: none;
+  }
+
+  .project-pipeline .pipeline-step:nth-child(3n)::after {
+    display: block;
+  }
+
+  .project-pipeline .pipeline-step:nth-child(even)::after {
     display: none;
   }
 }

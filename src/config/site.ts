@@ -32,8 +32,8 @@ export const site = {
       en: "Themes: Snowbreak / Spice & Wolf · interface and motion by Xiao B"
     },
     status: {
-      zh: "静态站点运行于 Cloudflare Pages；暂未接入实时 uptime 监控。",
-      en: "Static site deployed on Cloudflare Pages; live uptime monitoring is not connected yet."
+      zh: "个人站运行于 Cloudflare Pages；Project Snow 作为独立服务开放小规模测试，暂未接入统一实时 uptime 监控。",
+      en: "The personal site runs on Cloudflare Pages; Project Snow is a separate small-scale public test, without unified live uptime monitoring yet."
     }
   },
   media: {
@@ -53,6 +53,8 @@ export const site = {
   external: {
     bWiki: "https://wiki.biligame.com/sonw/",
     ccByNcSa: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    projectSnowPlay: "https://snow.xiaob.dev/",
+    projectSnowPrivacy: "https://snow.xiaob.dev/privacy/",
     codexRadar: "https://codexradar.com/#model-ratings",
     codexRadarSummary: "https://codexradar.com/current.json"
   }

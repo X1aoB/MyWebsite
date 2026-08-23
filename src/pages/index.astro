@@ -49,7 +49,7 @@ const formatDate = (date: Date) =>
         <h1><LocalizedText {...profile.homeHeading} /></h1>
         <p class="home-feature-lead"><LocalizedText {...profile.homeLead} /></p>
         <div class="button-row">
-          <a class="button" href="/projects/project-snow/">查看 Project Snow <span aria-hidden="true">→</span></a>
+          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer">试玩 Project Snow <span aria-hidden="true">↗</span></a>
           <a class="button button-secondary" href="/journal/">阅读开发日志</a>
         </div>
         <div class="home-signals" aria-label="站点特性">
@@ -88,13 +88,14 @@ const formatDate = (date: Date) =>
         <div class="project-node node-three"></div>
       </div>
       <div class="project-feed-copy">
-        <span class="status-badge"><LocalizedText zh="v0.5.0 基线完成 · 部署验证中" en="v0.5.0 baseline complete · deployment validation" /></span>
-        <h3><LocalizedText zh="沉浸式体验更接近 Gal，独立公网服务进入私有验收准备。" en="The immersive experience now feels closer to a visual novel, while the isolated public service enters private acceptance preparation." /></h3>
-        <p><LocalizedText zh="v0.5.0 已完成角色人格、双入口与面对面到场体验；16 核 16GB 服务器正在准备全量部署，公网面会先通过安全验证和私有测试，再决定何时开放试玩。" en="v0.5.0 completes character personas, dual entry points, and face-to-face arrival flows. A 16-core, 16 GB server is being prepared for full deployment; the public surface will pass security validation and private testing before any preview opens." /></p>
+        <span class="status-badge"><LocalizedText zh="v0.9.2 · 小规模测试已上线" en="v0.9.2 · small-scale test live" /></span>
+        <h3><LocalizedText zh="从通讯器走进 Galgame 式场景，22 名角色现在可以公开试玩。" en="Move from the communicator into visual-novel-style scenes with 22 characters, now open for testing." /></h3>
+        <p><LocalizedText zh="选择角色进行文字通讯、发送可检索表情，再前往角色当前地点，用对白或动作继续面对面互动。历史保存在当前浏览器，遇到跑偏或 Bug 时可以预览并控制随反馈附带的上下文。" en="Choose a character for text communication, send searchable stickers, then enter her current location and continue face to face through dialogue or actions. History stays in this browser, while contextual feedback can be previewed and controlled when reporting drift or bugs." /></p>
         <div class="tag-list" aria-label="Project Snow 技术标签">
-          <span class="tag">22 Characters</span><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">Qdrant</span><span class="tag">Docker</span>
+          <span class="tag">22 Characters</span><span class="tag">FastAPI</span><span class="tag">IndexedDB</span><span class="tag">Qdrant</span><span class="tag">Docker</span>
         </div>
         <div class="button-row">
+          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer">开始试玩 ↗</a>
           <a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer">查看源码 ↗</a>
         </div>
       </div>

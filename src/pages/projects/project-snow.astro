@@ -6,67 +6,76 @@ import { site } from "../../config/site";
 
 const projectShots = [
   {
-    src: "/images/project-snow/chat-client.webp",
-    alt: "Project Snow 聊天客户端，展示角色列表、对话时间线、模式切换和动作与对白双输入",
-    type: { zh: "聊天客户端", en: "Chat client" },
-    title: { zh: "把调试页拆成真正可以长期使用的聊天界面", en: "A chat interface designed for continued use, not just debugging" },
+    src: "/images/project-snow/text-communication.webp",
+    width: 2559,
+    height: 1326,
+    alt: "Project Snow 0.9.2 文字通讯界面，左侧展示角色列表，右侧展示苔丝与分析员的对话",
+    type: { zh: "文字通讯", en: "Text communication" },
+    title: { zh: "从通讯器开始，与 22 名角色保持日常联系", en: "Start in the communicator and stay in touch with 22 characters" },
     description: {
-      zh: "22 名角色集中在左侧会话列表；沉浸式 / 助手与面对面 / 文字通讯是两组独立开关。面对面模式可以把动作或神态与对白放在同一轮发送。",
-      en: "All 22 characters live in one conversation list. Immersive / assistant and in-person / text are separate controls, while in-person turns can send an action or expression together with dialogue."
+      zh: "搜索、切换或收藏角色，像聊天软件一样自由输入话题；对话与草稿保存在当前浏览器，也可以从通讯中发出见面邀请，走到她所在的场景。",
+      en: "Search, switch, or favorite characters and chat through a familiar messenger interface. Conversations and drafts stay in this browser, and an invitation can move the interaction into her current scene."
     }
   },
   {
-    src: "/images/project-snow/evidence-workbench.webp",
-    alt: "Project Snow 角色证据工作台，展示服务概览、证据检索、关系审核、实体审核和对话调试",
-    type: { zh: "证据工作台", en: "Evidence workspace" },
-    title: { zh: "对话之外，保留可以回头检查的证据与审核入口", en: "Evidence and review remain inspectable behind every dialogue" },
+    src: "/images/project-snow/sticker-library.webp",
+    width: 2559,
+    height: 1330,
+    alt: "Project Snow 表情选择器，展示最近、当前角色、通用、收藏和全部分类",
+    type: { zh: "表情互动", en: "Sticker interaction" },
+    title: { zh: "让语气不只依赖一段文字", en: "Let tone live beyond a block of text" },
     description: {
-      zh: "检索、关系审核、实体审核、用户反馈和对话调试被收进独立后台。模型生成的关系只会成为候选，未经审核不会写入正式图谱。",
-      en: "Retrieval, relationship review, entity review, feedback, and dialogue debugging live in a separate workspace. Model-generated relationships remain candidates until reviewed."
+      zh: "363 项表情按最近使用、当前角色、通用与收藏分类，也可以按名称或情绪检索。每项公开素材都在游戏内保留固定修订、许可依据与处理记录。",
+      en: "A library of 363 stickers is grouped by recents, current character, general use, and favorites, with name and emotion search. Every public asset keeps a fixed revision, license basis, and transformation record."
     }
   },
   {
-    src: "/images/project-snow/feedback-dialog.webp",
-    alt: "Project Snow 问题反馈弹窗，提供角色表现、知识与记忆、对话体验、客户端功能和其他五类反馈",
-    type: { zh: "反馈闭环", en: "Feedback loop" },
-    title: { zh: "先说清是哪类问题，再留下具体上下文", en: "Classify the issue first, then preserve its context" },
+    src: "/images/project-snow/face-to-face-scene.webp",
+    width: 2559,
+    height: 1326,
+    alt: "Project Snow 面对面模式，展示资料室场景、恩雅立绘、环境叙述和角色对白",
+    type: { zh: "面对面", en: "Face to face" },
+    title: { zh: "从聊天框走进 Galgame 式场景", en: "Step out of the chat box and into a visual-novel-style scene" },
     description: {
-      zh: "反馈分为角色表现、知识与记忆、对话体验、客户端功能和其他五类，并自动关联角色、回答、模式与媒介；重复问题会归入同一问题族。",
-      en: "Feedback is grouped into five categories and automatically carries the character, answer, mode, and medium. Repeated reports are linked to the same issue family."
+      zh: "地点、人物状态、动作叙述与分段对白共同组成一次见面。你可以说话，也可以只写动作；到场时还有概率由角色先注意到你并开口。",
+      en: "Location, character state, action narration, and segmented dialogue form each encounter. Speak, enter only an action, or arrive to a probabilistic character-first greeting."
     }
   },
   {
-    src: "/images/project-snow/immersive-dialogue.webp",
-    alt: "Project Snow 中肴的沉浸式面对面对话，动作神态与对白分块显示",
-    type: { zh: "沉浸式体验", en: "Immersive dialogue" },
-    title: { zh: "动作、对白、地点与关系前提一起构成当前场景", en: "Action, dialogue, location, and relationship premises form one scene" },
+    src: "/images/project-snow/contextual-feedback.webp",
+    width: 2559,
+    height: 1334,
+    alt: "Project Snow 反馈弹窗，展示上下文预览、问题说明和可选 QQ 输入框",
+    type: { zh: "测试反馈", en: "Test feedback" },
+    title: { zh: "带着最小必要上下文反馈，不必从头复述", en: "Report an issue with only the context it needs" },
     description: {
-      zh: "动作 / 神态与对白分块呈现，服务端同时检查交流媒介、地点和近期上下文。自然度与长对话连续性仍是当前持续打磨的重点。",
-      en: "Actions and dialogue render as separate blocks while the server checks medium, location, and recent context. Naturalness and long-conversation continuity remain active areas of work."
+      zh: "提交前可以预览或关闭随反馈附带的一问一答，再补充复现步骤；QQ 完全可选并加密保存，反馈正文与 QQ 按 30 天期限清理。",
+      en: "Preview or remove the attached question-and-answer context before adding reproduction steps. QQ is optional and encrypted; feedback text and QQ follow a 30-day retention window."
     }
   }
 ];
 ---
 
-<BaseLayout title="Project Snow" description="Project Snow 的 v0.5.0 人格与沉浸式基线已经完成，独立公网体验正在进行部署验证与私有验收准备。">
+<BaseLayout title="Project Snow" description="Project Snow 0.9.2 小规模测试版已上线：22 名角色、文字通讯、表情互动与 Galgame 式面对面场景。">
   <section class="section">
     <div class="container project-hero">
       <article class="project-summary" data-reveal>
-        <div class="eyebrow">PROJECT / 01 · V0.5.0 BASELINE COMPLETE</div>
+        <div class="eyebrow">PROJECT / 01 · PUBLIC TEST 0.9.2</div>
         <h1>Project Snow</h1>
-        <p><LocalizedText zh="基于可追溯资料构建的《尘白禁区》角色对话项目。v0.5.0 已完成角色人格、沉浸式陪伴与助手双入口基线；新的面对面到场流程加入了概率先开口事件和移动动画，整体体验进一步向 Gal 靠拢。" en="A Snowbreak character-dialogue project built on traceable source material. v0.5.0 completes the character-persona baseline plus separate immersive-companion and assistant entry points. Face-to-face arrivals now include probabilistic character-first greetings and transition animation, moving the experience closer to a visual novel." /></p>
+        <p><LocalizedText zh="基于《尘白禁区》公开 Wiki 资料构建的非官方、非商业 AI 角色互动实验。它不只给模型一段角色设定，而是把证据检索、人物关系、当前地点和对话连续性接进同一套体验；现在可以在文字通讯与 Galgame 式面对面场景之间来回切换。" en="An unofficial, non-commercial AI character-interaction experiment built from public Snowbreak Wiki material. Instead of relying on one character prompt, it connects evidence retrieval, relationships, location, and dialogue continuity in one experience that moves between text communication and visual-novel-style face-to-face scenes." /></p>
         <div class="button-row" style="margin-top: 24px">
-          <a class="button" href={site.repositories.projectSnow} target="_blank" rel="noreferrer"><LocalizedText zh="查看 GitHub 源码 ↗" en="View GitHub source ↗" /></a>
-          <a class="button button-secondary" href="/journal/?project=project-snow"><LocalizedText zh="阅读 Project Snow 日志" en="Read Project Snow logs" /></a>
+          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="开始试玩 ↗" en="Play now ↗" /></a>
+          <a class="button button-secondary" href="/journal/?project=project-snow"><LocalizedText zh="阅读开发日志" en="Read dev logs" /></a>
+          <a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer"><LocalizedText zh="查看源码 ↗" en="View source ↗" /></a>
         </div>
       </article>
       <aside class="status-panel" data-reveal>
         <div>
-          <span class="status-badge"><LocalizedText zh="v0.5 基线完成 · 私有验收准备中" en="v0.5 baseline complete · private acceptance preparation" /></span>
-          <strong><LocalizedText zh="16 核 16GB 服务器正在准备全量部署" en="A 16-core, 16 GB server is being prepared for full deployment" /></strong>
-          <p><LocalizedText zh="公网进程只暴露独立的沉浸式 API 与静态客户端，不挂载内部工作台、附件、语音或 Agent 接口；当前仍在全量测试、迁移校验与生产 Compose 检查阶段，尚未开放试玩。" en="The public process exposes only an isolated immersive API and static client; internal workspace, attachment, voice, and Agent endpoints are not mounted. Full tests, migration validation, and production Compose checks are still in progress, and the preview is not open." /></p>
+          <span class="status-badge"><LocalizedText zh="v0.9.2 · 小规模测试已上线" en="v0.9.2 · small-scale test is live" /></span>
+          <strong><LocalizedText zh="免注册，自带模型 API Key 即可开始" en="No registration; bring your own model API key" /></strong>
+          <p><LocalizedText zh="公开版提供 5 个固定模型服务适配器。API Key 会短暂经过 Project Snow 服务器内存并发送到你选择的官方模型接口，但不会写入数据库、磁盘、反馈或日志；加密凭证只保留在当前标签页，最长 12 小时。" en="The public build offers five fixed model-provider adapters. Your API key briefly passes through Project Snow server memory to the selected official model endpoint, but is not written to the database, disk, feedback, or logs. Its encrypted credential remains only in the current tab for up to 12 hours." /></p>
         </div>
-        <div class="tag-list"><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">Qdrant</span><span class="tag">Neo4j</span><span class="tag">Docker</span></div>
+        <div class="tag-list"><span class="tag">FastAPI</span><span class="tag">IndexedDB</span><span class="tag">SSE</span><span class="tag">Qdrant</span><span class="tag">Neo4j</span><span class="tag">Docker</span></div>
       </aside>
     </div>
   </section>
@@ -75,100 +84,106 @@ const projectShots = [
     <div class="container">
       <div class="section-header" data-reveal>
         <div>
-          <div class="section-kicker"><LocalizedText zh="最新快照" en="Latest snapshot" /></div>
-          <h2 id="snapshot-title"><LocalizedText zh="v0.5 基线已经合入主线，下一步是安全地完成公网私有验收。" en="The v0.5 baseline has landed on main; the next step is a secure private acceptance of the public deployment." /></h2>
+          <div class="section-kicker"><LocalizedText zh="0.9.2 公开快照" en="0.9.2 public snapshot" /></div>
+          <h2 id="snapshot-title"><LocalizedText zh="把角色、场景、资料与反馈接成一段可以继续的体验。" en="Characters, scenes, sources, and feedback now form one continuous experience." /></h2>
         </div>
-        <p><LocalizedText zh="以下数据来自 2026 年 8 月 14 日的 v0.5 主线基线与公网部署分支。主线能力已经验证；公网部署仍处于独立分支的验证阶段，不代表服务已经开放。" en="These figures reflect the v0.5 mainline baseline and public-deployment branch as of August 14, 2026. Mainline capabilities are validated; the public deployment remains under validation on an isolated branch and is not open." /></p>
+        <p><LocalizedText zh="当前入口定位为小规模测试，不设置注册、付费墙或商业推广。知识数据版本为 2026.08.19.1；这些数字来自线上配置与公开署名索引。" en="The current entry is a small-scale test with no registration, paywall, or commercial promotion. The knowledge-data version is 2026.08.19.1; these figures come from the live configuration and public attribution indexes." /></p>
       </div>
       <div class="project-metrics" data-reveal>
-        <article><strong>22</strong><span><LocalizedText zh="名可对话角色" en="dialogue characters" /></span></article>
-        <article><strong>234 + 1</strong><span><LocalizedText zh="项主线测试通过 / 跳过" en="mainline tests passed / skipped" /></span></article>
-        <article><strong>5,919</strong><span><LocalizedText zh="个可发布图谱节点" en="publishable graph nodes" /></span></article>
-        <article class="project-metric-wide"><strong>7,698</strong><span><LocalizedText zh="条可追溯图谱关系进入发布视图" en="traceable graph edges in the publishable view" /></span></article>
+        <article><strong>22</strong><span><LocalizedText zh="名可互动角色" en="interactive characters" /></span></article>
+        <article><strong>363</strong><span><LocalizedText zh="项可检索表情" en="searchable stickers" /></span></article>
+        <article><strong>15</strong><span><LocalizedText zh="个受控共同移动地点" en="controlled shared locations" /></span></article>
+        <article class="project-metric-wide"><strong>2,369</strong><span><LocalizedText zh="个固定修订来源页进入公开署名索引" en="fixed-revision source pages in the public attribution index" /></span></article>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="pipeline-title">
+  <section class="section" aria-labelledby="gameplay-title">
     <div class="container">
       <div class="section-header" data-reveal>
         <div>
-          <div class="section-kicker"><LocalizedText zh="从证据到对话" en="From evidence to dialogue" /></div>
-          <h2 id="pipeline-title"><LocalizedText zh="不是只给模型一份角色设定，而是给每一步留下边界。" en="Not just a character prompt—each stage has an explicit boundary." /></h2>
+          <div class="section-kicker"><LocalizedText zh="怎么玩" en="How to play" /></div>
+          <h2 id="gameplay-title"><LocalizedText zh="先在通讯器里认识她，再决定要不要走到她面前。" en="Meet her in the communicator, then decide whether to step into her scene." /></h2>
         </div>
-        <p><LocalizedText zh="原始语料保持只读，公网只读取带哈希和许可元数据的发布产物。API Key 不写入数据库，聊天历史默认由浏览器携带，反馈则进入独立的限期存储与清理流程。" en="Raw source material remains read-only, and the public service reads only release artifacts with hashes and license metadata. API keys are not written to the database, chat history is carried by the browser by default, and feedback follows a separate retention and cleanup path." /></p>
+        <p><LocalizedText zh="文字通讯和面对面共享人物与世界状态。你可以只把它当成聊天，也可以用地点、动作、表情和共同移动把一段对话慢慢推成自己的日常剧情。" en="Text communication and face-to-face scenes share character and world state. Use it as a messenger, or turn a conversation into a personal everyday scene through locations, actions, stickers, and shared movement." /></p>
       </div>
       <div class="pipeline project-pipeline">
-        <article class="pipeline-step" data-reveal><span class="step-number">01 / SOURCE</span><h3><LocalizedText zh="采集与溯源" en="Collection & provenance" /></h3><p><LocalizedText zh="保留页面地址、正文、哈希、分类和运行状态，支持增量发现与失败恢复。" en="Preserve URLs, text, hashes, categories, and run state for incremental discovery and recovery." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">02 / RETRIEVAL</span><h3><LocalizedText zh="混合检索" en="Hybrid retrieval" /></h3><p><LocalizedText zh="SQLite FTS5 与本地中文向量经 RRF 融合，再按角色和资料层级重排证据。" en="SQLite FTS5 and local Chinese vectors are fused with RRF, then reranked by character and evidence tier." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">03 / V0.3 AGENT</span><h3><LocalizedText zh="多模态 Agent 基线" en="Multimodal Agent baseline" /></h3><p><LocalizedText zh="多 Provider、图片 / 文档 / 音频、STT / TTS、25 个工具、持久化状态机、审批与 Artifact 已在 v0.3.0 完成。" en="v0.3.0 completed multiple providers, images, documents, audio, STT/TTS, 25 tools, a persistent state machine, approvals, and Artifacts." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">04 / V0.5 UI</span><h3><LocalizedText zh="Gal 化沉浸式体验" en="Visual-novel-style immersion" /></h3><p><LocalizedText zh="双入口、共享人物状态与固定侧栏已经形成基线；面对面到场加入概率先开口事件和移动动画，场景背景仍待后续补齐。" en="Dual entry points, shared character state, and the fixed sidebar now form the baseline. Face-to-face arrivals add probabilistic character-first greetings and transition animation, while scene backgrounds remain future work." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">05 / PRIVATE ACCEPTANCE</span><h3><LocalizedText zh="隔离公网面与安全验收" en="Isolated public surface and security acceptance" /></h3><p><LocalizedText zh="FastAPI、PostgreSQL、Qdrant、Neo4j、Caddy 与 Cloudflare Tunnel 采用独立生产编排；试玩按钮会等私有验收和二次确认后再接入本站。" en="FastAPI, PostgreSQL, Qdrant, Neo4j, Caddy, and Cloudflare Tunnel use an isolated production stack. The play button will reach this site only after private acceptance and a second explicit approval." /></p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">01 / MODEL</span><h3><LocalizedText zh="配置本次模型" en="Configure this session" /></h3><p><LocalizedText zh="选择 OpenAI、DeepSeek、阿里云百炼、智谱或 Moonshot，填写自己的 API Key 并获取可用模型。凭证固定最长 12 小时，不会滑动续期。" en="Choose OpenAI, DeepSeek, Alibaba Cloud Model Studio, Zhipu, or Moonshot, then provide your API key and fetch available models. The credential lasts at most 12 fixed hours without sliding renewal." /></p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">02 / CHAT</span><h3><LocalizedText zh="选择角色开始通讯" en="Choose a character" /></h3><p><LocalizedText zh="从 22 名角色中搜索、收藏并切换对象。每轮最多输入 2,000 字，聊天、摘要、草稿和收藏保存在当前浏览器。" en="Search, favorite, and switch among 22 characters. Each turn accepts up to 2,000 characters; chats, summaries, drafts, and favorites stay in the current browser." /></p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">03 / EXPRESS</span><h3><LocalizedText zh="用表情补上语气" en="Add tone with stickers" /></h3><p><LocalizedText zh="按最近、当前角色、通用、收藏或全部浏览，也可以按名称和情绪搜索，让回应不必总是一整段文字。" en="Browse by recents, current character, general, favorites, or all, and search by name or emotion so every response does not have to be another paragraph." /></p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">04 / MEET</span><h3><LocalizedText zh="去见她" en="Go meet her" /></h3><p><LocalizedText zh="进入角色当前地点后，可以只写动作、只说对白或两者一起输入。到场时有 50% 概率由角色先注意到你并主动回应。" en="Enter her current location and send an action, dialogue, or both. On arrival, there is a 50% chance that the character notices you and responds first." /></p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">05 / MOVE</span><h3><LocalizedText zh="一起去……" en="Go somewhere together" /></h3><p><LocalizedText zh="从 15 个受控地点发出邀请。通讯中她可以先去目的地等你；面对面接受后则会与你共同移动并继续场景。" en="Invite her to one of 15 controlled locations. In text mode she can go ahead and wait; face to face, an accepted invitation moves both of you and continues the scene." /></p></article>
+        <article class="pipeline-step" data-reveal><span class="step-number">06 / REVIEW</span><h3><LocalizedText zh="回看、续聊与反馈" en="Review, resume, and report" /></h3><p><LocalizedText zh="选择承接昨天或从今天开始，随时回看或清理本地记录；遇到跑偏与 Bug 时，可预览并控制随反馈附带的最小对话上下文。" en="Continue from yesterday or begin today, review or clear local history, and preview the minimal dialogue context attached when reporting drift or a bug." /></p></article>
       </div>
     </div>
   </section>
 
-  <section class="section-tight" aria-labelledby="showcase-title">
+  <section class="section-tight" aria-labelledby="stack-title">
+    <div class="container split-panel">
+      <div data-reveal>
+        <div class="section-kicker"><LocalizedText zh="技术栈与系统边界" en="Stack & system boundaries" /></div>
+        <h2 id="stack-title"><LocalizedText zh="公开体验、内部工作台与发布链路彼此隔离。" en="The public experience, internal workspace, and release pipeline stay isolated." /></h2>
+        <div class="timeline" style="margin-top: 24px">
+          <article class="timeline-card"><span class="timeline-phase">WEB</span><div><h3><LocalizedText zh="原生前端与浏览器本地状态" en="Native frontend and browser-local state" /></h3><p><LocalizedText zh="原生 HTML、CSS、JavaScript ES Modules 与 SSE 流式响应；IndexedDB v4 保存聊天、摘要、草稿和收藏，不自动跨设备同步。" en="Native HTML, CSS, JavaScript ES Modules, and SSE streaming; IndexedDB v4 keeps chats, summaries, drafts, and favorites without automatic cross-device sync." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">API</span><div><h3>Python 3.12 · FastAPI</h3><p><LocalizedText zh="Uvicorn、Pydantic、HTTPX、SQLAlchemy、Alembic 与 psycopg 组成公开 API；公网只挂载静态页面和 /public/v1，不暴露内部 /api/v1、附件、Agent 或语音接口。" en="Uvicorn, Pydantic, HTTPX, SQLAlchemy, Alembic, and psycopg power the public API. Only static pages and /public/v1 are mounted publicly; internal /api/v1, attachments, Agent, and voice endpoints stay unexposed." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">RAG</span><div><h3><LocalizedText zh="混合检索与关系图谱" en="Hybrid retrieval and relationship graph" /></h3><p><LocalizedText zh="SQLite FTS5 与 bge-small-zh-v1.5 本地向量通过 RRF 融合召回，Qdrant 承载向量检索，Neo4j 保存人物与剧情关系。" en="SQLite FTS5 and local bge-small-zh-v1.5 vectors are fused with RRF; Qdrant serves vector retrieval and Neo4j stores character and story relationships." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">MODEL</span><div><h3><LocalizedText zh="固定官方 Provider 适配器" en="Fixed official provider adapters" /></h3><p><LocalizedText zh="公开版只允许 5 个预置官方模型服务，不接受用户自定义公网 Base URL；一次操作最多进行两次受控模型调用。" en="The public build accepts only five preset official model providers and no user-defined public base URL. One user action can issue at most two controlled model calls." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase">OPS</span><div><h3><LocalizedText zh="蓝绿发布与不可变产物" en="Blue-green releases and immutable artifacts" /></h3><p><LocalizedText zh="Docker Compose、Caddy、Cloudflare、PostgreSQL、Qdrant 与 Neo4j 组成生产链路；镜像和数据、头像、表情包以版本与 SHA-256 固定，支持候选验收、精确晋升和回滚。" en="Docker Compose, Caddy, Cloudflare, PostgreSQL, Qdrant, and Neo4j form the production path. Images and data, avatar, and sticker bundles are pinned by version and SHA-256 for candidate acceptance, exact promotion, and rollback." /></p></div></article>
+        </div>
+      </div>
+      <aside class="license-note license-note-compact" data-reveal>
+        <header class="license-note-header"><span class="license-note-mark" aria-hidden="true">※</span><div><span class="license-note-kicker">PUBLIC DATA / 0.9.2</span><strong><LocalizedText zh="使用前先知道这些" en="Know this before playing" /></strong></div></header>
+        <p class="license-note-lead"><LocalizedText zh="这是非官方、非商业测试项目。模型可能出错或偏离原作，请勿输入真实密码、证件、财务或其他敏感信息。" en="This is an unofficial, non-commercial test project. Models can be wrong or drift from canon; do not enter real passwords, identity documents, financial data, or other sensitive information." /></p>
+        <ul class="license-note-list">
+          <li><span><LocalizedText zh="API Key" en="API key" /></span><em><LocalizedText zh="经服务器内存代理，不落库或落盘" en="Proxied through server memory; not stored in DB or on disk" /></em></li>
+          <li><span><LocalizedText zh="本地记录" en="Local history" /></span><em><LocalizedText zh="以明文保存在当前浏览器，可自行清理" en="Plaintext in this browser and removable by you" /></em></li>
+          <li><span><LocalizedText zh="反馈" en="Feedback" /></span><em><LocalizedText zh="上下文可预览 / 取消，正文与加密 QQ 保留 30 天" en="Context is previewable / removable; text and encrypted QQ kept 30 days" /></em></li>
+          <li><span><LocalizedText zh="完整说明" en="Full notice" /></span><a href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="隐私与素材 ↗" en="Privacy & assets ↗" /></a></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="showcase-title">
     <div class="container">
       <div class="section-header" data-reveal>
-        <div>
-          <div class="section-kicker"><LocalizedText zh="旧界面记录" en="Previous interface record" /></div>
-          <h2 id="showcase-title"><LocalizedText zh="这些画面记录了 v0.2.3；新的 Gal 风沉浸式 UI 正在进入部署验收。" en="These screens document v0.2.3; the new visual-novel-style immersive UI is entering deployment acceptance." /></h2>
-        </div>
-        <p><LocalizedText zh="当前截图仍是旧阶段记录，不代表已经完成的 v0.5 基线外观；待私有部署稳定后再统一替换。点击任意图片可以完整查看上一阶段界面。" en="These screenshots remain a record of the previous stage and do not represent the completed v0.5 baseline. They will be replaced after the private deployment stabilizes. Select any image to inspect the earlier interface." /></p>
+        <div><div class="section-kicker"><LocalizedText zh="0.9.2 实机界面" en="0.9.2 live interface" /></div><h2 id="showcase-title"><LocalizedText zh="四张图，走完从通讯到反馈的完整闭环。" en="Four screens trace the full loop from communication to feedback." /></h2></div>
+        <p><LocalizedText zh="截图来自当前小规模测试版：先选择角色并文字通讯，再用表情补足语气、进入面对面场景，最后通过可控上下文反馈帮助定位问题。点击图片可以查看完整界面。" en="These screens come from the current small-scale test: choose a character and text, add tone with stickers, enter a face-to-face scene, and help diagnose issues through controlled-context feedback. Select an image to view it in full." /></p>
       </div>
       <div class="project-showcase">
         {projectShots.map((shot, index) => (
           <article class={`project-shot project-shot-${index + 1}`} data-reveal>
-            <button
-              class="project-shot-open"
-              type="button"
-              data-project-shot-open
-              data-project-shot-src={shot.src}
-              data-project-shot-alt={shot.alt}
-              data-project-shot-caption={shot.description.zh}
-              aria-label={`查看大图：${shot.title.zh}`}
-              aria-haspopup="dialog"
-            >
-              <img src={shot.src} alt={shot.alt} width="1600" height={index === 1 ? 934 : index === 2 ? 941 : index === 3 ? 939 : 938} loading="lazy" decoding="async" />
+            <button class="project-shot-open" type="button" data-project-shot-open data-project-shot-src={shot.src} data-project-shot-alt={shot.alt} data-project-shot-caption={shot.description.zh} aria-label={`查看大图：${shot.title.zh}`} aria-haspopup="dialog">
+              <img src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} loading="lazy" decoding="async" />
               <span class="project-shot-zoom" aria-hidden="true">↗</span>
             </button>
-            <div class="project-shot-copy">
-              <span class="project-shot-type"><LocalizedText {...shot.type} /></span>
-              <h3><LocalizedText {...shot.title} /></h3>
-              <p><LocalizedText {...shot.description} /></p>
-            </div>
+            <div class="project-shot-copy"><span class="project-shot-type"><LocalizedText {...shot.type} /></span><h3><LocalizedText {...shot.title} /></h3><p><LocalizedText {...shot.description} /></p></div>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="roadmap-title">
+  <section class="section-tight" aria-labelledby="roadmap-title">
     <div class="container split-panel">
       <div data-reveal>
-        <div class="section-kicker"><LocalizedText zh="当前边界与下一步" en="Current boundaries & next steps" /></div>
-        <h2 id="roadmap-title"><LocalizedText zh="从本地可运行，推进到边界清晰、可回滚的公网体验。" en="From a working local product to a bounded, rollback-ready public experience." /></h2>
+        <div class="section-kicker"><LocalizedText zh="上线之后" en="After launch" /></div>
+        <h2 id="roadmap-title"><LocalizedText zh="正式开放入口，不等于项目已经做完。" en="Opening the public entry does not mean the project is finished." /></h2>
         <div class="timeline" style="margin-top: 24px">
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="已完成" en="Complete" /></span><div><h3><LocalizedText zh="v0.5.0 人格与沉浸式基线" en="v0.5.0 persona and immersive baseline" /></h3><p><LocalizedText zh="22 名角色、双入口、共享人物状态、面对面到场流程、固定侧栏工作台与可发布图谱已经合入主线；234 项测试通过、1 项因权限跳过。" en="Twenty-two characters, dual entry points, shared character state, face-to-face arrivals, the fixed-sidebar workspace, and a publishable graph have landed on main; 234 tests pass and one is skipped for permissions." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="进行中" en="In progress" /></span><div><h3><LocalizedText zh="16 核服务器全量部署与私有验收" en="Full deployment and private acceptance on a 16-core server" /></h3><p><LocalizedText zh="公网分支正在验证数据库迁移、生产 Compose、镜像固定、备份恢复、限流、BYOK、反馈加密与 30 天清理；Cloudflare Access 会在验收期间保持开启。" en="The public branch is validating database migrations, production Compose, pinned images, backup and restore, rate limits, BYOK, encrypted feedback, and 30-day cleanup. Cloudflare Access remains enabled throughout acceptance." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="验收后" en="After acceptance" /></span><div><h3><LocalizedText zh="受控网站试玩" en="Controlled web preview" /></h3><p><LocalizedText zh="部署完成后先内部测试数日；只有 Provider 真钥匙 smoke、安全边界与回滚流程都通过，并再次确认后，才会把试玩入口接入本站。" en="After deployment, the service will undergo several days of internal testing. The play entry reaches this site only after real-provider smoke tests, security boundaries, and rollback paths pass and a second approval is given." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="后续探索" en="Later" /></span><div><h3><LocalizedText zh="场景背景、角色语音与跨设备助手" en="Scene backgrounds, character voice, and cross-device assistance" /></h3><p><LocalizedText zh="继续补齐 Gal 化场景背景、角色语音、助手工具与手机 / 电脑联动；所有高权限工具仍需明确审批和审计。" en="Continue with visual-novel-style scene backgrounds, character voice, assistant tools, and phone/desktop integration while keeping high-privilege tools behind explicit approval and audit." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="已上线" en="Live" /></span><div><h3><LocalizedText zh="0.9.2 小规模测试版" en="0.9.2 small-scale test" /></h3><p><LocalizedText zh="22 名角色、文字通讯、面对面、表情、共同移动、本地历史与上下文反馈已经在公网开放；当前先让少量用户真实使用并继续修 Bug。" en="Twenty-two characters, text communication, face-to-face scenes, stickers, shared movement, local history, and contextual feedback are live. The current goal is real use by a small group while bugs are fixed." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="正在做" en="Now" /></span><div><h3><LocalizedText zh="根据真实反馈继续收口" en="Closing gaps through real feedback" /></h3><p><LocalizedText zh="持续处理新版本暴露的移动、恢复、窄屏、分段回复与部署问题；暂时不做大规模宣传，优先把体验与安全边界磨稳。" en="Continue fixing movement, recovery, narrow-screen, segmented-reply, and deployment issues exposed by the release. Large-scale promotion is on hold while experience and safety boundaries stabilize." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="评估中" en="Evaluating" /></span><div><h3><LocalizedText zh="TTS 角色语音" en="TTS character voice" /></h3><p><LocalizedText zh="后续希望给面对面互动加入语音，目前正在评估模型、音色、成本、延迟、授权与隐私方案，尚未承诺具体上线时间。" en="Voice is planned for later face-to-face interaction. Models, voices, cost, latency, rights, and privacy are still under evaluation, with no committed release date." /></p></div></article>
+          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="后续探索" en="Later" /></span><div><h3><LocalizedText zh="场景背景与 Live2D" en="Scene backgrounds and Live2D" /></h3><p><LocalizedText zh="背景和 Live2D 能让 Gal 感更完整，但会先解决资源授权、逆向边界与制作方式；没有明确许可的游戏内资源不会因为一句免责声明就直接投入宣传。" en="Backgrounds and Live2D could complete the visual-novel feel, but asset rights, reverse-engineering boundaries, and production methods come first. A disclaimer alone will not justify using unlicensed game resources in promotion." /></p></div></article>
         </div>
       </div>
       <aside class="license-note license-note-compact" data-reveal>
-        <header class="license-note-header">
-          <span class="license-note-mark" aria-hidden="true">※</span>
-          <div>
-            <span class="license-note-kicker">DATA BOUNDARY / 01</span>
-            <strong><LocalizedText zh="来源、许可与隐私" en="Sources, licensing & privacy" /></strong>
-          </div>
-        </header>
-        <p class="license-note-lead"><LocalizedText zh="项目资料来自尘白禁区 BWiki；页面特殊声明优先，游戏与角色内容版权归其权利人。" en="Project material comes from the Snowbreak BWiki; page-specific notices take priority, and game and character rights remain with their owners." /></p>
+        <header class="license-note-header"><span class="license-note-mark" aria-hidden="true">※</span><div><span class="license-note-kicker">SOURCE / LICENSE</span><strong><LocalizedText zh="来源、署名与许可边界" en="Sources, attribution & license boundaries" /></strong></div></header>
+        <p class="license-note-lead"><LocalizedText zh="知识资料、头像与表情按固定修订逐项记录来源和处理；页面特殊声明优先。该记录不代表游戏原始美术权属已由 Project Snow 确认，也不表示官方认可。" en="Knowledge, avatar, and sticker assets record their source and transformation against fixed revisions, subject to page-specific notices. This does not mean Project Snow has verified ownership of original game art or received official endorsement." /></p>
         <ul class="license-note-list">
           <li><span><LocalizedText zh="来源" en="Source" /></span><a href={site.external.bWiki} target="_blank" rel="noreferrer">BWiki ↗</a></li>
-          <li><span><LocalizedText zh="许可" en="License" /></span><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0 ↗</a></li>
-          <li><span><LocalizedText zh="隐私" en="Privacy" /></span><em><LocalizedText zh="API Key 不入库；历史默认在浏览器；反馈限期保留" en="API keys stay out of the database; history stays in the browser; feedback is retained temporarily" /></em></li>
+          <li><span><LocalizedText zh="逐项索引" en="Per-item index" /></span><a href={`${site.external.projectSnowPlay}public/v1/attributions`} target="_blank" rel="noreferrer"><LocalizedText zh="公开署名 JSON ↗" en="Public attribution JSON ↗" /></a></li>
+          <li><span><LocalizedText zh="数据许可" en="Data license" /></span><a href={site.external.ccByNcSa} target="_blank" rel="noreferrer">CC BY-NC-SA 4.0 ↗</a></li>
+          <li><span><LocalizedText zh="项目代码" en="Project code" /></span><a href={site.repositories.projectSnow} target="_blank" rel="noreferrer">GPL-3.0-only ↗</a></li>
         </ul>
       </aside>
     </div>
@@ -176,23 +191,17 @@ const projectShots = [
 
   <section class="section-tight">
     <div class="container notice-panel" data-reveal>
-      <div class="section-kicker"><LocalizedText zh="私有验收 / 在线服务" en="Private acceptance / public service" /></div>
-      <h2><LocalizedText zh="v0.5.0 基线已经完成；公网服务正在部署验证，尚未开放试玩。" en="The v0.5.0 baseline is complete; the public service is under deployment validation and is not open yet." /></h2>
-      <p><LocalizedText zh="公网服务与内部工作台完全分离，默认由用户自带模型凭据；API Key 只进入短期、绑定匿名会话的加密凭据，不写入数据库。聊天历史默认保留在浏览器，反馈数据采用独立加密、去重、限流与 30 天清理。私有验收期间继续由 Cloudflare Access 隔离。" en="The public service is fully separated from the internal workspace and uses user-provided model credentials by default. API keys enter only short-lived encrypted credentials bound to an anonymous session and are not written to the database. Chat history remains in the browser by default, while feedback uses separate encryption, deduplication, rate limiting, and 30-day cleanup. Cloudflare Access remains the private acceptance gate." /></p>
-      <div class="button-row" style="margin-top: 18px"><a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer"><LocalizedText zh="查看项目运行说明 ↗" en="View setup instructions ↗" /></a></div>
+      <div class="section-kicker"><LocalizedText zh="小规模测试 / 现在可玩" en="Small-scale test / playable now" /></div>
+      <h2><LocalizedText zh="Project Snow 0.9.2 已正式开放试玩入口。" en="Project Snow 0.9.2 is now open for testing." /></h2>
+      <p><LocalizedText zh="进入前请准备受支持模型服务的 API Key，并先阅读隐私与素材说明。模型费用由你的供应商账号承担；请勿输入敏感信息，在共享设备上使用后记得清理标签页凭证与浏览器本地历史。" en="Bring an API key for a supported model provider and read the privacy and asset notice first. Model charges belong to your provider account. Do not enter sensitive information, and clear tab credentials and browser-local history after using a shared device." /></p>
+      <div class="button-row" style="margin-top: 18px"><a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="打开 Project Snow ↗" en="Open Project Snow ↗" /></a><a class="button button-secondary" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="先看隐私与素材 ↗" en="Read privacy & assets ↗" /></a></div>
     </div>
   </section>
 
   <dialog class="project-shot-lightbox" data-project-shot-lightbox aria-labelledby="project-shot-lightbox-title">
     <div class="project-shot-lightbox-frame">
-      <div class="project-shot-lightbox-bar">
-        <span id="project-shot-lightbox-title"><LocalizedText zh="Project Snow 界面预览" en="Project Snow interface preview" /></span>
-        <button type="button" data-project-shot-close aria-label="关闭大图预览">×</button>
-      </div>
-      <figure>
-        <img data-project-shot-image alt="" width="1600" height="938" />
-        <figcaption data-project-shot-caption></figcaption>
-      </figure>
+      <div class="project-shot-lightbox-bar"><span id="project-shot-lightbox-title"><LocalizedText zh="Project Snow 0.9.2 界面预览" en="Project Snow 0.9.2 interface preview" /></span><button type="button" data-project-shot-close aria-label="关闭大图预览">×</button></div>
+      <figure><img data-project-shot-image alt="" width="2559" height="1326" /><figcaption data-project-shot-caption></figcaption></figure>
     </div>
   </dialog>
 

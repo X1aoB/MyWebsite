@@ -5,7 +5,8 @@ import LocalizedText from "./LocalizedText.astro";
 const year = new Date().getFullYear();
 
 const socialLinks = [
-  { label: "GitHub", mark: "GH", href: site.githubProfile }
+  { label: "GitHub", mark: "GH", href: site.githubProfile },
+  { label: "Project Snow 试玩", mark: "PS", href: site.external.projectSnowPlay }
 ].filter((link) => link.href);
 ---
 

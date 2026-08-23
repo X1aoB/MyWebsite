@@ -13,16 +13,16 @@ export const projectSnowRecord = {
     en: "Project Snow"
   } satisfies LocalizedCopy,
   description: {
-    zh: "Project Snow 的 v0.5.0 人格与沉浸式基线已经完成；独立公网体验正在进行全量验证与私有部署验收，尚未开放试玩。",
-    en: "Project Snow's v0.5.0 persona and immersive baseline is complete. The isolated public experience is undergoing full validation and private deployment acceptance and is not open yet."
+    zh: "Project Snow 0.9.2 小规模测试版已上线：22 名角色可以在文字通讯、表情互动与 Galgame 式面对面场景之间保持连续对话。",
+    en: "Project Snow 0.9.2 is live as a small-scale test, with 22 characters sharing continuous dialogue across text communication, stickers, and visual-novel-style face-to-face scenes."
   } satisfies LocalizedCopy,
   status: {
-    zh: "v0.5.0 基线完成 · 部署验证中",
-    en: "v0.5.0 baseline complete · deployment validation"
+    zh: "v0.9.2 · 小规模测试已上线",
+    en: "v0.9.2 · small-scale test live"
   } satisfies LocalizedCopy,
-  updatedAt: "2026-08-14",
-  tags: ["Project Snow", "数据工程", "RAG", "多模态 Agent", "沉浸式 UI", "公网部署", "BYOK 安全"],
-  techStack: ["Python", "FastAPI", "PostgreSQL", "Qdrant", "Neo4j", "Docker", "Electron"],
+  updatedAt: "2026-08-23",
+  tags: ["Project Snow", "RAG", "Galgame 式交互", "SSE", "BYOK", "蓝绿部署", "隐私与许可"],
+  techStack: ["HTML/CSS/JavaScript", "IndexedDB", "Python", "FastAPI", "PostgreSQL", "Qdrant", "Neo4j", "Docker", "Caddy"],
   repository: site.repositories.projectSnow,
   url: "/projects/project-snow/"
 } as const;
