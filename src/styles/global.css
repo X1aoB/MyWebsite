@@ -8016,6 +8016,10 @@ html[data-theme="holo"] .photo-lightbox-close:hover {
   line-height: 1.75;
 }
 
+.now-item p [data-localized-text] {
+  white-space: pre-line;
+}
+
 .now-tags,
 .update-tags,
 .search-result-tags {
