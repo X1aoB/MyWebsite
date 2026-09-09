@@ -1,12 +1,12 @@
 ---
 title: "开发日志001"
-description: "Project Snow 的起点、语料查找与可复用爬虫构想。"
+description: "小吉终端 的起点、语料查找与可复用爬虫构想。"
 pubDate: 2026-07-21
 tags:
-  - Project Snow
+  - 小吉终端
   - 数据采集
   - 构想
-project: "Project Snow"
+project: "小吉终端"
 accent: ice
 draft: false
 ---

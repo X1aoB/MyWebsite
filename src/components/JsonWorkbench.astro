@@ -1,0 +1,87 @@
+---
+import LocalizedText from "./LocalizedText.astro";
+---
+
+<section class="json-workbench" aria-labelledby="json-workbench-title" data-json-workbench>
+  <header class="json-workbench-header">
+    <div>
+      <p class="section-kicker"><LocalizedText zh="从一段数据开始" en="Start with your data" /></p>
+      <h2 id="json-workbench-title"><LocalizedText zh="整理 JSON，让结构清楚一点。" en="Make your JSON easier to read." /></h2>
+    </div>
+    <span class="json-local-badge"><span aria-hidden="true">●</span><LocalizedText zh="仅在本地处理" en="Local processing only" /></span>
+  </header>
+  <p class="json-limits" id="json-limits"><LocalizedText zh="输入上限 1 MiB · 最多 64 层嵌套 · 结果上限 4 MiB。数据不会上传或保存，离开页面即清空。" en="Up to 1 MiB input, 64 nesting levels, and 4 MiB output. Nothing is uploaded or saved; data clears when you leave." /></p>
+
+  <div class="json-toolbar" aria-label="JSON 操作">
+    <div class="json-toolbar-primary">
+      <button type="button" class="json-primary" data-json-action="format"><span aria-hidden="true">≡</span><LocalizedText zh="格式化" en="Format" /></button>
+      <button type="button" data-json-action="minify"><LocalizedText zh="压缩" en="Minify" /></button>
+      <button type="button" data-json-action="validate"><LocalizedText zh="校验" en="Validate" /></button>
+      <label class="json-indent"><span><LocalizedText zh="缩进" en="Indent" /></span><select data-json-indent><option value="2">2</option><option value="4">4</option></select><span><LocalizedText zh="空格" en="spaces" /></span></label>
+    </div>
+    <div class="json-toolbar-secondary">
+      <button type="button" data-json-example><LocalizedText zh="载入示例" en="Load example" /></button>
+      <button type="button" data-json-clear><LocalizedText zh="清空" en="Clear" /></button>
+    </div>
+  </div>
+
+  <div class="json-editors">
+    <div class="json-editor">
+      <div class="json-editor-heading"><label for="json-input"><LocalizedText zh="输入" en="Input" /></label><span>JSON</span></div>
+      <textarea id="json-input" data-json-input rows="18" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="json-limits json-status" placeholder='{"hello": "world"}'></textarea>
+    </div>
+    <div class="json-editor">
+      <div class="json-editor-heading"><label for="json-output"><LocalizedText zh="结果" en="Output" /></label><span data-json-output-size>—</span></div>
+      <textarea id="json-output" data-json-output rows="18" readonly spellcheck="false" aria-describedby="json-status"></textarea>
+    </div>
+  </div>
+
+  <footer class="json-workbench-footer">
+    <p class="json-status" id="json-status" role="status" aria-live="polite" aria-atomic="true" data-json-status data-state="idle"><LocalizedText zh="粘贴 JSON，或先试试示例。" en="Paste JSON, or try the example." /></p>
+    <div class="json-result-actions">
+      <button type="button" data-json-copy disabled><LocalizedText zh="复制结果" en="Copy result" /></button>
+      <button type="button" data-json-download disabled><span aria-hidden="true">↓</span><LocalizedText zh="下载 JSON" en="Download JSON" /></button>
+    </div>
+  </footer>
+  <noscript><p><LocalizedText zh="这个工具需要启用 JavaScript。处理过程仅在当前浏览器中完成。" en="Enable JavaScript to use this tool. Processing happens only in your browser." /></p></noscript>
+</section>
+
+<script>
+  import { initializeJsonWorkbench } from "../scripts/json-workbench";
+  initializeJsonWorkbench();
+</script>
+
+<style>
+  .json-workbench { padding: clamp(18px, 3vw, 30px); background: color-mix(in srgb, var(--surface-solid) 87%, transparent); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 16px 38px color-mix(in srgb, var(--ice) 8%, transparent); }
+  .json-workbench-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .json-workbench-header h2 { max-width: none; margin: 5px 0 0; font-size: clamp(1.1rem, 1.8vw, 1.4rem); line-height: 1.45; letter-spacing: -.025em; text-wrap: balance; }
+  .json-local-badge { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; padding: 7px 10px; font-size: .68rem; font-weight: 650; color: var(--ice-bright); background: color-mix(in srgb, var(--ice) 10%, transparent); border: 1px solid var(--line); border-radius: 99px; }
+  .json-local-badge > span:first-child { font-size: .5rem; }
+  .json-limits { margin: 14px 0 20px; color: var(--muted); font-size: .75rem; line-height: 1.8; }
+  .json-toolbar, .json-toolbar-primary, .json-toolbar-secondary, .json-result-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .json-toolbar { justify-content: space-between; margin-bottom: 14px; gap: 12px; }
+  button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 9px 13px; font: inherit; font-size: .77rem; font-weight: 650; color: var(--ink); background: var(--surface-solid); border: 1px solid var(--line); border-radius: 10px; cursor: pointer; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease; }
+  button:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--ice-bright); background: color-mix(in srgb, var(--ice) 9%, var(--surface-solid)); }
+  button:active:not(:disabled) { transform: translateY(0); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .json-primary { color: var(--surface-solid); background: var(--ice-bright); border-color: var(--ice-bright); }
+  .json-primary:hover:not(:disabled) { color: var(--surface-solid); background: color-mix(in srgb, var(--ice-bright) 85%, var(--ink)); }
+  .json-indent { display: flex; align-items: center; gap: 5px; margin-left: 4px; color: var(--muted); font-size: .72rem; }
+  .json-indent select { min-height: 44px; min-width: 48px; padding: 6px; font: inherit; color: var(--ink); background: var(--surface-solid); border: 1px solid var(--line); border-radius: 8px; }
+  .json-editors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .json-editor { display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--line); border-radius: 13px; overflow: hidden; transition: border-color 180ms ease, box-shadow 180ms ease; }
+  .json-editor:focus-within { border-color: var(--ice-bright); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ice) 13%, transparent); }
+  .json-editor-heading { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; color: var(--muted); font-size: .7rem; background: color-mix(in srgb, var(--bg-deep) 70%, transparent); border-bottom: 1px solid var(--line); }
+  .json-editor-heading label { color: var(--ink); font-weight: 700; }
+  textarea { display: block; width: 100%; min-height: 350px; flex: 1; padding: 15px; box-sizing: border-box; font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace; font-size: .8rem; line-height: 1.8; tab-size: 2; color: var(--ink); background: color-mix(in srgb, var(--surface-solid) 94%, var(--bg-deep)); border: 0; outline: none; resize: vertical; white-space: pre; overflow-wrap: normal; }
+  textarea:focus-visible { outline: 2px solid var(--ice-bright); outline-offset: -3px; }
+  textarea::placeholder { color: var(--muted); opacity: .72; }
+  .json-workbench-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; margin-top: 16px; }
+  .json-status { min-height: 42px; max-width: 46ch; margin: 0; padding-top: 8px; color: var(--muted); font-size: .75rem; line-height: 1.75; }
+  .json-status[data-state="success"] { color: var(--ice-bright); }
+  .json-status[data-state="error"] { color: #a52d38; }
+  .json-result-actions { flex-shrink: 0; }
+  @media (max-width: 960px) { .json-editors { grid-template-columns: 1fr; } textarea { min-height: 280px; } .json-workbench-footer { flex-direction: column; } .json-status { min-height: 0; padding-top: 0; } }
+  @media (max-width: 560px) { .json-workbench-header { flex-direction: column; gap: 12px; } .json-limits { margin-top: 12px; } .json-toolbar-secondary { margin-left: auto; } .json-result-actions { width: 100%; } .json-result-actions button { flex: 1; } .json-indent { margin-left: 0; } }
+  @media (prefers-reduced-motion: reduce) { button, .json-editor { transition: none; } button:hover:not(:disabled) { transform: none; } }
+</style>

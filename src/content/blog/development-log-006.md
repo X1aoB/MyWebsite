@@ -3,11 +3,11 @@ title: "开发日志006"
 description: "沉浸式对话模型的阶段性测试，以及记忆、剧情关联和后续客户端部署计划。"
 pubDate: 2026-07-31
 tags:
-  - Project Snow
+  - 小吉终端
   - 沉浸式对话
   - 模型测试
   - 角色记忆
-project: "Project Snow"
+project: "小吉终端"
 accent: ice
 draft: false
 ---

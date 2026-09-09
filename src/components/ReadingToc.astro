@@ -1,0 +1,54 @@
+---
+import LocalizedText from "./LocalizedText.astro";
+import type { ReadingHeading } from "../lib/reading";
+
+interface Props {
+  headings: ReadingHeading[];
+  variant: "desktop" | "mobile";
+}
+const { headings, variant } = Astro.props;
+const Tag = variant === "desktop" ? "aside" : "div";
+const Panel = variant === "desktop" ? "section" : "details";
+const Label = variant === "desktop" ? "h2" : "summary";
+---
+
+<Tag class:list={["reading-toc", `reading-toc--${variant}`, { "site-rail": variant === "desktop" }]}>
+  <Panel class="reading-toc-panel">
+    <Label class="reading-toc-label"><LocalizedText zh="本文目录" en="On this page" /><span aria-hidden="true">{String(headings.length).padStart(2, "0")}</span></Label>
+    <nav aria-label={variant === "desktop" ? "本文目录" : "移动端本文目录"}>
+      <ol>
+        {headings.map((heading) => (
+          <li class:list={{ "is-subsection": heading.depth === 3 }}>
+            <a href={`#${heading.slug}`} data-reading-section={heading.slug} lang="zh-CN" data-no-translate>{heading.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+    <a class="reading-toc-top" href="#article-title"><LocalizedText zh="回到顶部" en="Back to top" /><span aria-hidden="true">↑</span></a>
+  </Panel>
+</Tag>
+
+<style>
+  .reading-toc { min-width: 0; }
+  .reading-toc-panel { padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+  .reading-toc-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0; color: var(--ink); font-size: 0.82rem; font-weight: 700; }
+  summary { cursor: pointer; }
+  .reading-toc-label > span:last-child { color: var(--muted); font-family: ui-monospace, monospace; }
+  nav { max-height: calc(100dvh - 200px); margin-top: 16px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  ol { display: grid; gap: 5px; list-style: none; margin: 0; padding: 0; }
+  li { margin: 0; padding: 0; }
+  li.is-subsection { padding-left: 14px; }
+  li a { display: block; padding: 8px 10px; border-left: 2px solid transparent; border-radius: 0 6px 6px 0; color: var(--muted); line-height: 1.6; font-size: 0.8rem; overflow-wrap: anywhere; }
+  li a:hover, li a[aria-current="location"] { color: var(--ice-bright); border-left-color: var(--ice); background: color-mix(in srgb, var(--ice) 9%, transparent); }
+  a:focus-visible, summary:focus-visible { outline: 2px solid var(--ice-bright); outline-offset: 3px; }
+  .reading-toc-top { display: flex; justify-content: space-between; margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.76rem; }
+  .reading-toc--mobile { margin-bottom: 28px; }
+  .reading-toc--mobile summary::after { content: "+"; font-size: 1.05rem; }
+  .reading-toc--mobile details[open] summary::after { content: "−"; }
+  .reading-toc--mobile summary > span:last-child { margin-left: auto; }
+  @media (min-width: 1200px) {
+    .reading-toc--mobile { display: none; }
+    .reading-toc--desktop { display: block; }
+  }
+  @media (max-width: 1199px) { .reading-toc--desktop { display: none; } }
+</style>

@@ -1,30 +1,25 @@
 ---
 import LocalizedText from "../components/LocalizedText.astro";
+import { getCollection } from "astro:content";
 import { now } from "../config/now";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getNowArticleSummaries, nowSectionUrl } from "../lib/now-pages";
+import "../styles/now.css";
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+const sections = now.sections.map((section) => ({ ...section, articleCount: getNowArticleSummaries(section, posts).length }));
 
 const updatedAt = new Intl.DateTimeFormat("zh-CN", {
-  year: "numeric",
-  month: "long",
-  day: "numeric"
+  timeZone: "Asia/Shanghai", year: "numeric", month: "long", day: "numeric"
 }).format(new Date(now.updatedAt));
 
-const formatItemDateTime = (date: string) =>
-  new Intl.DateTimeFormat("zh-CN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false
-  }).format(new Date(date));
 ---
 
-<BaseLayout title="Now" description="小B的日常分享、游戏讨论和项目灵感栏目。">
-  <section class="now-page">
+<BaseLayout title="Now" description="小B的日常分享、面试经历、技术文章与随机攻略。">
+  <section class="now-page" data-now-page>
     <header class="discovery-hero" data-reveal>
       <div>
-        <p class="eyebrow">Now / public note</p>
+        <p class="eyebrow">Now / public notes</p>
         <h1>Now</h1>
         <p><LocalizedText {...now.intro} /></p>
       </div>
@@ -34,35 +29,23 @@ const formatItemDateTime = (date: string) =>
       </p>
     </header>
 
-    <div class="now-board">
-      {
-        now.sections.map((section, sectionIndex) => (
-          <section
-            id={section.id}
-            class={`now-section ${section.items.length === 0 ? "now-section-empty" : ""}`}
-            data-reveal
-            style={`--reveal-delay: ${sectionIndex * 90}ms;`}
-          >
-            <header>
-              {(section.label.zh || section.label.en) && <p class="section-kicker"><LocalizedText {...section.label} /></p>}
-              <h2><LocalizedText {...section.title} /></h2>
-            </header>
-            {section.items.length > 0 && (
-              <div class="now-item-list">
-                {
-                section.items.map((item) => (
-                  <article class="now-item">
-                    <time class="now-item-time" datetime={item.publishedAt}>{formatItemDateTime(item.publishedAt)}</time>
-                    <h3><LocalizedText {...item.title} /></h3>
-                    <p><LocalizedText {...item.description} /></p>
-                  </article>
-                ))
-                }
-              </div>
-            )}
-          </section>
-        ))
-      }
+    <div class="now-categories">
+      {sections.map((section, index) => (
+        <article id={section.id} class="now-category">
+          <a class="now-category-link" href={nowSectionUrl(section.slug)} data-now-section-link>
+            <span class="now-category-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <span class="now-category-label"><LocalizedText {...section.label} /></span>
+            <h2><LocalizedText {...section.title} /></h2>
+            <span class="now-category-count"><LocalizedText zh={`${section.articleCount} 篇文章`} en={`${section.articleCount} ${section.articleCount === 1 ? "article" : "articles"}`} /></span>
+            <span class="now-category-action" aria-hidden="true"><span class="now-category-symbol">↗</span><LocalizedText zh="进入" en="Explore" /></span>
+          </a>
+        </article>
+      ))}
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  import { initializeNowSections } from "../scripts/now-sections";
+  initializeNowSections();
+</script>

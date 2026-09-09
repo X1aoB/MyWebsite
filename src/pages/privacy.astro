@@ -12,8 +12,8 @@ import { site } from "../config/site";
         <h1><LocalizedText zh="隐私与数据说明" en="Privacy & data" /></h1>
         <p>
           <LocalizedText
-            zh="这里说明本站会处理什么、不会处理什么，以及发布照片和 Project Snow 资料时需要注意的边界。"
-            en="This page explains what the site does and does not process, along with the boundaries for publishing photographs and Project Snow material."
+            zh="这里说明本站会处理什么、不会处理什么，以及发布照片和小吉终端资料时需要注意的边界。"
+            en="This page explains what the site does and does not process, along with the boundaries for publishing photographs and Xiaoji Terminal material."
           />
         </p>
       </header>
@@ -24,8 +24,8 @@ import { site } from "../config/site";
           <h2><LocalizedText zh="个人站是静态页面，试玩入口是独立服务" en="The personal site is static; the preview is a separate service" /></h2>
           <p>
             <LocalizedText
-              zh="个人站由 Astro 构建并部署在 Cloudflare Pages；模型 IQ 页面只读取 Codex Radar 的公开摘要。个人站没有账号系统，也不接收工具输入。点击 Project Snow 试玩后会进入 snow.xiaob.dev，那是具有独立隐私说明的动态服务。"
-              en="The personal site is built with Astro and deployed on Cloudflare Pages; Model IQ only reads Codex Radar's public summary. The personal site has no account system and accepts no tool input. Project Snow opens snow.xiaob.dev, a dynamic service with its own privacy notice."
+              zh="个人站由 Astro 构建并部署在 Cloudflare Pages；模型 IQ 页面只读取 Codex Radar 的公开摘要。个人站没有账号系统；JSON 工具输入仅在当前浏览器页面处理，不上传服务器，也不保存到本地存储。点击小吉终端试玩后会进入 snow.xiaob.dev，那是具有独立隐私说明的动态服务。"
+              en="The personal site is built with Astro and deployed on Cloudflare Pages; Model IQ only reads Codex Radar's public summary. The personal site has no account system. JSON tool input is processed only in the current browser page, never uploaded or saved to local storage. Xiaoji Terminal opens snow.xiaob.dev, a dynamic service with its own privacy notice."
             />
           </p>
         </article>
@@ -42,12 +42,12 @@ import { site } from "../config/site";
         </article>
 
         <article class="notice-panel" data-reveal>
-          <p class="section-kicker">Project Snow</p>
+          <p class="section-kicker">小吉终端</p>
           <h2><LocalizedText zh="API Key、聊天记录与反馈有不同边界" en="API keys, chat history, and feedback have different boundaries" /></h2>
           <p>
             <LocalizedText
-              zh="API Key 会短暂经过 Project Snow 服务器内存并发送到所选官方模型接口，但不写入数据库、磁盘、反馈或日志；加密凭证只保留在当前标签页，最长 12 小时。聊天、摘要、草稿与收藏以明文保存在当前浏览器 IndexedDB。反馈上下文可预览或取消，正文与可选加密 QQ 保存 30 天。"
-              en="An API key briefly passes through Project Snow server memory to the selected official model endpoint, but is not written to the database, disk, feedback, or logs; its encrypted credential remains in the current tab for up to 12 hours. Chats, summaries, drafts, and favorites are plaintext in the current browser's IndexedDB. Feedback context can be previewed or removed, while feedback text and optional encrypted QQ are retained for 30 days."
+              zh="API Key 会短暂经过小吉终端服务器内存并发送到所选官方模型接口，但不写入数据库、磁盘、反馈或日志；加密凭证只保留在当前标签页，最长 12 小时。聊天、摘要、草稿与收藏以明文保存在当前浏览器 IndexedDB。反馈上下文可预览或取消，正文与可选加密 QQ 保存 30 天。"
+              en="An API key briefly passes through Xiaoji Terminal server memory to the selected official model endpoint, but is not written to the database, disk, feedback, or logs; its encrypted credential remains in the current tab for up to 12 hours. Chats, summaries, drafts, and favorites are plaintext in the current browser's IndexedDB. Feedback context can be previewed or removed, while feedback text and optional encrypted QQ are retained for 30 days."
             />
           </p>
           <a class="text-link" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="阅读游戏完整隐私与素材说明 ↗" en="Read the full game privacy & asset notice ↗" /></a>
@@ -58,8 +58,8 @@ import { site } from "../config/site";
           <h2><LocalizedText zh="按需加载评论和外部链接" en="Comments and external links load on demand" /></h2>
           <p>
             <LocalizedText
-              zh="启用 Giscus 后，文章页会加载 giscus.app 和 GitHub Discussions 的评论组件；评论需要使用 GitHub 账号，相关处理遵循 GitHub 和 Giscus 的政策。模型 IQ 页面会从 codexradar.com 读取公开摘要。Project Snow 会将模型请求发送到你选择的官方供应商，并通过 Cloudflare 提供服务；具体范围见游戏自身说明。"
-              en="When Giscus is enabled, article pages load the giscus.app and GitHub Discussions comment component. Comments require a GitHub account and follow GitHub and Giscus policies. Model IQ reads a public summary from codexradar.com. Project Snow sends model requests to the official provider you choose and is served through Cloudflare; see the game's own notice for scope."
+              zh="启用 Giscus 后，文章页会加载 giscus.app 和 GitHub Discussions 的评论组件；评论需要使用 GitHub 账号，相关处理遵循 GitHub 和 Giscus 的政策。模型 IQ 页面会从 codexradar.com 读取公开摘要。小吉终端会将模型请求发送到你选择的官方供应商，并通过 Cloudflare 提供服务；具体范围见游戏自身说明。"
+              en="When Giscus is enabled, article pages load the giscus.app and GitHub Discussions comment component. Comments require a GitHub account and follow GitHub and Giscus policies. Model IQ reads a public summary from codexradar.com. Xiaoji Terminal sends model requests to the official provider you choose and is served through Cloudflare; see the game's own notice for scope."
             />
           </p>
         </article>
@@ -69,8 +69,8 @@ import { site } from "../config/site";
           <h2><LocalizedText zh="发布前自行检查公开范围" en="Check the public scope before publishing" /></h2>
           <p>
             <LocalizedText
-              zh="摄影集图片会随 Git 和静态站点一起发布。上传前请自行移除不希望公开的定位和设备信息，并只发布自己拥有版权或获得授权的照片。Project Snow 按固定修订逐项记录知识资料、头像与表情的来源、许可和处理；页面特殊声明优先，游戏及角色原始内容版权归其权利人。"
-              en="Gallery images are published with Git and the static site. Remove location and device metadata you do not wish to share, and publish only photos you own or are licensed to use. Project Snow records source, license, and transformation for knowledge, avatar, and sticker assets against fixed revisions, subject to page-specific notices; game and original character rights remain with their owners."
+              zh="摄影集图片会随 Git 和静态站点一起发布。上传前请自行移除不希望公开的定位和设备信息，并只发布自己拥有版权或获得授权的照片。小吉终端按固定修订逐项记录知识资料、头像与表情的来源、许可和处理；页面特殊声明优先，游戏及角色原始内容版权归其权利人。"
+              en="Gallery images are published with Git and the static site. Remove location and device metadata you do not wish to share, and publish only photos you own or are licensed to use. Xiaoji Terminal records source, license, and transformation for knowledge, avatar, and sticker assets against fixed revisions, subject to page-specific notices; game and original character rights remain with their owners."
             />
           </p>
         </article>

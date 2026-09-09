@@ -3,10 +3,10 @@ title: "开发日志004"
 description: "Wiki 内容整理、角色对话方向与静态网页部署准备。"
 pubDate: 2026-07-28
 tags:
-  - Project Snow
+  - 小吉终端
   - 对话伴侣
   - 部署
-project: "Project Snow"
+project: "小吉终端"
 accent: ice
 draft: false
 ---

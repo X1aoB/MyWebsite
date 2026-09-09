@@ -12,10 +12,17 @@ export type LocalizedCopy = {
 };
 
 type ProfileLink = {
-  label: string;
+  label: LocalizedCopy;
   description: LocalizedCopy;
   href: string;
 };
+
+/** Previously published contact destinations, restored from the parent of commit 5684beb. */
+export const profileContacts = {
+  bilibili: "https://space.bilibili.com/91372056",
+  steam: "https://steamcommunity.com/profiles/76561198401024601/",
+  email: "admin@xiaob.dev"
+} as const;
 
 export const profile = {
   homeHeading: {
@@ -27,8 +34,8 @@ export const profile = {
     en: "Xiao B's personal site: open-source projects, dev logs, personal experiences, and occasional photography updates."
   },
   homeLead: {
-    zh: "目前正在着手做《尘白禁区》对话项目 Project Snow，也会在这里记录开发日志、数据实践、游戏和摄影里的小碎片。",
-    en: "I’m currently working on Project Snow, a Snowbreak dialogue project. This is also where I keep dev logs, data notes, games, and small photography fragments."
+    zh: "目前正在维护《尘白禁区》对话项目小吉终端。也会在这里记录开发日志、数据实践、游戏和摄影里的小碎片。",
+    en: "I’m maintaining Xiaoji Terminal, a Snowbreak dialogue project. This is also where I keep dev logs, data notes, games, and small photography fragments."
   },
   about: {
     title: {
@@ -36,15 +43,22 @@ export const profile = {
       en: "Hi, I’m Xiao B."
     },
     summary: {
-      zh: "Project Snow 开发中 · 数据与 AI 工程实践 · 用作品记录过程",
-      en: "Building Project Snow · Data and AI engineering practice · Documenting the process through finished work"
+      zh: "大四在读 · 有外企实习经历 · 数据与 AI 工程实践",
+      en: "Final-year student · Internship experience at a foreign company · Data and AI engineering practice"
     },
     details: [
       {
         label: { zh: "现在的我", en: "Right now" },
         value: {
-          zh: "Project Snow 0.9.2 小规模测试版已经上线，目前继续根据真实反馈打磨对话体验、数据链路与部署细节。",
-          en: "Project Snow 0.9.2 is now live as a small-scale test; I am refining its dialogue experience, data pipeline, and deployment through real feedback."
+          zh: "现居上海松江，家乡四川绵阳。大四在读，有外企实习经历；实习已告一段落，目前正在准备秋招，一边维护小吉终端，一边把喜欢的东西慢慢做成作品。",
+          en: "Based in Songjiang, Shanghai and originally from Mianyang, Sichuan. I’m a final-year student with internship experience at a foreign company. My internship has finished and I’m preparing for autumn recruiting while maintaining Xiaoji Terminal and turning my interests into projects."
+        }
+      },
+      {
+        label: { zh: "当前项目", en: "Current project" },
+        value: {
+          zh: "小吉终端的新界面已展示，22 名角色与 18 种基础表情已公开。目前继续根据体验反馈完善角色对话、表情表现和交互细节。",
+          en: "Xiaoji Terminal’s new interface is on display, with 22 characters and 18 base expressions publicly available. I’m refining character dialogue, expressions, and interaction details based on feedback."
         }
       },
       {
@@ -64,19 +78,19 @@ export const profile = {
       {
         label: { zh: "这个站点", en: "This site" },
         value: {
-          zh: "Project Snow 的进度、数据开发和数据分析的实践、摄影分享、一些小工具，以及莫名其妙想啥说啥的个人博客。",
-          en: "Project Snow updates, data-development and analytics practice, photography, a few useful tools, and a personal blog for whatever I feel like saying."
+          zh: "小吉终端的进度、数据开发和数据分析的实践、摄影分享、一些小工具，以及莫名其妙想啥说啥的个人博客。",
+          en: "Xiaoji Terminal updates, data-development and analytics practice, photography, a few useful tools, and a personal blog for whatever I feel like saying."
         }
       }
     ],
     current: {
       title: {
-        zh: "维护 Project Snow 公开测试 / 修 Bug / 评估 TTS。",
-        en: "Maintaining the Project Snow public test / fixing bugs / evaluating TTS."
+        zh: "准备秋招 / 维护小吉终端 / 记录开发过程。",
+        en: "Preparing for autumn recruiting / maintaining Xiaoji Terminal / documenting the process."
       },
       description: {
-        zh: "Project Snow 的网页版试玩已经开放，目前先服务小规模测试、收集反馈并完善安全与交互，同时继续补齐数据开发、数据分析和 AI 应用方向的工程实践。",
-        en: "Project Snow's web experience is now open. I am keeping the test small while collecting feedback and improving safety and interaction, alongside continued work in data development, analytics, and applied AI."
+        zh: "继续完善小吉终端的文字通讯、面对面体验和公开角色表情，也记录开发过程、整理项目经历，补齐数据开发、数据分析与 AI 应用方向的工程实践。",
+        en: "I’m improving Xiaoji Terminal’s messaging, face-to-face experience, and public character expressions while documenting the work, reviewing my project experience, and developing practical skills in data engineering, analytics, and applied AI."
       }
     },
     contact: {
@@ -85,14 +99,14 @@ export const profile = {
         en: "I know a little about many things, but I’d much rather talk about something genuinely interesting together."
       },
       description: {
-        zh: "数据工程、知识库 / RAG、个人工具、游戏和摄影都能聊；项目反馈与技术交流可以通过 GitHub 进行。",
-        en: "Data engineering, knowledge bases / RAG, personal tools, games, and photography are all fair game. Project feedback and technical discussion are welcome on GitHub."
+        zh: "数据工程、知识库 / RAG、个人工具、游戏、摄影、乒乓球和徒步都能聊；工作相关沟通、项目反馈与技术交流可以通过 GitHub 或 admin@xiaob.dev 联系。",
+        en: "Data engineering, knowledge bases / RAG, personal tools, games, photography, table tennis, and hiking are all fair game. For professional contact, project feedback, or technical discussion, reach me through GitHub or admin@xiaob.dev."
       }
     }
   },
   links: [
     {
-      label: "GitHub",
+      label: { zh: "GitHub", en: "GitHub" },
       description: {
         zh: "代码、项目与提交记录",
         en: "Code, projects, and commit history"
@@ -100,7 +114,7 @@ export const profile = {
       href: site.githubProfile
     },
     {
-      label: "Project Snow",
+      label: { zh: "小吉终端源码", en: "Xiaoji Terminal source" },
       description: {
         zh: "尘白禁区知识库与对话项目源码",
         en: "Snowbreak knowledge-base and dialogue project source"
@@ -108,12 +122,27 @@ export const profile = {
       href: site.repositories.projectSnow
     },
     {
-      label: "Project Snow 试玩",
+      label: { zh: "小吉终端试玩", en: "Try Xiaoji Terminal" },
       description: {
-        zh: "0.9.2 小规模公开测试入口",
-        en: "0.9.2 small-scale public test"
+        zh: "新版界面与角色对话的公开体验入口",
+        en: "Public access to the new interface and character conversations"
       },
       href: site.external.projectSnowPlay
+    },
+    {
+      label: { zh: "Bilibili", en: "Bilibili" },
+      description: { zh: "游戏、视频与日常内容", en: "Games, videos, and everyday posts" },
+      href: profileContacts.bilibili
+    },
+    {
+      label: { zh: "Steam", en: "Steam" },
+      description: { zh: "游戏主页与公开资料", en: "Game profile and public activity" },
+      href: profileContacts.steam
+    },
+    {
+      label: { zh: "域名邮箱", en: "Email" },
+      description: { zh: "admin@xiaob.dev · 项目、数据开发与合作交流", en: "admin@xiaob.dev · Projects, data development, and collaboration" },
+      href: `mailto:${profileContacts.email}`
     }
   ] satisfies ProfileLink[]
 } as const;

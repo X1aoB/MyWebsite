@@ -4,7 +4,7 @@ export const site = {
   name: "Xiao B · Data & Systems",
   shortName: "Xiao B",
   displayName: "小B",
-  description: "小B 的个人站：记录 Project Snow、数据开发与分析实践、摄影和个人工具。",
+  description: "小B 的个人站：记录小吉终端、数据开发与分析实践、摄影和个人工具。",
   locale: "zh-CN",
   url: configuredSiteUrl || "https://xiaob.dev",
   githubAccount: "X1aoB",
@@ -20,8 +20,8 @@ export const site = {
       en: "Original articles and photography on this site are reserved."
     },
     projectSnow: {
-      zh: "Project Snow 数据许可（以来源页面声明为准）：",
-      en: "Project Snow data license, subject to source-page notices:"
+      zh: "小吉终端数据许可（以来源页面声明为准）：",
+      en: "Xiaoji Terminal data license, subject to source-page notices:"
     },
     rights: {
       zh: "游戏及角色原始内容版权归其权利人所有。",
@@ -32,8 +32,8 @@ export const site = {
       en: "Themes: Snowbreak / Spice & Wolf · interface and motion by Xiao B"
     },
     status: {
-      zh: "个人站运行于 Cloudflare Pages；Project Snow 作为独立服务开放小规模测试，暂未接入统一实时 uptime 监控。",
-      en: "The personal site runs on Cloudflare Pages; Project Snow is a separate small-scale public test, without unified live uptime monitoring yet."
+      zh: "个人站运行于 Cloudflare Pages；小吉终端作为独立服务开放小规模测试，暂未接入统一实时 uptime 监控。",
+      en: "The personal site runs on Cloudflare Pages; Xiaoji Terminal is a separate small-scale public test, without unified live uptime monitoring yet."
     }
   },
   media: {
@@ -63,7 +63,7 @@ export const site = {
 export const navigation = [
   { href: "/", label: "首页", icon: "⌂", spiceIcon: "apple" },
   { href: "/journal/", label: "开发日志", icon: "≡", spiceIcon: "wheat" },
-  { href: "/projects/project-snow/", label: "Project Snow", icon: "✦", spiceIcon: "constellation" },
+  { href: "/projects/project-snow/", label: "小吉终端", icon: "✦", spiceIcon: "constellation" },
   { href: "/tools/", label: "工具", icon: "⌘", spiceIcon: "tool-grid" },
   { href: "/gallery/", label: "摄影集", icon: "◌", spiceIcon: "field" },
   { href: "/now/", label: "Now", icon: "◔", spiceIcon: "coin" },

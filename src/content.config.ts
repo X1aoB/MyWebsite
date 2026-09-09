@@ -49,7 +49,7 @@ const gallery = defineCollection({
 });
 
 /**
- * Future portfolio cases are kept separate from the hand-built Project Snow
+ * Future portfolio cases are kept separate from the hand-built 小吉终端
  * page. Adding a Markdown file is enough to publish a new public case.
  */
 const projects = defineCollection({

@@ -1,14 +1,14 @@
 ---
 title: "开发日志008"
-description: "Project Snow 的 Gal 化沉浸式 UI、面对面事件、16 核服务器部署与公网安全准备。"
+description: "小吉终端 的 Gal 化沉浸式 UI、面对面事件、16 核服务器部署与公网安全准备。"
 pubDate: 2026-08-14
 tags:
-  - Project Snow
+  - 小吉终端
   - 沉浸式对话
   - UI 优化
   - 公网部署
   - 安全
-project: "Project Snow"
+project: "小吉终端"
 accent: ice
 draft: false
 ---

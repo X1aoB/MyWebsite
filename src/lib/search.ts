@@ -1,4 +1,4 @@
-export const searchSources = ["journal", "gallery", "project", "now"] as const;
+export const searchSources = ["journal", "gallery", "project", "now", "tool"] as const;
 
 export type SearchSource = (typeof searchSources)[number];
 
@@ -15,7 +15,7 @@ export type SearchIndexEntry = {
   location: SearchLocalizedValue;
   tags: string[];
   url: string;
-  date: string;
+  date?: string;
   searchText: string;
 };
 
@@ -29,8 +29,12 @@ export const sourceLabels: Record<SearchSource, SearchLocalizedValue> = {
   journal: { zh: "开发日志", en: "Dev log" },
   gallery: { zh: "摄影集", en: "Photography" },
   project: { zh: "项目", en: "Project" },
-  now: { zh: "Now", en: "Now" }
+  now: { zh: "Now", en: "Now" },
+  tool: { zh: "工具", en: "Tool" }
 };
+
+export const isSearchSource = (value: string): value is SearchSource =>
+  (searchSources as readonly string[]).includes(value);
 
 export const normalizeSearchText = (value: string) =>
   value
@@ -47,9 +51,9 @@ export const filterSearchEntries = (entries: readonly SearchIndexEntry[], filter
   const query = normalizeSearchText(filters.query ?? "");
   const tokens = query ? query.split(" ").filter(Boolean) : [];
 
-  return entries.filter((entry) => {
-    if (filters.source && filters.source !== "all" && entry.source !== filters.source) return false;
-    if (filters.tag && filters.tag !== "all" && !entry.tags.includes(filters.tag)) return false;
+  return entries.flatMap((entry, order) => {
+    if (filters.source && filters.source !== "all" && entry.source !== filters.source) return [];
+    if (filters.tag && filters.tag !== "all" && !entry.tags.includes(filters.tag)) return [];
 
     const haystack = normalizeSearchText(
       [
@@ -66,8 +70,20 @@ export const filterSearchEntries = (entries: readonly SearchIndexEntry[], filter
       ].join(" ")
     );
 
-    return tokens.every((token) => haystack.includes(token));
-  });
+    if (!tokens.every((token) => haystack.includes(token))) return [];
+    if (!query) return [{ entry, score: 0, order }];
+
+    const titles = [entry.title.zh, entry.title.en].map(normalizeSearchText);
+    const tags = normalizeSearchText(entry.tags.join(" "));
+    const description = normalizeSearchText(`${entry.description.zh} ${entry.description.en}`);
+    // A title match always outranks a body-only match, independent of publication date.
+    const titleScore = titles.some((title) => title === query) ? 1000
+      : titles.some((title) => title.startsWith(query)) ? 800
+      : titles.some((title) => title.includes(query)) ? 600
+      : tokens.every((token) => titles.some((title) => title.includes(token))) ? 400 : 0;
+    const detailScore = tokens.reduce((score, token) => score + (tags.includes(token) ? 30 : description.includes(token) ? 10 : 0), 0);
+    return [{ entry, score: titleScore + Math.min(detailScore, 99), order }];
+  }).sort((a, b) => b.score - a.score || a.order - b.order).map(({ entry }) => entry);
 };
 
 export const getSearchTags = (entries: readonly SearchIndexEntry[]) =>

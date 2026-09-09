@@ -3,17 +3,17 @@ import { site } from "../config/site";
 import LocalizedText from "./LocalizedText.astro";
 ---
 
-<header class="preference-bar" data-preference-bar aria-label="站点设置" inert>
+<header id="site-preferences" class="preference-bar" data-preference-bar aria-label="站点设置" inert>
   <div class="preference-bar-inner">
     <a class="preference-brand" href="/" aria-label={`${site.name} 首页`}>
-      <span class="preference-mark"><img src={site.media.avatar.src} alt="" /></span>
+      <span class="preference-mark"><img src="/images/characters/holo-avatar-96.webp" alt="" width="96" height="96" decoding="async" /></span>
       <span>
         <strong>{site.displayName}</strong>
         <small>Data &amp; Systems</small>
       </span>
     </a>
 
-    <form class="preference-search" role="search" data-site-search-form>
+    <form class="preference-search" role="search" action="/search/" data-site-search-form>
       <label class="sr-only" for="site-search-input"><LocalizedText zh="搜索全站内容" en="Search the site" /></label>
       <span class="preference-search-icon" aria-hidden="true"></span>
       <input
@@ -40,7 +40,12 @@ import LocalizedText from "./LocalizedText.astro";
       <span class="sr-only"><LocalizedText zh="搜索全站" en="Search the site" /></span>
     </button>
 
-    <div class="preference-controls">
+    <button class="preference-settings-toggle" type="button" data-preference-trigger aria-expanded="false" aria-controls="preference-controls">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="var(--surface-solid)"/><circle cx="16" cy="17" r="3" fill="var(--surface-solid)"/></svg>
+      <span class="sr-only"><LocalizedText zh="外观设置" en="Appearance" /></span>
+    </button>
+
+    <div id="preference-controls" class="preference-controls">
       <div class="preference-group" role="group" aria-label="主题">
         <span class="preference-label">主题</span>
         <div class="preference-segment">
@@ -63,5 +68,6 @@ import LocalizedText from "./LocalizedText.astro";
         </div>
       </div>
     </div>
+    <span class="sr-only" role="status" data-preference-status></span>
   </div>
 </header>

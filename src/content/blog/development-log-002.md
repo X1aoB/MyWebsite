@@ -3,10 +3,10 @@ title: "开发日志002"
 description: "根据计划开始编写爬虫并提取语料的记录。"
 pubDate: 2026-07-23
 tags:
-  - Project Snow
+  - 小吉终端
   - 爬虫
   - 语料
-project: "Project Snow"
+project: "小吉终端"
 accent: mint
 draft: false
 ---

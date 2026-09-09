@@ -1,4 +1,8 @@
 ---
+import { getGalleryImage } from "../lib/gallery-images";
+import "../styles/gallery.css";
+import "../styles/gallery-navigation.css";
+
 type PhotoAspect = "landscape" | "portrait" | "square";
 
 interface GalleryPhoto {
@@ -32,6 +36,12 @@ interface Props {
 }
 
 const { photoSets } = Astro.props;
+const images = new Map(await Promise.all(
+  [...new Set(photoSets.flatMap((set) => [set.data.cover.image, ...set.data.photos.map((photo) => photo.image)]))]
+    .map(async (source) => [source, await getGalleryImage(source)] as const)
+));
+const coverSizes = "(max-width: 760px) calc(100vw - 36px), (max-width: 1100px) 45vw, 400px";
+const storySizes = "(max-width: 760px) calc((100vw - 76px) / 2), (max-width: 1080px) calc((100vw - 140px) / 3), 300px";
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(date);
 ---
@@ -60,9 +70,14 @@ const formatDate = (date: Date) =>
           >
             <span class="gallery-set-cover">
               <img
-                src={photoSet.data.cover.image}
+                src={images.get(photoSet.data.cover.image)!.src}
+                srcset={images.get(photoSet.data.cover.image)!.srcset}
+                sizes={coverSizes}
+                width={images.get(photoSet.data.cover.image)!.width}
+                height={images.get(photoSet.data.cover.image)!.height}
                 alt={photoSet.data.cover.alt}
-                loading={index > 1 ? "lazy" : "eager"}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchpriority={index === 0 ? "high" : "auto"}
                 decoding="async"
               />
               <span class="gallery-set-cover-wash" aria-hidden="true"></span>
@@ -91,6 +106,17 @@ const formatDate = (date: Date) =>
               </span>
             </span>
           </button>
+
+          <noscript>
+            <details class="gallery-without-script">
+              <summary>浏览这套摄影的 {photoSet.data.photos.length} 张照片</summary>
+              <ol>
+                {photoSet.data.photos.map((photo) => (
+                  <li><a href={photo.image}>{photo.alt}</a></li>
+                ))}
+              </ol>
+            </details>
+          </noscript>
 
           <dialog
             id={dialogId}
@@ -153,12 +179,16 @@ const formatDate = (date: Date) =>
                         data-photo-lightbox-open
                         data-photo-lightbox-src={photo.image}
                         data-photo-lightbox-alt={photo.alt}
+                        data-photo-width={images.get(photo.image)!.width}
+                        data-photo-height={images.get(photo.image)!.height}
                       >
                         <img
-                          src={photo.image}
+                          data-photo-src={images.get(photo.image)!.src}
+                          data-photo-srcset={images.get(photo.image)!.srcset}
+                          sizes={storySizes}
                           alt={photo.alt}
-                          width={photo.aspect === "portrait" ? 900 : 1200}
-                          height={photo.aspect === "portrait" ? 1200 : 900}
+                          width={images.get(photo.image)!.width}
+                          height={images.get(photo.image)!.height}
                           loading="lazy"
                           decoding="async"
                         />
@@ -176,7 +206,7 @@ const formatDate = (date: Date) =>
   }
 </ol>
 
-<dialog class="photo-lightbox" data-photo-lightbox aria-labelledby="photo-lightbox-title">
+<dialog class="photo-lightbox" data-photo-lightbox data-no-translate aria-labelledby="photo-lightbox-title">
   <div class="photo-lightbox-frame">
     <p id="photo-lightbox-title" class="sr-only">大图预览</p>
     <button class="photo-lightbox-close" type="button" aria-label="关闭大图预览" data-photo-lightbox-close>
@@ -195,161 +225,20 @@ const formatDate = (date: Date) =>
         <span class="photo-lightbox-zoom-out">−</span>
       </span>
     </button>
+    <div class="photo-lightbox-navigation" aria-label="照片导航" data-photo-navigation>
+      <button class="photo-lightbox-step" type="button" aria-label="上一张" data-photo-previous>
+        <span aria-hidden="true">←</span><span data-photo-previous-label>上一张</span>
+      </button>
+      <output class="photo-lightbox-count" data-photo-count aria-live="polite" aria-atomic="true"></output>
+      <button class="photo-lightbox-step" type="button" aria-label="下一张" data-photo-next>
+        <span data-photo-next-label>下一张</span><span aria-hidden="true">→</span>
+      </button>
+    </div>
+    <p class="photo-lightbox-feedback" data-photo-feedback hidden role="status"></p>
   </div>
 </dialog>
 
 <script>
-  const initializePhotoSetDialogs = () => {
-    const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-photo-set-open]"));
-    const dialogs = Array.from(document.querySelectorAll<HTMLDialogElement>("[data-photo-set-dialog]"));
-    const lightbox = document.querySelector<HTMLDialogElement>("[data-photo-lightbox]");
-    const lightboxImage = lightbox?.querySelector<HTMLImageElement>("[data-photo-lightbox-image]");
-    const lightboxZoomControl = lightbox?.querySelector<HTMLButtonElement>("[data-photo-lightbox-zoom]");
-    const lightboxTriggers = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-photo-lightbox-open]"));
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const observers = new WeakMap<HTMLDialogElement, IntersectionObserver>();
-    const triggerByDialog = new WeakMap<HTMLDialogElement, HTMLButtonElement>();
-
-    const revealDialogFrames = (dialog: HTMLDialogElement) => {
-      const frames = Array.from(dialog.querySelectorAll<HTMLElement>("[data-dialog-reveal]"));
-      observers.get(dialog)?.disconnect();
-
-      if (prefersReducedMotion.matches) {
-        frames.forEach((frame) => frame.classList.add("is-visible"));
-        return;
-      }
-
-      frames.forEach((frame) => frame.classList.remove("is-visible"));
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { root: dialog, threshold: 0.16 }
-      );
-      frames.forEach((frame) => observer.observe(frame));
-      observers.set(dialog, observer);
-    };
-
-    const openDialog = (trigger: HTMLButtonElement, syncHash = true) => {
-      const dialogId = trigger.dataset.dialogId;
-      const dialog = dialogId ? document.getElementById(dialogId) : null;
-      if (!(dialog instanceof HTMLDialogElement) || typeof dialog.showModal !== "function") return;
-
-      triggerByDialog.set(dialog, trigger);
-      if (!dialog.open) dialog.showModal();
-      revealDialogFrames(dialog);
-
-      const hashId = trigger.dataset.photoSetHash;
-      if (syncHash && hashId && window.location.hash !== `#${hashId}`) {
-        window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${hashId}`);
-      }
-    };
-
-    triggers.forEach((trigger) => trigger.addEventListener("click", () => openDialog(trigger)));
-
-    dialogs.forEach((dialog) => {
-      dialog.querySelector<HTMLButtonElement>("[data-photo-set-close]")?.addEventListener("click", () => dialog.close());
-
-      dialog.addEventListener("click", (event) => {
-        if (event.target === dialog) dialog.close();
-      });
-
-      dialog.addEventListener("close", () => {
-        observers.get(dialog)?.disconnect();
-        const hashId = dialog.dataset.photoSetHash;
-        if (hashId && window.location.hash === `#${hashId}`) {
-          window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
-        }
-        triggerByDialog.get(dialog)?.focus();
-      });
-    });
-
-    if (lightbox && lightboxImage && lightboxZoomControl && typeof lightbox.showModal === "function") {
-      let lightboxTrigger: HTMLButtonElement | undefined;
-
-      const resetLightboxZoom = () => {
-        lightboxZoomControl.setAttribute("aria-pressed", "false");
-        lightboxZoomControl.style.removeProperty("--photo-zoom-x");
-        lightboxZoomControl.style.removeProperty("--photo-zoom-y");
-      };
-
-      const closeLightbox = () => {
-        if (lightbox.open) lightbox.close();
-      };
-
-      lightboxTriggers.forEach((trigger) => {
-        trigger.addEventListener("click", () => {
-          const src = trigger.dataset.photoLightboxSrc;
-          const alt = trigger.dataset.photoLightboxAlt;
-          if (!src) return;
-          lightboxTrigger = trigger;
-          resetLightboxZoom();
-          lightboxImage.src = src;
-          lightboxImage.alt = alt || "";
-          if (!lightbox.open) lightbox.showModal();
-        });
-      });
-
-      lightboxZoomControl.addEventListener("click", (event) => {
-        const shouldZoom = lightboxZoomControl.getAttribute("aria-pressed") !== "true";
-
-        if (shouldZoom) {
-          const rect = lightboxZoomControl.getBoundingClientRect();
-          const hasPointerPosition =
-            event.clientX >= rect.left &&
-            event.clientX <= rect.right &&
-            event.clientY >= rect.top &&
-            event.clientY <= rect.bottom;
-          const zoomX = hasPointerPosition ? ((event.clientX - rect.left) / rect.width) * 100 : 50;
-          const zoomY = hasPointerPosition ? ((event.clientY - rect.top) / rect.height) * 100 : 50;
-          lightboxZoomControl.style.setProperty("--photo-zoom-x", `${Math.max(0, Math.min(100, zoomX))}%`);
-          lightboxZoomControl.style.setProperty("--photo-zoom-y", `${Math.max(0, Math.min(100, zoomY))}%`);
-        }
-
-        lightboxZoomControl.setAttribute("aria-pressed", String(shouldZoom));
-      });
-
-      lightbox.querySelector<HTMLButtonElement>("[data-photo-lightbox-close]")?.addEventListener("click", closeLightbox);
-      lightbox.addEventListener("click", (event) => {
-        if (event.target === lightbox) closeLightbox();
-      });
-      lightbox.addEventListener("cancel", (event) => {
-        event.preventDefault();
-        closeLightbox();
-      });
-      lightbox.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          event.preventDefault();
-          closeLightbox();
-        }
-      });
-      lightbox.addEventListener("close", () => {
-        resetLightboxZoom();
-        lightboxImage.removeAttribute("src");
-        lightboxImage.alt = "";
-        lightboxTrigger?.focus();
-      });
-    }
-
-    const openFromHash = () => {
-      const hashId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
-      if (!hashId.startsWith("photo-set-")) return;
-      const trigger = triggers.find((item) => item.dataset.photoSetHash === hashId);
-      if (trigger) openDialog(trigger, false);
-    };
-
-    openFromHash();
-    window.addEventListener("hashchange", openFromHash);
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initializePhotoSetDialogs, { once: true });
-  } else {
-    initializePhotoSetDialogs();
-  }
+  import { initializeGallery } from "../scripts/gallery";
+  initializeGallery();
 </script>

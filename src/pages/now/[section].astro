@@ -1,0 +1,47 @@
+---
+import LocalizedText from "../../components/LocalizedText.astro";
+import { getCollection } from "astro:content";
+import { now, type NowSection } from "../../config/now";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatNowDateTime, getNowArticleSummaries } from "../../lib/now-pages";
+import "../../styles/now.css";
+
+export function getStaticPaths() {
+  return now.sections.map((section) => ({ params: { section: section.slug }, props: { section } }));
+}
+interface Props { section: NowSection; }
+const { section } = Astro.props;
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+const articles = getNowArticleSummaries(section, posts);
+---
+
+<BaseLayout title={section.title.zh} description={`小B的${section.title.zh}，共 ${articles.length} 篇文章。`}>
+  <section class="now-page now-module-page">
+    <nav class="now-breadcrumb" aria-label="栏目导航"><a href="/now/">Now</a><span aria-hidden="true">/</span><span aria-current="page"><LocalizedText {...section.title} /></span></nav>
+    <header class="discovery-hero now-module-hero" data-reveal>
+      <div>
+        <p class="eyebrow"><LocalizedText {...section.label} /></p>
+        <h1><LocalizedText {...section.title} /></h1>
+        <p><LocalizedText zh="从这里进入每一篇完整记录。" en="Read each note in full." /></p>
+      </div>
+      <p class="now-module-count"><strong>{articles.length}</strong><span><LocalizedText zh="篇文章" en={articles.length === 1 ? "article" : "articles"} /></span></p>
+    </header>
+
+    {articles.length > 0 ? (
+      <div class="now-story-list">
+        {articles.map((item) => (
+          <article class="now-story">
+            <a class="now-story-card" href={item.url}>
+              <time class="now-entry-time" datetime={item.publishedAt}><LocalizedText zh={formatNowDateTime(item.publishedAt, "zh-CN", item.includeTime)} en={formatNowDateTime(item.publishedAt, "en-US", item.includeTime)} /></time>
+              <h2 lang={item.source === "journal" ? "zh-CN" : undefined}><LocalizedText {...item.title} /></h2>
+              <p lang={item.source === "journal" ? "zh-CN" : undefined}><LocalizedText {...item.description} /></p>
+              <span class="now-story-read"><LocalizedText zh="阅读全文" en="Read article" /><span aria-hidden="true">→</span></span>
+            </a>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="now-empty-state"><span aria-hidden="true">—</span><p><LocalizedText zh="这个栏目暂无文章。" en="No articles in this section yet." /></p><a class="text-link" href="/now/"><LocalizedText zh="返回全部栏目" en="Back to all sections" /><span aria-hidden="true">→</span></a></div>
+    )}
+  </section>
+</BaseLayout>

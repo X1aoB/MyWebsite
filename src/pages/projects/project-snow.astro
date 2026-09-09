@@ -1,206 +1,174 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/project.css";
 import Giscus from "../../components/Giscus.astro";
 import LocalizedText from "../../components/LocalizedText.astro";
 import { site } from "../../config/site";
+import { projectSnow } from "../../config/project-snow";
+import { xiaojiScreenshots, getXiaojiScreenshot } from "../../assets/xiaoji-terminal/screenshots";
 
-const projectShots = [
-  {
-    src: "/images/project-snow/text-communication.webp",
-    width: 2559,
-    height: 1326,
-    alt: "Project Snow 0.9.2 文字通讯界面，左侧展示角色列表，右侧展示苔丝与分析员的对话",
-    type: { zh: "文字通讯", en: "Text communication" },
-    title: { zh: "从通讯器开始，与 22 名角色保持日常联系", en: "Start in the communicator and stay in touch with 22 characters" },
-    description: {
-      zh: "搜索、切换或收藏角色，像聊天软件一样自由输入话题；对话与草稿保存在当前浏览器，也可以从通讯中发出见面邀请，走到她所在的场景。",
-      en: "Search, switch, or favorite characters and chat through a familiar messenger interface. Conversations and drafts stay in this browser, and an invitation can move the interaction into her current scene."
-    }
-  },
-  {
-    src: "/images/project-snow/sticker-library.webp",
-    width: 2559,
-    height: 1330,
-    alt: "Project Snow 表情选择器，展示最近、当前角色、通用、收藏和全部分类",
-    type: { zh: "表情互动", en: "Sticker interaction" },
-    title: { zh: "让语气不只依赖一段文字", en: "Let tone live beyond a block of text" },
-    description: {
-      zh: "363 项表情按最近使用、当前角色、通用与收藏分类，也可以按名称或情绪检索。每项公开素材都在游戏内保留固定修订、许可依据与处理记录。",
-      en: "A library of 363 stickers is grouped by recents, current character, general use, and favorites, with name and emotion search. Every public asset keeps a fixed revision, license basis, and transformation record."
-    }
-  },
-  {
-    src: "/images/project-snow/face-to-face-scene.webp",
-    width: 2559,
-    height: 1326,
-    alt: "Project Snow 面对面模式，展示资料室场景、恩雅立绘、环境叙述和角色对白",
-    type: { zh: "面对面", en: "Face to face" },
-    title: { zh: "从聊天框走进 Galgame 式场景", en: "Step out of the chat box and into a visual-novel-style scene" },
-    description: {
-      zh: "地点、人物状态、动作叙述与分段对白共同组成一次见面。你可以说话，也可以只写动作；到场时还有概率由角色先注意到你并开口。",
-      en: "Location, character state, action narration, and segmented dialogue form each encounter. Speak, enter only an action, or arrive to a probabilistic character-first greeting."
-    }
-  },
-  {
-    src: "/images/project-snow/contextual-feedback.webp",
-    width: 2559,
-    height: 1334,
-    alt: "Project Snow 反馈弹窗，展示上下文预览、问题说明和可选 QQ 输入框",
-    type: { zh: "测试反馈", en: "Test feedback" },
-    title: { zh: "带着最小必要上下文反馈，不必从头复述", en: "Report an issue with only the context it needs" },
-    description: {
-      zh: "提交前可以预览或关闭随反馈附带的一问一答，再补充复现步骤；QQ 完全可选并加密保存，反馈正文与 QQ 按 30 天期限清理。",
-      en: "Preview or remove the attached question-and-answer context before adding reproduction steps. QQ is optional and encrypted; feedback text and QQ follow a 30-day retention window."
-    }
-  }
+const projectShots = await Promise.all(xiaojiScreenshots.map(async (shot) => ({ ...shot, image: await getXiaojiScreenshot(shot.src) })));
+const fullScreenshotSizes = "(max-width: 760px) calc(100vw - 34px), (max-width: 1199px) calc(100vw - 254px), (max-width: 1536px) calc(95.4vw - 472px), 992px";
+// The two supporting cards become columns once the main container reaches 620px.
+const supportingScreenshotSizes = "(max-width: 651px) calc(100vw - 34px), (max-width: 760px) calc(50vw - 26.5px), (max-width: 871px) calc(100vw - 254px), (max-width: 1199px) calc(50vw - 136.5px), (max-width: 1536px) calc(47.7vw - 245.5px), 487px";
+
+const startingSteps = [
+  { title: { zh: "准备模型", en: "Connect a model" }, description: { zh: "选择受支持的模型服务，填写自己的 API Key。无需注册，模型费用由你的供应商账号承担。", en: "Choose a supported provider and enter your API key. No registration is needed; model usage is billed by your provider." } },
+  { title: { zh: "认识角色", en: "Choose a character" }, description: { zh: "找到想聊天的角色，从一个话题、一句问候或一张表情开始。", en: "Find someone to talk to and begin with a topic, a greeting, or a sticker." } },
+  { title: { zh: "让故事继续", en: "Keep the story going" }, description: { zh: "留在通讯器里续聊，或发出见面邀请，把对话接到面对面的场景中。", en: "Continue in the messenger or send an invitation to carry the conversation into a face-to-face scene." } }
 ];
 ---
 
-<BaseLayout title="Project Snow" description="Project Snow 0.9.2 小规模测试版已上线：22 名角色、文字通讯、表情互动与 Galgame 式面对面场景。">
-  <section class="section">
-    <div class="container project-hero">
-      <article class="project-summary" data-reveal>
-        <div class="eyebrow">PROJECT / 01 · PUBLIC TEST 0.9.2</div>
-        <h1>Project Snow</h1>
-        <p><LocalizedText zh="基于《尘白禁区》公开 Wiki 资料构建的非官方、非商业 AI 角色互动实验。它不只给模型一段角色设定，而是把证据检索、人物关系、当前地点和对话连续性接进同一套体验；现在可以在文字通讯与 Galgame 式面对面场景之间来回切换。" en="An unofficial, non-commercial AI character-interaction experiment built from public Snowbreak Wiki material. Instead of relying on one character prompt, it connects evidence retrieval, relationships, location, and dialogue continuity in one experience that moves between text communication and visual-novel-style face-to-face scenes." /></p>
-        <div class="button-row" style="margin-top: 24px">
-          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="开始试玩 ↗" en="Play now ↗" /></a>
-          <a class="button button-secondary" href="/journal/?project=project-snow"><LocalizedText zh="阅读开发日志" en="Read dev logs" /></a>
-          <a class="button button-secondary" href={site.repositories.projectSnow} target="_blank" rel="noreferrer"><LocalizedText zh="查看源码 ↗" en="View source ↗" /></a>
-        </div>
-      </article>
-      <aside class="status-panel" data-reveal>
-        <div>
-          <span class="status-badge"><LocalizedText zh="v0.9.2 · 小规模测试已上线" en="v0.9.2 · small-scale test is live" /></span>
-          <strong><LocalizedText zh="免注册，自带模型 API Key 即可开始" en="No registration; bring your own model API key" /></strong>
-          <p><LocalizedText zh="公开版提供 5 个固定模型服务适配器。API Key 会短暂经过 Project Snow 服务器内存并发送到你选择的官方模型接口，但不会写入数据库、磁盘、反馈或日志；加密凭证只保留在当前标签页，最长 12 小时。" en="The public build offers five fixed model-provider adapters. Your API key briefly passes through Project Snow server memory to the selected official model endpoint, but is not written to the database, disk, feedback, or logs. Its encrypted credential remains only in the current tab for up to 12 hours." /></p>
-        </div>
-        <div class="tag-list"><span class="tag">FastAPI</span><span class="tag">IndexedDB</span><span class="tag">SSE</span><span class="tag">Qdrant</span><span class="tag">Neo4j</span><span class="tag">Docker</span></div>
-      </aside>
-    </div>
-  </section>
+<BaseLayout title="小吉终端" description={projectSnow.summary.zh + " 公开体验版本 " + projectSnow.publicVersion + "，最新进度更新于 " + projectSnow.updatedAt + "。"}>
+  <article class="snow-page">
+    <header class="snow-hero" data-reveal>
+      <div class="snow-hero-meta">
+        <p class="snow-kicker"><LocalizedText {...projectSnow.productName} /> / CHARACTER DIALOGUE</p>
+        <span class="snow-live-badge"><span aria-hidden="true"></span><LocalizedText {...projectSnow.status} /></span>
+      </div>
+      <h1><LocalizedText {...projectSnow.productName} /></h1>
+      <p class="snow-hero-intro"><LocalizedText {...projectSnow.intro} /></p>
+      <p class="snow-hero-description"><LocalizedText {...projectSnow.summary} /></p>
+      <div class="snow-actions">
+        <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="开始试玩 ↗" en="Play now ↗" /></a>
+        <a class="button button-secondary" href="#snow-experience"><LocalizedText zh="先了解怎么玩 ↓" en="Explore the experience ↓" /></a>
+      </div>
+      <p class="snow-hero-note"><LocalizedText zh="无需注册 · 自备模型 API Key · 浏览器内保存聊天记录" en="No registration · Bring your own API key · Browser-local chat history" /></p>
+      <nav class="snow-section-nav" aria-label="项目页章节" data-zh-label="项目页章节" data-en-label="Project page sections">
+        <a href="#progress-title"><LocalizedText zh="最新进度" en="Latest progress" /><span aria-hidden="true">↗</span></a>
+        <a href="#showcase-title"><LocalizedText zh="实机界面" en="Screenshots" /><span aria-hidden="true">↗</span></a>
+        <a href="#snow-details"><LocalizedText zh="技术与说明" en="Technical details" /><span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
 
-  <section class="section-tight" aria-labelledby="snapshot-title">
-    <div class="container">
-      <div class="section-header" data-reveal>
-        <div>
-          <div class="section-kicker"><LocalizedText zh="0.9.2 公开快照" en="0.9.2 public snapshot" /></div>
-          <h2 id="snapshot-title"><LocalizedText zh="把角色、场景、资料与反馈接成一段可以继续的体验。" en="Characters, scenes, sources, and feedback now form one continuous experience." /></h2>
-        </div>
-        <p><LocalizedText zh="当前入口定位为小规模测试，不设置注册、付费墙或商业推广。知识数据版本为 2026.08.19.1；这些数字来自线上配置与公开署名索引。" en="The current entry is a small-scale test with no registration, paywall, or commercial promotion. The knowledge-data version is 2026.08.19.1; these figures come from the live configuration and public attribution indexes." /></p>
+    <section class="snow-section" id="snow-experience" aria-labelledby="snow-experience-title">
+      <div class="snow-section-heading" data-reveal>
+        <p class="snow-kicker">01 / EXPERIENCE</p>
+        <h2 id="snow-experience-title"><LocalizedText zh="两种相处方式，同一段日常。" en="Two ways to connect. One ongoing story." /></h2>
+        <p><LocalizedText zh="先发一条消息，或者直接去见她。通讯与场景之间的切换，也保留着你们刚刚聊过的事。" en="Send a message or go meet her. Moving between the messenger and a scene keeps the context of your conversation." /></p>
       </div>
-      <div class="project-metrics" data-reveal>
-        <article><strong>22</strong><span><LocalizedText zh="名可互动角色" en="interactive characters" /></span></article>
-        <article><strong>363</strong><span><LocalizedText zh="项可检索表情" en="searchable stickers" /></span></article>
-        <article><strong>15</strong><span><LocalizedText zh="个受控共同移动地点" en="controlled shared locations" /></span></article>
-        <article class="project-metric-wide"><strong>2,369</strong><span><LocalizedText zh="个固定修订来源页进入公开署名索引" en="fixed-revision source pages in the public attribution index" /></span></article>
+      <div class="snow-experiences">
+        <article class="snow-experience" data-reveal>
+          <div class="snow-experience-icon" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M8 8h24v18H18l-8 6v-6H8z"/><path d="M14 15h12M14 20h8"/></svg><span>TEXT</span></div>
+          <h3><LocalizedText zh="文字通讯" en="Text communication" /></h3>
+          <p><LocalizedText zh="用熟悉的聊天节奏，和角色保持联系。" en="Stay in touch through the familiar rhythm of a messenger." /></p>
+          <ul>
+            <li><LocalizedText zh="自由发起话题，用表情补足语气" en="Start a topic and add tone with stickers" /></li>
+            <li><LocalizedText zh="回看本地记录，接着上次继续聊" en="Revisit local history and pick up where you left off" /></li>
+            <li><LocalizedText zh="发出见面邀请，把通讯延伸到场景" en="Invite her to meet and move into a scene" /></li>
+          </ul>
+        </article>
+        <article class="snow-experience" data-reveal>
+          <div class="snow-experience-icon" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M7 9h26v23H7zM7 26h26"/><circle cx="20" cy="17" r="4"/><path d="M12 26c1-7 15-7 16 0"/></svg><span>SCENE</span></div>
+          <h3><LocalizedText zh="面对面" en="Face to face" /></h3>
+          <p><LocalizedText zh="走进 Galgame 式场景，让对白带上动作。" en="Step into a visual-novel-style scene where dialogue meets action." /></p>
+          <ul>
+            <li><LocalizedText zh="22 位角色立绘，各有 18 种基础表情" en="Artwork and 18 basic expressions for each of 22 characters" /></li>
+            <li><LocalizedText zh="对白、动作与神情一起推动场景" en="Let dialogue, actions, and expressions shape the scene" /></li>
+            <li><LocalizedText zh="邀请共同移动，让相处自然延续" en="Go somewhere together and continue the encounter" /></li>
+          </ul>
+        </article>
       </div>
-    </div>
-  </section>
+      <p class="snow-shared-context" data-reveal><span aria-hidden="true">↔</span><LocalizedText zh="角色语境、记忆与地点贯穿两种体验。" en="Character context, memory, and location connect both experiences." /></p>
+    </section>
 
-  <section class="section" aria-labelledby="gameplay-title">
-    <div class="container">
-      <div class="section-header" data-reveal>
-        <div>
-          <div class="section-kicker"><LocalizedText zh="怎么玩" en="How to play" /></div>
-          <h2 id="gameplay-title"><LocalizedText zh="先在通讯器里认识她，再决定要不要走到她面前。" en="Meet her in the communicator, then decide whether to step into her scene." /></h2>
-        </div>
-        <p><LocalizedText zh="文字通讯和面对面共享人物与世界状态。你可以只把它当成聊天，也可以用地点、动作、表情和共同移动把一段对话慢慢推成自己的日常剧情。" en="Text communication and face-to-face scenes share character and world state. Use it as a messenger, or turn a conversation into a personal everyday scene through locations, actions, stickers, and shared movement." /></p>
+    <section class="snow-section" aria-labelledby="progress-title">
+      <div class="snow-section-heading snow-progress-heading" data-reveal>
+        <div><p class="snow-kicker">02 / LATEST UPDATE</p><h2 id="progress-title"><LocalizedText zh="新名字，新界面，也有新的回应。" en="A new name, a new interface, and new ways to respond." /></h2></div>
+        <time datetime={projectSnow.updatedAt}><LocalizedText zh="更新于" en="Updated" /> {projectSnow.updatedAt}</time>
       </div>
-      <div class="pipeline project-pipeline">
-        <article class="pipeline-step" data-reveal><span class="step-number">01 / MODEL</span><h3><LocalizedText zh="配置本次模型" en="Configure this session" /></h3><p><LocalizedText zh="选择 OpenAI、DeepSeek、阿里云百炼、智谱或 Moonshot，填写自己的 API Key 并获取可用模型。凭证固定最长 12 小时，不会滑动续期。" en="Choose OpenAI, DeepSeek, Alibaba Cloud Model Studio, Zhipu, or Moonshot, then provide your API key and fetch available models. The credential lasts at most 12 fixed hours without sliding renewal." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">02 / CHAT</span><h3><LocalizedText zh="选择角色开始通讯" en="Choose a character" /></h3><p><LocalizedText zh="从 22 名角色中搜索、收藏并切换对象。每轮最多输入 2,000 字，聊天、摘要、草稿和收藏保存在当前浏览器。" en="Search, favorite, and switch among 22 characters. Each turn accepts up to 2,000 characters; chats, summaries, drafts, and favorites stay in the current browser." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">03 / EXPRESS</span><h3><LocalizedText zh="用表情补上语气" en="Add tone with stickers" /></h3><p><LocalizedText zh="按最近、当前角色、通用、收藏或全部浏览，也可以按名称和情绪搜索，让回应不必总是一整段文字。" en="Browse by recents, current character, general, favorites, or all, and search by name or emotion so every response does not have to be another paragraph." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">04 / MEET</span><h3><LocalizedText zh="去见她" en="Go meet her" /></h3><p><LocalizedText zh="进入角色当前地点后，可以只写动作、只说对白或两者一起输入。到场时有 50% 概率由角色先注意到你并主动回应。" en="Enter her current location and send an action, dialogue, or both. On arrival, there is a 50% chance that the character notices you and responds first." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">05 / MOVE</span><h3><LocalizedText zh="一起去……" en="Go somewhere together" /></h3><p><LocalizedText zh="从 15 个受控地点发出邀请。通讯中她可以先去目的地等你；面对面接受后则会与你共同移动并继续场景。" en="Invite her to one of 15 controlled locations. In text mode she can go ahead and wait; face to face, an accepted invitation moves both of you and continues the scene." /></p></article>
-        <article class="pipeline-step" data-reveal><span class="step-number">06 / REVIEW</span><h3><LocalizedText zh="回看、续聊与反馈" en="Review, resume, and report" /></h3><p><LocalizedText zh="选择承接昨天或从今天开始，随时回看或清理本地记录；遇到跑偏与 Bug 时，可预览并控制随反馈附带的最小对话上下文。" en="Continue from yesterday or begin today, review or clear local history, and preview the minimal dialogue context attached when reporting drift or a bug." /></p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-tight" aria-labelledby="stack-title">
-    <div class="container split-panel">
-      <div data-reveal>
-        <div class="section-kicker"><LocalizedText zh="技术栈与系统边界" en="Stack & system boundaries" /></div>
-        <h2 id="stack-title"><LocalizedText zh="公开体验、内部工作台与发布链路彼此隔离。" en="The public experience, internal workspace, and release pipeline stay isolated." /></h2>
-        <div class="timeline" style="margin-top: 24px">
-          <article class="timeline-card"><span class="timeline-phase">WEB</span><div><h3><LocalizedText zh="原生前端与浏览器本地状态" en="Native frontend and browser-local state" /></h3><p><LocalizedText zh="原生 HTML、CSS、JavaScript ES Modules 与 SSE 流式响应；IndexedDB v4 保存聊天、摘要、草稿和收藏，不自动跨设备同步。" en="Native HTML, CSS, JavaScript ES Modules, and SSE streaming; IndexedDB v4 keeps chats, summaries, drafts, and favorites without automatic cross-device sync." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase">API</span><div><h3>Python 3.12 · FastAPI</h3><p><LocalizedText zh="Uvicorn、Pydantic、HTTPX、SQLAlchemy、Alembic 与 psycopg 组成公开 API；公网只挂载静态页面和 /public/v1，不暴露内部 /api/v1、附件、Agent 或语音接口。" en="Uvicorn, Pydantic, HTTPX, SQLAlchemy, Alembic, and psycopg power the public API. Only static pages and /public/v1 are mounted publicly; internal /api/v1, attachments, Agent, and voice endpoints stay unexposed." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase">RAG</span><div><h3><LocalizedText zh="混合检索与关系图谱" en="Hybrid retrieval and relationship graph" /></h3><p><LocalizedText zh="SQLite FTS5 与 bge-small-zh-v1.5 本地向量通过 RRF 融合召回，Qdrant 承载向量检索，Neo4j 保存人物与剧情关系。" en="SQLite FTS5 and local bge-small-zh-v1.5 vectors are fused with RRF; Qdrant serves vector retrieval and Neo4j stores character and story relationships." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase">MODEL</span><div><h3><LocalizedText zh="固定官方 Provider 适配器" en="Fixed official provider adapters" /></h3><p><LocalizedText zh="公开版只允许 5 个预置官方模型服务，不接受用户自定义公网 Base URL；一次操作最多进行两次受控模型调用。" en="The public build accepts only five preset official model providers and no user-defined public base URL. One user action can issue at most two controlled model calls." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase">OPS</span><div><h3><LocalizedText zh="蓝绿发布与不可变产物" en="Blue-green releases and immutable artifacts" /></h3><p><LocalizedText zh="Docker Compose、Caddy、Cloudflare、PostgreSQL、Qdrant 与 Neo4j 组成生产链路；镜像和数据、头像、表情包以版本与 SHA-256 固定，支持候选验收、精确晋升和回滚。" en="Docker Compose, Caddy, Cloudflare, PostgreSQL, Qdrant, and Neo4j form the production path. Images and data, avatar, and sticker bundles are pinned by version and SHA-256 for candidate acceptance, exact promotion, and rollback." /></p></div></article>
-        </div>
-      </div>
-      <aside class="license-note license-note-compact" data-reveal>
-        <header class="license-note-header"><span class="license-note-mark" aria-hidden="true">※</span><div><span class="license-note-kicker">PUBLIC DATA / 0.9.2</span><strong><LocalizedText zh="使用前先知道这些" en="Know this before playing" /></strong></div></header>
-        <p class="license-note-lead"><LocalizedText zh="这是非官方、非商业测试项目。模型可能出错或偏离原作，请勿输入真实密码、证件、财务或其他敏感信息。" en="This is an unofficial, non-commercial test project. Models can be wrong or drift from canon; do not enter real passwords, identity documents, financial data, or other sensitive information." /></p>
-        <ul class="license-note-list">
-          <li><span><LocalizedText zh="API Key" en="API key" /></span><em><LocalizedText zh="经服务器内存代理，不落库或落盘" en="Proxied through server memory; not stored in DB or on disk" /></em></li>
-          <li><span><LocalizedText zh="本地记录" en="Local history" /></span><em><LocalizedText zh="以明文保存在当前浏览器，可自行清理" en="Plaintext in this browser and removable by you" /></em></li>
-          <li><span><LocalizedText zh="反馈" en="Feedback" /></span><em><LocalizedText zh="上下文可预览 / 取消，正文与加密 QQ 保留 30 天" en="Context is previewable / removable; text and encrypted QQ kept 30 days" /></em></li>
-          <li><span><LocalizedText zh="完整说明" en="Full notice" /></span><a href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="隐私与素材 ↗" en="Privacy & assets ↗" /></a></li>
-        </ul>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="showcase-title">
-    <div class="container">
-      <div class="section-header" data-reveal>
-        <div><div class="section-kicker"><LocalizedText zh="0.9.2 实机界面" en="0.9.2 live interface" /></div><h2 id="showcase-title"><LocalizedText zh="四张图，走完从通讯到反馈的完整闭环。" en="Four screens trace the full loop from communication to feedback." /></h2></div>
-        <p><LocalizedText zh="截图来自当前小规模测试版：先选择角色并文字通讯，再用表情补足语气、进入面对面场景，最后通过可控上下文反馈帮助定位问题。点击图片可以查看完整界面。" en="These screens come from the current small-scale test: choose a character and text, add tone with stickers, enter a face-to-face scene, and help diagnose issues through controlled-context feedback. Select an image to view it in full." /></p>
-      </div>
-      <div class="project-showcase">
-        {projectShots.map((shot, index) => (
-          <article class={`project-shot project-shot-${index + 1}`} data-reveal>
-            <button class="project-shot-open" type="button" data-project-shot-open data-project-shot-src={shot.src} data-project-shot-alt={shot.alt} data-project-shot-caption={shot.description.zh} aria-label={`查看大图：${shot.title.zh}`} aria-haspopup="dialog">
-              <img src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} loading="lazy" decoding="async" />
-              <span class="project-shot-zoom" aria-hidden="true">↗</span>
-            </button>
-            <div class="project-shot-copy"><span class="project-shot-type"><LocalizedText {...shot.type} /></span><h3><LocalizedText {...shot.title} /></h3><p><LocalizedText {...shot.description} /></p></div>
+      <div class="snow-stages">
+        {projectSnow.stages.map((stage) => (
+          <article class={"snow-stage snow-stage-" + stage.id} data-reveal>
+            <span class="snow-stage-status"><span aria-hidden="true"></span><LocalizedText {...stage.status} /></span>
+            <div><h3><LocalizedText {...stage.title} /></h3><p><LocalizedText {...stage.description} /></p></div>
           </article>
         ))}
       </div>
-    </div>
-  </section>
+      <a class="snow-text-link snow-progress-link" href="/journal/#journal-project-project-snow"><LocalizedText zh="在开发日志里查看项目记录" en="Follow the project in the dev logs" /><span aria-hidden="true">→</span></a>
+    </section>
 
-  <section class="section-tight" aria-labelledby="roadmap-title">
-    <div class="container split-panel">
-      <div data-reveal>
-        <div class="section-kicker"><LocalizedText zh="上线之后" en="After launch" /></div>
-        <h2 id="roadmap-title"><LocalizedText zh="正式开放入口，不等于项目已经做完。" en="Opening the public entry does not mean the project is finished." /></h2>
-        <div class="timeline" style="margin-top: 24px">
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="已上线" en="Live" /></span><div><h3><LocalizedText zh="0.9.2 小规模测试版" en="0.9.2 small-scale test" /></h3><p><LocalizedText zh="22 名角色、文字通讯、面对面、表情、共同移动、本地历史与上下文反馈已经在公网开放；当前先让少量用户真实使用并继续修 Bug。" en="Twenty-two characters, text communication, face-to-face scenes, stickers, shared movement, local history, and contextual feedback are live. The current goal is real use by a small group while bugs are fixed." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="正在做" en="Now" /></span><div><h3><LocalizedText zh="根据真实反馈继续收口" en="Closing gaps through real feedback" /></h3><p><LocalizedText zh="持续处理新版本暴露的移动、恢复、窄屏、分段回复与部署问题；暂时不做大规模宣传，优先把体验与安全边界磨稳。" en="Continue fixing movement, recovery, narrow-screen, segmented-reply, and deployment issues exposed by the release. Large-scale promotion is on hold while experience and safety boundaries stabilize." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="评估中" en="Evaluating" /></span><div><h3><LocalizedText zh="TTS 角色语音" en="TTS character voice" /></h3><p><LocalizedText zh="后续希望给面对面互动加入语音，目前正在评估模型、音色、成本、延迟、授权与隐私方案，尚未承诺具体上线时间。" en="Voice is planned for later face-to-face interaction. Models, voices, cost, latency, rights, and privacy are still under evaluation, with no committed release date." /></p></div></article>
-          <article class="timeline-card"><span class="timeline-phase"><LocalizedText zh="后续探索" en="Later" /></span><div><h3><LocalizedText zh="场景背景与 Live2D" en="Scene backgrounds and Live2D" /></h3><p><LocalizedText zh="背景和 Live2D 能让 Gal 感更完整，但会先解决资源授权、逆向边界与制作方式；没有明确许可的游戏内资源不会因为一句免责声明就直接投入宣传。" en="Backgrounds and Live2D could complete the visual-novel feel, but asset rights, reverse-engineering boundaries, and production methods come first. A disclaimer alone will not justify using unlicensed game resources in promotion." /></p></div></article>
-        </div>
+    <section class="snow-section" aria-labelledby="showcase-title">
+      <div class="snow-section-heading" data-reveal>
+        <p class="snow-kicker">03 / INSIDE THE TERMINAL</p>
+        <h2 id="showcase-title"><LocalizedText zh="从消息，到见面。" en="From a message to a meeting." /></h2>
+        <p><LocalizedText zh="五张实机截图，看看面对面、文字通讯、反馈、设置和公告在新版终端里如何连接。点击图片可查看完整原图。" en="Five screenshots show face-to-face scenes, messaging, feedback, settings, and announcements in the new terminal. Select an image to view the complete original." /></p>
       </div>
-      <aside class="license-note license-note-compact" data-reveal>
-        <header class="license-note-header"><span class="license-note-mark" aria-hidden="true">※</span><div><span class="license-note-kicker">SOURCE / LICENSE</span><strong><LocalizedText zh="来源、署名与许可边界" en="Sources, attribution & license boundaries" /></strong></div></header>
-        <p class="license-note-lead"><LocalizedText zh="知识资料、头像与表情按固定修订逐项记录来源和处理；页面特殊声明优先。该记录不代表游戏原始美术权属已由 Project Snow 确认，也不表示官方认可。" en="Knowledge, avatar, and sticker assets record their source and transformation against fixed revisions, subject to page-specific notices. This does not mean Project Snow has verified ownership of original game art or received official endorsement." /></p>
-        <ul class="license-note-list">
-          <li><span><LocalizedText zh="来源" en="Source" /></span><a href={site.external.bWiki} target="_blank" rel="noreferrer">BWiki ↗</a></li>
-          <li><span><LocalizedText zh="逐项索引" en="Per-item index" /></span><a href={`${site.external.projectSnowPlay}public/v1/attributions`} target="_blank" rel="noreferrer"><LocalizedText zh="公开署名 JSON ↗" en="Public attribution JSON ↗" /></a></li>
-          <li><span><LocalizedText zh="数据许可" en="Data license" /></span><a href={site.external.ccByNcSa} target="_blank" rel="noreferrer">CC BY-NC-SA 4.0 ↗</a></li>
-          <li><span><LocalizedText zh="项目代码" en="Project code" /></span><a href={site.repositories.projectSnow} target="_blank" rel="noreferrer">GPL-3.0-only ↗</a></li>
-        </ul>
-      </aside>
-    </div>
-  </section>
+      <p class="snow-screenshot-note" data-reveal><strong>v{projectSnow.publicVersion}</strong><LocalizedText zh="当前版本实机界面 · 2026 年 9 月 9 日" en="Current version screenshots · September 9, 2026" /></p>
+      <div class="project-showcase">
+        {projectShots.map((shot, index) => (
+          <article class={"project-shot project-shot-" + (index + 1)} data-reveal>
+            <a class="project-shot-open" href={shot.src} target="_blank" rel="noreferrer" data-project-shot-open data-project-shot-src={shot.src} data-project-shot-width={shot.image.width} data-project-shot-height={shot.image.height} aria-label={"查看小吉终端完整截图：" + shot.title.zh} data-zh-label={"查看小吉终端完整截图：" + shot.title.zh} data-en-label={"View full Xiaoji Terminal screenshot: " + shot.title.en}>
+              <img src={shot.image.src} srcset={shot.image.srcset} sizes={index === 2 || index === 3 ? supportingScreenshotSizes : fullScreenshotSizes} alt={shot.alt.zh} data-zh-alt={shot.alt.zh} data-en-alt={shot.alt.en} width={shot.image.width} height={shot.image.height} loading="lazy" decoding="async" />
+              <span class="project-shot-zoom" aria-hidden="true">↗</span>
+            </a>
+            <div class="project-shot-copy"><span class="project-shot-type"><span aria-hidden="true">0{index + 1} / </span><LocalizedText {...shot.type} /></span><h3><LocalizedText {...shot.title} /></h3><p><LocalizedText {...shot.description} /></p></div>
+          </article>
+        ))}
+      </div>
+    </section>
 
-  <section class="section-tight">
-    <div class="container notice-panel" data-reveal>
-      <div class="section-kicker"><LocalizedText zh="小规模测试 / 现在可玩" en="Small-scale test / playable now" /></div>
-      <h2><LocalizedText zh="Project Snow 0.9.2 已正式开放试玩入口。" en="Project Snow 0.9.2 is now open for testing." /></h2>
-      <p><LocalizedText zh="进入前请准备受支持模型服务的 API Key，并先阅读隐私与素材说明。模型费用由你的供应商账号承担；请勿输入敏感信息，在共享设备上使用后记得清理标签页凭证与浏览器本地历史。" en="Bring an API key for a supported model provider and read the privacy and asset notice first. Model charges belong to your provider account. Do not enter sensitive information, and clear tab credentials and browser-local history after using a shared device." /></p>
-      <div class="button-row" style="margin-top: 18px"><a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="打开 Project Snow ↗" en="Open Project Snow ↗" /></a><a class="button button-secondary" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="先看隐私与素材 ↗" en="Read privacy & assets ↗" /></a></div>
-    </div>
-  </section>
+    <section class="snow-section" aria-labelledby="snow-start-title">
+      <div class="snow-section-heading" data-reveal><p class="snow-kicker">04 / GET STARTED</p><h2 id="snow-start-title"><LocalizedText zh="用三步，开始第一次对话。" en="Three steps to your first conversation." /></h2></div>
+      <ol class="snow-start-steps">
+        {startingSteps.map((step, index) => <li data-reveal><span class="snow-step-number" aria-hidden="true">0{index + 1}</span><div><h3><LocalizedText {...step.title} /></h3><p><LocalizedText {...step.description} /></p></div></li>)}
+      </ol>
+    </section>
+
+    <section class="snow-section" id="snow-details" aria-labelledby="snow-details-title">
+      <div class="snow-section-heading" data-reveal><p class="snow-kicker">05 / TECHNOLOGY & DATA</p><h2 id="snow-details-title"><LocalizedText zh="技术、数据与许可，完整说明。" en="Technology, data, and licensing." /></h2><p><LocalizedText zh="角色体验由什么构成、记录保存在哪里，以及资料与素材的使用方式。" en="What powers the character experience, where records are kept, and how sources and assets are used." /></p></div>
+      <div class="snow-details">
+        <article class="snow-detail-card" aria-labelledby="snow-technology-title" data-reveal>
+          <header><span class="snow-detail-marker" aria-hidden="true">01</span><h3 id="snow-technology-title"><LocalizedText zh="技术栈与角色记忆" en="Technology and character memory" /></h3></header>
+          <div class="snow-detail-body">
+            <div class="snow-technology">
+              <div><h4><LocalizedText zh="界面与本地状态" en="Interface and local state" /></h4><p><LocalizedText zh="原生 HTML、CSS 与 JavaScript ES Modules 构成终端界面，SSE 将模型回复逐步送回页面。IndexedDB 保存聊天记录、摘要、草稿与收藏，让通讯和面对面可以衔接同一段经历。" en="HTML, CSS, and JavaScript ES Modules power the terminal, with SSE streaming model replies. IndexedDB keeps chat history, summaries, drafts, and favorites so messaging and face-to-face scenes can continue the same story." /></p></div>
+              <div><h4><LocalizedText zh="服务与模型连接" en="Services and model connections" /></h4><p><LocalizedText zh="Python 与 FastAPI 提供服务，配合 Pydantic、HTTPX 等组件处理请求与模型响应。公开体验支持 OpenAI、DeepSeek、阿里云百炼、智谱和 Moonshot，用户选择自己的服务商与模型。" en="Python and FastAPI provide services, with components such as Pydantic and HTTPX handling requests and model responses. The public experience supports OpenAI, DeepSeek, Alibaba Cloud Model Studio, Zhipu, and Moonshot, with users choosing their provider and model." /></p></div>
+              <div><h4><LocalizedText zh="资料检索与人物关系" en="Source retrieval and relationships" /></h4><p><LocalizedText zh="角色回应结合公开 Wiki 资料、人物关系与当前场景。SQLite FTS5 全文检索与本地向量召回共同寻找相关资料，Qdrant 承载向量检索，Neo4j 保存人物与剧情关系；检索结果为模型补充语境。" en="Replies draw on public Wiki material, relationships, and the current scene. SQLite FTS5 full-text search and local vector retrieval find relevant sources, with Qdrant serving vector search and Neo4j storing character and story relationships. Retrieved material adds context for the model." /></p></div>
+            </div>
+            <div class="snow-tech-list"><span>FastAPI</span><span>JavaScript</span><span>IndexedDB</span><span>SSE</span><span>SQLite FTS5</span><span>Qdrant</span><span>Neo4j</span></div>
+            <a class="snow-text-link" href={site.repositories.projectSnow} target="_blank" rel="noreferrer"><LocalizedText zh="在 GitHub 查看源码 ↗" en="Explore the source on GitHub ↗" /></a>
+          </div>
+        </article>
+        <article class="snow-detail-card" aria-labelledby="snow-data-title" data-reveal>
+          <header><span class="snow-detail-marker" aria-hidden="true">02</span><h3 id="snow-data-title"><LocalizedText zh="模型费用、记录与数据处理" en="Model costs, records, and data handling" /></h3></header>
+          <div class="snow-detail-body">
+            <dl class="snow-data-facts">
+              <div><dt><LocalizedText zh="模型与费用" en="Models & costs" /></dt><dd><LocalizedText zh="无需注册，自备受支持模型服务的 API Key。对话内容会发送给所选服务商生成回复，模型调用费用由对应供应商账号承担。" en="No registration is needed. Bring an API key for a supported provider. Conversation content is sent to that provider to generate replies, and model usage is billed to your provider account." /></dd></div>
+              <div><dt><LocalizedText zh="API Key" en="API key" /></dt><dd><LocalizedText zh="Key 经服务器内存转发，不写入数据库、磁盘、反馈或日志。加密凭证只保留在当前标签页，最长有效 12 小时；获取模型列表和切换角色无需重新填写。" en="The key is forwarded through server memory and is not written to the database, disk, feedback, or logs. The encrypted credential stays in the current tab for up to 12 hours; listing models or switching characters does not require re-entry." /></dd></div>
+              <div><dt><LocalizedText zh="聊天记录" en="Chat history" /></dt><dd><LocalizedText zh="聊天、摘要、草稿与收藏以明文保存在当前浏览器，不会自动跨设备同步。可以在记录管理中回看或清理，共享设备上的记录也需要自行清理。" en="Chats, summaries, drafts, and favorites are stored as plaintext in the current browser and do not automatically sync across devices. Review or clear them through history management, including after using a shared device." /></dd></div>
+              <div><dt><LocalizedText zh="反馈与联系" en="Feedback & contact" /></dt><dd><LocalizedText zh="提交前可以预览或取消附带的一问一答与请求编号。QQ 完全可选并加密保存，随反馈在 30 天后删除；反馈内容与完整清理规则见公开说明。" en="Preview or remove the attached question, answer, and request ID before submitting feedback. QQ is entirely optional, encrypted, and deleted with the feedback after 30 days. The public notice explains the full handling and deletion rules." /></dd></div>
+            </dl>
+            <a class="snow-text-link" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="阅读完整隐私与素材说明 ↗" en="Read the full privacy and asset notice ↗" /></a>
+          </div>
+        </article>
+        <article class="snow-detail-card" aria-labelledby="snow-license-title" data-reveal>
+          <header><span class="snow-detail-marker" aria-hidden="true">03</span><h3 id="snow-license-title"><LocalizedText zh="资料来源与开源许可" en="Sources and open-source licensing" /></h3></header>
+          <div class="snow-detail-body">
+            <p><LocalizedText zh="小吉终端是基于《尘白禁区》公开 Wiki 资料的非官方、非商业项目，不代表游戏官方。知识资料、头像与表情按固定来源修订记录署名、许可依据与处理方式，具体页面的特殊声明优先。" en="Xiaoji Terminal is an unofficial, non-commercial project based on public Snowbreak Wiki material and is not affiliated with the game. Knowledge sources, avatars, and stickers record attribution, license basis, and transformations against fixed source revisions, with page-specific notices taking priority." /></p>
+            <p><LocalizedText zh="公开署名索引用于说明资料从哪里来、经过哪些处理；它不代表项目已确认原始游戏美术的全部权属，也不构成额外授权。模型生成的对话可能偏离原作设定。" en="The public attribution index documents source material and its processing. It does not establish ownership of all original game artwork or grant additional rights. Model-generated dialogue may differ from canon." /></p>
+            <dl class="snow-license-links">
+              <div><dt><LocalizedText zh="资料来源" en="Source" /></dt><dd><a href={site.external.bWiki} target="_blank" rel="noreferrer">BWiki ↗</a></dd></div>
+              <div><dt><LocalizedText zh="逐项署名" en="Attribution" /></dt><dd><a href={site.external.projectSnowPlay + "public/v1/attributions"} target="_blank" rel="noreferrer"><LocalizedText zh="公开署名 JSON ↗" en="Public attribution JSON ↗" /></a></dd></div>
+              <div><dt><LocalizedText zh="数据许可" en="Data license" /></dt><dd><a href={site.external.ccByNcSa} target="_blank" rel="noreferrer">CC BY-NC-SA 4.0 ↗</a></dd></div>
+              <div><dt><LocalizedText zh="代码许可" en="Code license" /></dt><dd><a href={site.repositories.projectSnow} target="_blank" rel="noreferrer">GPL-3.0-only ↗</a></dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="snow-play-panel" data-reveal>
+      <span class="snow-kicker"><LocalizedText {...projectSnow.status} /></span>
+      <h2><LocalizedText zh="下一句，由你开始。" en="The next line is yours." /></h2>
+      <p><LocalizedText zh="准备好 API Key，去和一位角色打个招呼。模型生成内容可能偏离原作；使用前可以先了解隐私与素材说明。" en="Bring your API key and say hello to a character. Model-generated content may differ from canon; the privacy and asset notice explains the experience in more detail." /></p>
+      <div class="snow-actions"><a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="打开小吉终端 ↗" en="Open Xiaoji Terminal ↗" /></a><a class="snow-text-link" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="隐私与素材 ↗" en="Privacy & assets ↗" /></a></div>
+    </footer>
+  </article>
 
   <dialog class="project-shot-lightbox" data-project-shot-lightbox aria-labelledby="project-shot-lightbox-title">
     <div class="project-shot-lightbox-frame">
-      <div class="project-shot-lightbox-bar"><span id="project-shot-lightbox-title"><LocalizedText zh="Project Snow 0.9.2 界面预览" en="Project Snow 0.9.2 interface preview" /></span><button type="button" data-project-shot-close aria-label="关闭大图预览">×</button></div>
+      <div class="project-shot-lightbox-bar"><span id="project-shot-lightbox-title"><LocalizedText zh="小吉终端 · 完整截图" en="Xiaoji Terminal · Full screenshot" /></span><button type="button" data-project-shot-close aria-label="关闭大图预览" data-zh-label="关闭大图预览" data-en-label="Close screenshot preview">×</button></div>
       <figure><img data-project-shot-image alt="" width="2559" height="1326" /><figcaption data-project-shot-caption></figcaption></figure>
     </div>
   </dialog>
@@ -212,8 +180,24 @@ const projectShots = [
   const lightbox = document.querySelector<HTMLDialogElement>("[data-project-shot-lightbox]");
   const lightboxImage = lightbox?.querySelector<HTMLImageElement>("[data-project-shot-image]");
   const lightboxCaption = lightbox?.querySelector<HTMLElement>("[data-project-shot-caption]");
-  const shotTriggers = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-project-shot-open]"));
-  let activeTrigger: HTMLButtonElement | undefined;
+  const shotTriggers = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-project-shot-open]"));
+  let activeTrigger: HTMLAnchorElement | undefined;
+
+  const syncScreenshotLanguage = () => {
+    const english = document.documentElement.lang.startsWith("en");
+    document.querySelectorAll<HTMLElement>(".snow-page [data-zh-label], .project-shot-lightbox [data-zh-label]").forEach((element) => {
+      element.setAttribute("aria-label", (english ? element.dataset.enLabel : element.dataset.zhLabel) || "");
+    });
+    document.querySelectorAll<HTMLImageElement>(".project-shot img[data-zh-alt]").forEach((image) => {
+      image.alt = (english ? image.dataset.enAlt : image.dataset.zhAlt) || "";
+    });
+    if (lightbox?.open && activeTrigger && lightboxImage && lightboxCaption) {
+      lightboxImage.alt = activeTrigger.querySelector("img")?.alt || "";
+      lightboxCaption.textContent = activeTrigger.closest(".project-shot")?.querySelector<HTMLElement>(".project-shot-copy p")?.textContent?.trim() || "";
+    }
+  };
+  syncScreenshotLanguage();
+  window.addEventListener("site-locale-change", syncScreenshotLanguage);
 
   const closeLightbox = () => {
     if (lightbox?.open) lightbox.close();
@@ -221,14 +205,18 @@ const projectShots = [
 
   if (lightbox && lightboxImage && lightboxCaption && typeof lightbox.showModal === "function") {
     shotTriggers.forEach((trigger) => {
-      trigger.addEventListener("click", () => {
+      trigger.setAttribute("aria-haspopup", "dialog");
+      trigger.addEventListener("click", (event) => {
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
         const src = trigger.dataset.projectShotSrc;
         if (!src) return;
+        event.preventDefault();
         activeTrigger = trigger;
         lightboxImage.src = src;
-        lightboxImage.alt = trigger.dataset.projectShotAlt || "";
-        const localizedCaption = trigger.closest(".project-shot")?.querySelector<HTMLElement>(".project-shot-copy p");
-        lightboxCaption.textContent = localizedCaption?.textContent?.trim() || trigger.dataset.projectShotCaption || "";
+        lightboxImage.alt = trigger.querySelector("img")?.alt || "";
+        lightboxImage.width = Number(trigger.dataset.projectShotWidth);
+        lightboxImage.height = Number(trigger.dataset.projectShotHeight);
+        lightboxCaption.textContent = trigger.closest(".project-shot")?.querySelector<HTMLElement>(".project-shot-copy p")?.textContent?.trim() || "";
         if (!lightbox.open) lightbox.showModal();
       });
     });
@@ -241,7 +229,7 @@ const projectShots = [
       lightboxImage.removeAttribute("src");
       lightboxImage.alt = "";
       lightboxCaption.textContent = "";
-      activeTrigger?.focus();
+      activeTrigger?.focus({ preventScroll: true });
     });
   }
 </script>

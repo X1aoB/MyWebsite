@@ -1,7 +1,10 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 import { site } from "../config/site";
+import { tools } from "../config/tools";
+import { now } from "../config/now";
 import { projectSnowRecord } from "../lib/project-snow";
+import { nowArticleUrl, nowSectionUrl } from "../lib/now-pages";
 
 export const prerender = true;
 
@@ -38,9 +41,14 @@ export const GET: APIRoute = async () => {
     { path: "/journal/" },
     { path: "/projects/project-snow/", lastmod: projectSnowRecord.updatedAt },
     { path: "/tools/" },
-    { path: "/tools/model-iq/" },
+    ...tools.map((tool) => ({ path: tool.url })),
     { path: "/gallery/" },
     { path: "/now/" },
+    ...now.sections.map((section) => ({ path: nowSectionUrl(section.slug) })),
+    ...now.sections.flatMap((section) => section.items.map((item) => ({
+      path: nowArticleUrl(section.slug, item.slug),
+      lastmod: dateValue(item.publishedAt)
+    }))),
     { path: "/about/" },
     { path: "/updates/" },
     { path: "/privacy/" },

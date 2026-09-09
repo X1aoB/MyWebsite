@@ -1,0 +1,25 @@
+.preference-search-suggestion[aria-selected="true"] {
+  background: color-mix(in srgb, var(--ice) 15%, var(--surface-solid));
+  box-shadow: inset 3px 0 var(--ice-bright);
+}
+.preference-search-retry {
+  width: 100%;
+  padding: 16px;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.preference-search-view-all {
+  padding-block: 12px;
+  color: var(--ice-bright);
+  font-weight: 650;
+  border-top: 1px solid var(--line);
+}
+.preference-search-suggestions {
+  max-height: min(580px, 70dvh);
+  overscroll-behavior: contain;
+  scroll-behavior: auto;
+}

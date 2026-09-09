@@ -3,10 +3,10 @@ title: "开发日志003"
 description: "主线内容整理、人工对照与后续调用优化。"
 pubDate: 2026-07-24
 tags:
-  - Project Snow
+  - 小吉终端
   - 内容整理
   - 优化
-project: "Project Snow"
+project: "小吉终端"
 accent: violet
 draft: false
 ---

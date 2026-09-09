@@ -1,8 +1,8 @@
 import {
   filterSearchEntries,
+  isSearchSource,
   sourceLabels,
-  type SearchIndexEntry,
-  type SearchSource
+  type SearchIndexEntry
 } from "../lib/search";
 
 const labels = {
@@ -28,7 +28,6 @@ type Locale = keyof typeof labels;
 
 const getLocale = (): Locale => (document.documentElement.dataset.locale === "en" ? "en" : "zh");
 const copy = (value: { zh: string; en: string }, locale = getLocale()) => (locale === "en" ? value.en || value.zh : value.zh);
-const isSearchSource = (value: string): value is SearchSource => ["journal", "gallery", "project", "now"].includes(value);
 
 const parseIndex = () => {
   const node = document.querySelector<HTMLScriptElement>("script[data-search-index]");
@@ -61,10 +60,13 @@ const createResult = (entry: SearchIndexEntry, locale: Locale) => {
   source.textContent = copy(sourceLabels[entry.source], locale);
   const location = document.createElement("span");
   location.textContent = copy(entry.location, locale);
-  const time = document.createElement("time");
-  time.dateTime = entry.date;
-  time.textContent = formatDate(entry.date, locale);
-  meta.append(source, location, time);
+  meta.append(source, location);
+  if (entry.date) {
+    const time = document.createElement("time");
+    time.dateTime = entry.date;
+    time.textContent = formatDate(entry.date, locale);
+    meta.append(time);
+  }
 
   const heading = document.createElement("h2");
   const title = document.createElement("a");
@@ -122,7 +124,7 @@ export const initializeSearchPage = () => {
 
   const syncOptionCopy = () => {
     const locale = getLocale();
-    source.querySelectorAll<HTMLOptionElement>("option[data-zh]").forEach((option) => {
+    form.querySelectorAll<HTMLOptionElement>("option[data-zh]").forEach((option) => {
       option.textContent = locale === "en" ? option.dataset.en || option.dataset.zh || "" : option.dataset.zh || "";
     });
   };
@@ -163,9 +165,13 @@ export const initializeSearchPage = () => {
   render();
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    if (composing) return;
     render(true);
   });
-  input.addEventListener("input", () => render(true));
+  let composing = false;
+  input.addEventListener("compositionstart", () => { composing = true; });
+  input.addEventListener("compositionend", () => { composing = false; render(true); });
+  input.addEventListener("input", () => { if (!composing) render(true); });
   source.addEventListener("change", () => render(true));
   tag.addEventListener("change", () => render(true));
   window.addEventListener("site-locale-change", () => {
@@ -173,4 +179,3 @@ export const initializeSearchPage = () => {
     render();
   });
 };
-

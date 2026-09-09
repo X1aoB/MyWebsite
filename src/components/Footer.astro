@@ -1,12 +1,16 @@
 ---
 import { site } from "../config/site";
 import LocalizedText from "./LocalizedText.astro";
+import { profileContacts } from "../config/profile";
 
 const year = new Date().getFullYear();
 
 const socialLinks = [
-  { label: "GitHub", mark: "GH", href: site.githubProfile },
-  { label: "Project Snow 试玩", mark: "PS", href: site.external.projectSnowPlay }
+  { label: { zh: "Bilibili", en: "Bilibili" }, mark: "B", href: profileContacts.bilibili },
+  { label: { zh: "GitHub", en: "GitHub" }, mark: "GH", href: site.githubProfile },
+  { label: { zh: "小吉终端试玩", en: "Xiaoji Terminal" }, mark: "XJ", href: site.external.projectSnowPlay },
+  { label: { zh: "Steam", en: "Steam" }, mark: "S", href: profileContacts.steam },
+  { label: { zh: "邮箱", en: "Email" }, mark: "@", href: `mailto:${profileContacts.email}` }
 ].filter((link) => link.href);
 ---
 
@@ -16,7 +20,7 @@ const socialLinks = [
       <p class="footer-kicker footer-section-title"><LocalizedText zh="传送门" en="Portal" /></p>
       <nav class="footer-links" aria-label="站点链接">
         <a href="/journal/">开发日志</a>
-        <a href="/projects/project-snow/">Project Snow</a>
+        <a href="/projects/project-snow/"><LocalizedText zh="小吉终端" en="Xiaoji Terminal" /></a>
         <a href="/tools/">工具</a>
         <a href="/gallery/">摄影集</a>
         <a href="/now/">Now</a>
@@ -35,13 +39,11 @@ const socialLinks = [
           <a
             class="footer-social-link"
             href={link.href}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={link.label}
-            title={link.label}
+            target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+            rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
           >
             <span class="footer-social-mark" aria-hidden="true">{link.mark}</span>
-            <span class="footer-social-label">{link.label}</span>
+            <span class="footer-social-label"><LocalizedText {...link.label} /></span>
           </a>
         ))}
       </nav>

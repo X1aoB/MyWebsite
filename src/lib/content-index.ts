@@ -1,6 +1,8 @@
 import { getCollection } from "astro:content";
 import { now } from "../config/now";
+import { tools } from "../config/tools";
 import { projectSnowRecord } from "./project-snow";
+import { getNowArticleSummaries, nowArticleUrl, nowExcerpt, nowSectionUrl } from "./now-pages";
 import {
   isPublicContent,
   toGalleryHashUrl,
@@ -87,24 +89,49 @@ export const buildContentIndex = async (): Promise<SearchIndexEntry[]> => {
     }))
   ];
 
-  const nowEntries: SearchIndexEntry[] = now.sections.map((section) => ({
-    id: `now:${section.id}`,
-    source: "now",
-    title: localized(section.title.zh, section.title.en),
-    description: localized(
-      section.items.map((item) => `${item.title.zh}：${item.description.zh}`).join(" "),
-      section.items.map((item) => `${item.title.en}: ${item.description.en}`).join(" ")
-    ),
-    location: localized(section.label.zh, section.label.en),
-    tags: [...new Set(section.items.flatMap((item) => item.tags ?? []))],
-    url: `/now/#${section.id}`,
-    date: asDate(now.updatedAt),
-    searchText: section.items
-      .flatMap((item) => [item.title.zh, item.title.en, item.description.zh, item.description.en, ...(item.tags ?? [])])
-      .join(" ")
+  const nowEntries: SearchIndexEntry[] = now.sections.flatMap((section): SearchIndexEntry[] => {
+    const articleCount = getNowArticleSummaries(section, posts).length;
+    return [
+      {
+        id: `now:${section.id}`,
+        source: "now",
+        title: localized(section.title.zh, section.title.en),
+        description: localized(
+          articleCount ? `${articleCount} 篇文章，进入栏目浏览。` : "这个栏目暂无文章。",
+          articleCount ? `${articleCount} ${articleCount === 1 ? "article" : "articles"}. Browse this section.` : "No articles in this section yet."
+        ),
+        location: localized("Now · 栏目", "Now · Section"),
+        tags: [],
+        url: nowSectionUrl(section.slug),
+        searchText: `${section.title.zh} ${section.title.en} ${section.label.zh} ${section.label.en}`
+      },
+      // Existing journal references already have one canonical journal entry above.
+      ...section.items.map((item) => ({
+        id: `now:${section.slug}:${item.slug}`,
+        source: "now" as const,
+        title: localized(item.title.zh, item.title.en),
+        description: localized(nowExcerpt(item.description.zh), nowExcerpt(item.description.en)),
+        location: localized(section.title.zh, section.title.en),
+        tags: [...(item.tags ?? [])],
+        url: nowArticleUrl(section.slug, item.slug),
+        date: asDate(item.publishedAt),
+        searchText: `${item.title.zh}\n${item.title.en}\n${item.description.zh}\n${item.description.en}\n${(item.tags ?? []).join(" ")}`
+      }))
+    ];
+  });
+
+  const toolEntries: SearchIndexEntry[] = tools.map((tool) => ({
+    id: `tool:${tool.id}`,
+    source: "tool",
+    title: tool.title,
+    description: tool.description,
+    location: tool.status,
+    tags: [...tool.tags],
+    url: tool.url,
+    searchText: `${tool.title.zh} ${tool.title.en} ${tool.description.zh} ${tool.description.en} ${tool.tags.join(" ")}`
   }));
 
-  return [...journalEntries, ...galleryEntries, ...projectEntries, ...nowEntries].sort(
-    (a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id)
+  return [...journalEntries, ...galleryEntries, ...projectEntries, ...nowEntries, ...toolEntries].sort(
+    (a, b) => (b.date ?? "").localeCompare(a.date ?? "") || a.id.localeCompare(b.id)
   );
 };

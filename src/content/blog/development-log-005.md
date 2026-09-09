@@ -3,10 +3,10 @@ title: "开发日志005"
 description: "第一次模型对话验证，以及沉浸式伴侣与小助手的双路线构想。"
 pubDate: 2026-07-29
 tags:
-  - Project Snow
+  - 小吉终端
   - 对话伴侣
   - AI 助手
-project: "Project Snow"
+project: "小吉终端"
 accent: ice
 draft: false
 ---

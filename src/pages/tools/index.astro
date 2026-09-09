@@ -1,53 +1,45 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LocalizedText from "../../components/LocalizedText.astro";
+import { tools } from "../../config/tools";
+
+const categories = [
+  { id: "ai", label: "AI tools", title: { zh: "AI 工具", en: "AI tools" }, description: { zh: "整理模型观察与公开基准，给比较一个清楚的起点。", en: "Model observations and public benchmarks, with a clear starting point for comparisons." } },
+  { id: "data", label: "Data tools", title: { zh: "数据工具", en: "Data tools" }, description: { zh: "在浏览器里处理手边的数据，轻量、直接，也不必上传。", en: "Work with the data at hand, directly in your browser. No upload needed." } }
+];
 ---
 
-<BaseLayout title="工具" description="按数据工具与 AI 工具分类整理的小工具入口。">
+<BaseLayout title="工具" description="用于模型观察与本地数据处理的小工具：模型 IQ 雷达和 JSON 工作台。">
   <section class="page-hero">
     <div class="container" data-reveal>
-      <div class="eyebrow">Tool directory</div>
+      <div class="eyebrow">Small tools / useful things</div>
       <h1><LocalizedText zh="工具" en="Tools" /></h1>
-      <p><LocalizedText zh="把不同用途的小工具分开收纳。选择分类中的工具后，会进入对应的独立页面。" en="Utilities are grouped by purpose. Select a tool to open its dedicated page." /></p>
+      <p><LocalizedText zh="把平时用得上的小功能，收进一个顺手的角落。" en="A small collection of useful things, ready when you need them." /></p>
     </div>
   </section>
-
   <section class="section-tight">
     <div class="container tool-directory">
-      <section class="tool-category" aria-labelledby="ai-tools-title" data-reveal>
-        <header class="tool-category-heading">
-          <div>
-            <div class="section-kicker">AI tools</div>
-            <h2 id="ai-tools-title"><LocalizedText zh="AI 工具" en="AI tools" /></h2>
+      {categories.map((category) => (
+        <section class="tool-category" aria-labelledby={`${category.id}-tools-title`} data-reveal>
+          <header class="tool-category-heading">
+            <div><div class="section-kicker">{category.label}</div><h2 id={`${category.id}-tools-title`}><LocalizedText {...category.title} /></h2></div>
+            <p><LocalizedText {...category.description} /></p>
+          </header>
+          <div class="tool-entry-grid">
+            {tools.filter((tool) => tool.category === category.id).map((tool) => (
+              <a class="tool-entry" href={tool.url}>
+                <span class="tool-entry-icon" aria-hidden="true">{tool.icon}</span>
+                <span class="tool-entry-copy">
+                  <span class="tool-entry-status"><i aria-hidden="true"></i><LocalizedText {...tool.status} /></span>
+                  <strong><LocalizedText {...tool.title} /></strong>
+                  <span><LocalizedText {...tool.description} /></span>
+                </span>
+                <span class="tool-entry-arrow" aria-hidden="true">→</span>
+              </a>
+            ))}
           </div>
-          <p><LocalizedText zh="整理模型观察、公开基准和后续 AI 实验入口。" en="Model observations, public benchmarks, and future AI experiments." /></p>
-        </header>
-        <div class="tool-entry-grid">
-          <a class="tool-entry" href="/tools/model-iq/">
-            <span class="tool-entry-icon" aria-hidden="true">IQ</span>
-            <span class="tool-entry-copy">
-              <span class="tool-entry-status"><i aria-hidden="true"></i><LocalizedText zh="公开数据" en="Public data" /></span>
-              <strong><LocalizedText zh="模型 IQ 雷达" en="Model IQ radar" /></strong>
-              <span><LocalizedText zh="查看模型分数、任务通过率、排名和更新时间。" en="Explore model scores, pass rates, rankings, and update times." /></span>
-            </span>
-            <span class="tool-entry-arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="tool-category" aria-labelledby="data-tools-title" data-reveal>
-        <header class="tool-category-heading">
-          <div>
-            <div class="section-kicker">Data tools</div>
-            <h2 id="data-tools-title"><LocalizedText zh="数据工具" en="Data tools" /></h2>
-          </div>
-          <p><LocalizedText zh="用于格式整理、数据预览和本地分析的小工具。" en="Utilities for formatting, previewing, and local data analysis." /></p>
-        </header>
-        <div class="tool-category-empty">
-          <span aria-hidden="true">∅</span>
-          <p><LocalizedText zh="暂时没有公开工具，后续会在这里逐步补充。" en="No public tools yet. New utilities will be added here over time." /></p>
-        </div>
-      </section>
+        </section>
+      ))}
     </div>
   </section>
 </BaseLayout>

@@ -1,15 +1,15 @@
 ---
 title: "开发日志009"
-description: "Project Snow 0.9.2 正式开放小规模测试：连续通讯、面对面场景、363 项表情与蓝绿发布安全链路。"
+description: "小吉终端 0.9.2 正式开放小规模测试：连续通讯、面对面场景、363 项表情与蓝绿发布安全链路。"
 pubDate: 2026-08-23
 tags:
-  - Project Snow
+  - 小吉终端
   - 0.9.2
   - 小规模测试
   - 沉浸式对话
   - 公网部署
   - 安全
-project: "Project Snow"
+project: "小吉终端"
 accent: ice
 draft: false
 ---

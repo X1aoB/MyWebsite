@@ -1,0 +1,25 @@
+---
+import LocalizedText from "../../../components/LocalizedText.astro";
+import { now, type NowItem, type NowSection } from "../../../config/now";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { formatNowDateTime, nowArticlePaths, nowExcerpt, nowSectionUrl } from "../../../lib/now-pages";
+import "../../../styles/now.css";
+
+export function getStaticPaths() { return nowArticlePaths(now.sections); }
+interface Props { section: NowSection; item: NowItem; }
+const { section, item } = Astro.props;
+---
+
+<BaseLayout title={item.title.zh} description={nowExcerpt(item.description.zh)} type="article" publishedTime={new Date(item.publishedAt)} keywords={item.tags ?? []}>
+  <div class="now-page now-reading-page">
+    <nav class="now-breadcrumb" aria-label="栏目导航"><a href="/now/">Now</a><span aria-hidden="true">/</span><a href={nowSectionUrl(section.slug)}><LocalizedText {...section.title} /></a></nav>
+    <header class="now-reading-header">
+      <p class="eyebrow"><LocalizedText {...section.label} /></p>
+      <h1><LocalizedText {...item.title} /></h1>
+      <time class="now-entry-time" datetime={item.publishedAt}><LocalizedText zh={formatNowDateTime(item.publishedAt, "zh-CN")} en={formatNowDateTime(item.publishedAt, "en-US")} /></time>
+      {item.tags && item.tags.length > 0 && <ul class="now-reading-tags" aria-label="文章标签">{item.tags.map((tag) => <li>{tag}</li>)}</ul>}
+    </header>
+    <article class="now-reading-body"><p><LocalizedText {...item.description} /></p></article>
+    <footer class="now-reading-footer"><a class="text-link" href={nowSectionUrl(section.slug)}><span aria-hidden="true">←</span><LocalizedText zh={`返回${section.title.zh}`} en={`Back to ${section.title.en}`} /></a><a class="text-link" href="/now/"><LocalizedText zh="全部栏目" en="All sections" /><span aria-hidden="true">↗</span></a></footer>
+  </div>
+</BaseLayout>

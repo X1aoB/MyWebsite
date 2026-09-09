@@ -9,6 +9,7 @@ export type LocalizedNowCopy = {
 };
 
 export type NowItem = {
+  slug: string;
   publishedAt: string;
   title: LocalizedNowCopy;
   description: LocalizedNowCopy;
@@ -17,9 +18,22 @@ export type NowItem = {
 
 export type NowSection = {
   id: string;
+  slug: string;
   label: LocalizedNowCopy;
   title: LocalizedNowCopy;
   items: readonly NowItem[];
+  journalIds?: readonly string[];
+};
+
+const dailyNote: NowItem = {
+  slug: "typhoon-autumn-recruiting",
+  publishedAt: "2026-08-11T16:26:41+08:00",
+  title: { zh: "台风&秋招", en: "Typhoon & autumn recruiting" },
+  description: {
+    zh: "白海豚真把松江变成江了，上海外国语大学退化成下河中国语小学有没有懂的。秋招都要来了感觉自己什么都还在干还在学，俨然一具尸体。",
+    en: "The typhoon really turned Songjiang into a river. Shanghai International Studies University has devolved into a riverside language primary school—if you know, you know. Autumn recruiting is almost here, yet I feel like I’m still doing and learning everything, practically a corpse."
+  },
+  tags: []
 };
 
 export const now = {
@@ -31,10 +45,19 @@ export const now = {
   sections: [
     {
       id: "now-daily",
-      label: { zh: "", en: "" },
+      slug: "daily",
+      label: { zh: "Daily sharing", en: "Daily sharing" },
       title: { zh: "日常分享", en: "Daily sharing" },
+      items: [dailyNote]
+    },
+    {
+      id: "now-interviews",
+      slug: "interviews",
+      label: { zh: "Interview notes", en: "Interview notes" },
+      title: { zh: "面试经历", en: "Interview experiences" },
       items: [
         {
+          slug: "xiaohongshu-ai-data-interview",
           publishedAt: "2026-09-03T14:23:32+08:00",
           title: {
             zh: "面试分享:小红书AI数据开发一面凉经",
@@ -73,17 +96,23 @@ The interviewer's advice was direct: professional fundamentals must be precise, 
 My main problem was not a total lack of experience, but an inability to present it coherently, combined with weak SQL, Spark, and warehouse fundamentals. Next I will standardize my introduction and behavioral answers, keep practicing SQL plus Python / Java coding and debugging, fully map out the RAG and warehouse projects, and run recorded follow-up-style mock interviews.`
           },
           tags: ["面试复盘", "秋招", "数据开发", "AI"]
-        },
-        {
-          publishedAt: "2026-08-11T16:26:41+08:00",
-          title: { zh: "台风&秋招", en: "Typhoon & autumn recruiting" },
-          description: {
-            zh: "白海豚真把松江变成江了，上海外国语大学退化成下河中国语小学有没有懂的。秋招都要来了感觉自己什么都还在干还在学，俨然一具尸体。",
-            en: "The typhoon really turned Songjiang into a river. Shanghai International Studies University has devolved into a riverside language primary school—if you know, you know. Autumn recruiting is almost here, yet I feel like I’m still doing and learning everything, practically a corpse."
-          },
-          tags: []
         }
       ]
+    },
+    {
+      id: "now-technical",
+      slug: "technical",
+      label: { zh: "Technical writing", en: "Technical writing" },
+      title: { zh: "技术文章", en: "Technical articles" },
+      items: [],
+      journalIds: ["project-snow-data-foundation"]
+    },
+    {
+      id: "now-guides",
+      slug: "guides",
+      label: { zh: "Odds & guides", en: "Odds & guides" },
+      title: { zh: "随机攻略", en: "Random guides" },
+      items: []
     }
   ] satisfies readonly NowSection[]
 } as const;

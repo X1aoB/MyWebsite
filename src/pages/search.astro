@@ -9,13 +9,13 @@ const tags = getSearchTags(index);
 const serializedIndex = JSON.stringify(index).replace(/</g, "\\u003c");
 ---
 
-<BaseLayout title="搜索" description="搜索开发日志、摄影套图、项目和近况。" noindex>
+<BaseLayout title="搜索" description="搜索开发日志、摄影套图、项目、工具和近况。" noindex>
   <section class="search-page">
     <header class="discovery-hero" data-reveal>
       <div>
         <p class="eyebrow">Search / static index</p>
         <h1><LocalizedText zh="搜索全站" en="Search the site" /></h1>
-        <p><LocalizedText zh="搜索公开开发日志、摄影套图、项目和 Now 近况；草稿不会进入索引。" en="Search public dev logs, photography sets, projects, and Now notes. Drafts never enter the index." /></p>
+        <p><LocalizedText zh="从开发日志、摄影、项目和工具中，找到你想看的那一页。" en="Find the page you need across dev logs, photos, projects, and tools." /></p>
       </div>
     </header>
 
@@ -23,7 +23,7 @@ const serializedIndex = JSON.stringify(index).replace(/</g, "\\u003c");
       <form class="search-page-form" data-search-results-form>
         <label class="search-field search-field-query">
           <span><LocalizedText zh="关键词" en="Keywords" /></span>
-          <input type="search" name="q" autocomplete="off" placeholder="例如：Project Snow、摄影、ETL" data-search-results-input />
+          <input type="search" name="q" autocomplete="off" placeholder="例如：小吉终端、摄影、ETL" data-search-results-input />
         </label>
         <label class="search-field">
           <span><LocalizedText zh="内容来源" en="Content source" /></span>

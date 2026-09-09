@@ -2,21 +2,29 @@
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Giscus from "../../components/Giscus.astro";
+import LocalizedText from "../../components/LocalizedText.astro";
+import ReadingToc from "../../components/ReadingToc.astro";
+import SiteRail from "../../components/SiteRail.astro";
+import { estimateReadingMinutes, readingHeadings, readingNeighbors } from "../../lib/reading";
+import "../../styles/article-reading.css";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.id },
-    props: { post }
+    props: { post, neighbors: readingNeighbors(posts, post) }
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
-const formatDate = new Intl.DateTimeFormat("zh-CN", {
+const { post, neighbors } = Astro.props;
+const { Content, headings } = await render(post);
+const toc = readingHeadings(headings);
+const readingMinutes = estimateReadingMinutes(post.body ?? "");
+const formatDate = (locale: string) => new Intl.DateTimeFormat(locale, {
   year: "numeric",
   month: "long",
-  day: "numeric"
+  day: "numeric",
+  timeZone: "UTC"
 }).format(post.data.pubDate);
 ---
 
@@ -27,19 +35,50 @@ const formatDate = new Intl.DateTimeFormat("zh-CN", {
   publishedTime={post.data.pubDate}
   keywords={post.data.tags}
 >
+  <Fragment slot="rail">
+    {toc.length > 0 ? <ReadingToc headings={toc} variant="desktop" /> : <SiteRail />}
+  </Fragment>
   <header class="article-header" data-reveal>
     <div class="eyebrow">Development log</div>
-    <div class="article-meta"><time datetime={post.data.pubDate.toISOString()}>{formatDate}</time><span>·</span><span>{post.data.tags.join(" / ")}</span></div>
-    <h1>{post.data.title}</h1>
-    <p class="article-description">{post.data.description}</p>
+    <div class="article-meta article-reading-meta">
+      <time datetime={post.data.pubDate.toISOString()}><LocalizedText zh={formatDate("zh-CN")} en={formatDate("en-US")} /></time>
+      <span aria-hidden="true">·</span>
+      <span><LocalizedText zh={`约 ${readingMinutes} 分钟阅读`} en={`${readingMinutes} min read`} /></span>
+      <span aria-hidden="true">·</span><span lang="zh-CN" data-no-translate>{post.data.tags.join(" / ")}</span>
+    </div>
+    <h1 id="article-title" tabindex="-1" lang="zh-CN" data-no-translate>{post.data.title}</h1>
+    <p class="article-description" lang="zh-CN" data-no-translate>{post.data.description}</p>
+    <p class="article-language-note"><LocalizedText zh="正文使用中文 · 阅读时间为估算" en="Written in Chinese · Estimated reading time" /></p>
   </header>
 
-  <article class="article-content" data-reveal>
+  {toc.length > 0 && <ReadingToc headings={toc} variant="mobile" />}
+  <article class="article-content" lang="zh-CN" data-no-translate data-article-reading>
     <Content />
   </article>
 
   <footer class="article-footer">
-    <a class="text-link" href="/journal/"><span aria-hidden="true">←</span> 返回开发日志</a>
+    {(neighbors.previous || neighbors.next) && <>
+      <p class="reading-continuation-label"><LocalizedText zh="连续阅读" en="Continue reading" />{neighbors.project && <span data-no-translate> · {neighbors.project}</span>}</p>
+      <nav class="reading-neighbors" aria-label="连续阅读" data-reading-neighbors>
+        {neighbors.previous && <a class="reading-neighbor" href={`/journal/${neighbors.previous.id}/`} rel="prev">
+          <span><LocalizedText zh="← 上一篇" en="← Previous article" /></span>
+          <strong lang="zh-CN" data-no-translate>{neighbors.previous.data.title}</strong>
+        </a>}
+        {neighbors.next && <a class="reading-neighbor reading-neighbor--next" href={`/journal/${neighbors.next.id}/`} rel="next">
+          <span><LocalizedText zh="下一篇 →" en="Next article →" /></span>
+          <strong lang="zh-CN" data-no-translate>{neighbors.next.data.title}</strong>
+        </a>}
+      </nav>
+    </>}
+    <div class="article-footer-actions">
+      <a class="text-link" href="/journal/"><span aria-hidden="true">←</span><LocalizedText zh="返回开发日志" en="Back to dev log" /></a>
+      <a class="text-link" href="#article-title"><LocalizedText zh="回到顶部" en="Back to top" /><span aria-hidden="true">↑</span></a>
+    </div>
   </footer>
   <Giscus />
 </BaseLayout>
+
+<script>
+  import { initializeArticleReading } from "../../scripts/article-reading";
+  initializeArticleReading();
+</script>

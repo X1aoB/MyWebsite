@@ -1,14 +1,14 @@
 ---
 title: "开发日志007"
-description: "Project Snow 的沉浸式体验、助手多模态升级、双入口 UI 与月末试玩计划。"
+description: "小吉终端 的沉浸式体验、助手多模态升级、双入口 UI 与月末试玩计划。"
 pubDate: 2026-08-08
 tags:
-  - Project Snow
+  - 小吉终端
   - 沉浸式对话
   - 多模态 Agent
   - UI 重构
   - 角色陪伴
-project: "Project Snow"
+project: "小吉终端"
 accent: ice
 draft: false
 ---

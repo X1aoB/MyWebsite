@@ -1,6 +1,7 @@
 ---
 import LocalizedText from "./LocalizedText.astro";
 import { site } from "../config/site";
+import "../styles/model-iq.css";
 ---
 
 <section class="model-iq-dashboard" aria-labelledby="model-iq-dashboard-title" data-model-iq>
@@ -80,7 +81,10 @@ import { site } from "../config/site";
     <ol class="model-iq-ranking" data-model-iq-ranking aria-label="模型 IQ 排名"></ol>
   </div>
 
-  <p class="model-iq-empty" data-model-iq-empty hidden></p>
+  <div class="model-iq-empty" data-model-iq-empty hidden>
+    <p data-model-iq-error-message></p>
+    <button class="model-iq-retry" type="button" data-model-iq-retry><LocalizedText zh="重试读取" en="Try again" /></button>
+  </div>
 
   <footer class="model-iq-source-note">
     <p><LocalizedText zh="IQ 为 Codex Radar 的第三方基准分，不代表通用智商，也不是本站独立测评；结果会受任务集、采样和发布状态影响。" en="IQ is Codex Radar's third-party benchmark score, not general intelligence and not an independent test by this site. Results depend on its task set, sampling, and publication status." /></p>
@@ -89,14 +93,13 @@ import { site } from "../config/site";
 </section>
 
 <script>
-  import { classifyModelIq, iqHueForScore, modelIqEndpoint, parseModelIqSummary, type ModelIqRow, type ModelIqSummary, type ModelIqTier } from "../lib/model-iq";
-
-  type Family = "all" | "sol" | "terra" | "luna" | "gpt-5.5" | "other";
-  type SortMode = "score" | "pass-rate" | "name";
+  import { classifyModelIq, iqHueForScore, modelIqEndpoint, parseModelIqSummary, type ModelIqSummary, type ModelIqTier } from "../lib/model-iq";
+  import { modelIqFamily as familyOf, modelIqPassRate as passRate, selectModelIqRows, type ModelIqFamily as Family, type ModelIqSortMode as SortMode } from "../lib/model-iq-view";
 
   const initializeModelIqViewer = () => {
     const root = document.querySelector<HTMLElement>("[data-model-iq]");
-    if (!root) return;
+    if (!root || root.dataset.modelIqReady) return;
+    root.dataset.modelIqReady = "true";
 
     const status = root.querySelector<HTMLElement>("[data-model-iq-status]");
     const updated = root.querySelector<HTMLTimeElement>("[data-model-iq-updated]");
@@ -104,6 +107,8 @@ import { site } from "../config/site";
     const loading = root.querySelector<HTMLElement>("[data-model-iq-loading]");
     const content = root.querySelector<HTMLElement>("[data-model-iq-content]");
     const empty = root.querySelector<HTMLElement>("[data-model-iq-empty]");
+    const errorMessage = root.querySelector<HTMLElement>("[data-model-iq-error-message]");
+    const retry = root.querySelector<HTMLButtonElement>("[data-model-iq-retry]");
     const filters = root.querySelector<HTMLElement>("[data-model-iq-filters]");
     const sort = root.querySelector<HTMLSelectElement>("[data-model-iq-sort]");
     const ranking = root.querySelector<HTMLOListElement>("[data-model-iq-ranking]");
@@ -111,6 +116,8 @@ import { site } from "../config/site";
     let selectedFamily: Family = "all";
     let sortMode: SortMode = "score";
     let controller: AbortController | undefined;
+    let loadState: "loading" | "success" | "error" = "loading";
+    let timedOut = false;
 
     const locale = () => document.documentElement.dataset.locale === "en" ? "en" : "zh";
     const text = (zh: string, en: string) => locale() === "en" ? en : zh;
@@ -125,16 +132,9 @@ import { site } from "../config/site";
         minute: "2-digit"
       }).format(date);
     };
-    const familyOf = (row: ModelIqRow): Family => {
-      const value = `${row.model} ${row.label}`.toLowerCase();
-      if (value.includes("sol")) return "sol";
-      if (value.includes("terra")) return "terra";
-      if (value.includes("luna")) return "luna";
-      if (value.includes("gpt-5.5")) return "gpt-5.5";
-      return "other";
-    };
     const familyLabel = (family: Family) => ({
       all: text("全部", "All"),
+      astra: "Astra",
       sol: "Sol",
       terra: "Terra",
       luna: "Luna",
@@ -150,13 +150,39 @@ import { site } from "../config/site";
       };
       return text(...labels[tier]);
     };
-    const passRate = (row: ModelIqRow) => row.tasks > 0 ? row.passed / row.tasks : 0;
     const setStatus = (message: string, state: "loading" | "success" | "error") => {
       if (!status) return;
       const copy = document.createElement("span");
       copy.textContent = message;
-      status.replaceChildren(document.createElement("i"), copy);
+      const indicator = document.createElement("i");
+      indicator.setAttribute("aria-hidden", "true");
+      status.replaceChildren(indicator, copy);
       status.dataset.state = state;
+    };
+
+    const renderLoadState = () => {
+      if (loadState === "loading") setStatus(text("正在读取公开摘要…", "Loading public summary…"), "loading");
+      else if (loadState === "success") setStatus(text("公开摘要已同步", "Public summary synced"), "success");
+      else {
+        setStatus(snapshot ? text("刷新失败，保留上次摘要", "Refresh failed; showing the previous summary") : text("读取失败", "Unable to load"), "error");
+        if (errorMessage) errorMessage.textContent = (timedOut
+          ? text("请求超时。", "The request timed out. ")
+          : text("暂时无法读取公开摘要。", "The public summary is temporarily unavailable. "))
+          + (snapshot
+            ? text("当前仍显示上次成功读取的数据，可重试或打开数据来源。", "Previously loaded data remains visible. Try again or open the data source.")
+            : text("请重试或打开数据来源查看。", "Try again or open the data source."));
+      }
+      if (empty) empty.hidden = loadState !== "error";
+    };
+
+    const renderSortDescription = () => {
+      const descriptions: Record<SortMode, [string, string]> = {
+        score: ["按 IQ 分数从高到低；同分按通过率排序", "IQ score, high to low; ties use pass rate"],
+        "pass-rate": ["按任务通过率从高到低；相同时按 IQ 分数排序", "Pass rate, high to low; ties use IQ score"],
+        name: ["按模型名称字母顺序排列", "Model name in alphabetical order"]
+      };
+      root.querySelector<HTMLElement>("[data-ranking-copy]")!.textContent = text(...descriptions[sortMode])
+        + text("。分档：100+ 超高 · 90+ 高 · 80+ 中 · 80 以下低", ". Bands: 100+ extra high · 90+ high · 80+ medium · below 80 low");
     };
 
     const renderStaticCopy = () => {
@@ -181,7 +207,7 @@ import { site } from "../config/site";
       root.querySelector<HTMLElement>("[data-controls-label='family']")!.textContent = text("模型族", "Model family");
       root.querySelector<HTMLElement>("[data-controls-label='sort']")!.textContent = text("排序", "Sort by");
       root.querySelector<HTMLElement>("[data-ranking-title]")!.textContent = text("模型排名", "Model ranking");
-      root.querySelector<HTMLElement>("[data-ranking-copy]")!.textContent = text("按 IQ 分数排序：100+ 超高 · 90+ 高 · 80+ 中 · 80 以下低", "Sorted by IQ: 100+ extra high · 90+ high · 80+ medium · below 80 low");
+      renderSortDescription();
       root.querySelector<HTMLElement>("[data-model-iq-content]")?.setAttribute("aria-label", text("模型 IQ 数据与排名", "Model IQ data and ranking"));
       root.querySelector<HTMLElement>("[data-model-iq-overview]")?.setAttribute("aria-label", text("模型 IQ 概览", "Model IQ overview"));
       root.querySelector<HTMLElement>("[data-model-iq-filters]")?.setAttribute("aria-label", text("模型族筛选", "Model family filters"));
@@ -197,31 +223,35 @@ import { site } from "../config/site";
     const renderFilters = () => {
       if (!snapshot || !filters) return;
       const available = new Set(snapshot.rows.map(familyOf));
-      const familyOrder: Family[] = ["sol", "terra", "luna", "gpt-5.5", "other"];
+      const familyOrder: Family[] = ["astra", "sol", "terra", "luna", "gpt-5.5", "other"];
       const families: Family[] = ["all", ...familyOrder.filter((family) => available.has(family))];
-      filters.replaceChildren();
-      families.forEach((family) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.textContent = familyLabel(family);
-        button.dataset.family = family;
-        button.setAttribute("aria-pressed", String(selectedFamily === family));
-        button.addEventListener("click", () => {
-          selectedFamily = family;
-          render();
-        });
-        filters.append(button);
+      const focusedFamily = document.activeElement instanceof HTMLElement && filters.contains(document.activeElement)
+        ? document.activeElement.dataset.family : undefined;
+      if (!families.includes(selectedFamily)) selectedFamily = "all";
+      filters.querySelectorAll<HTMLButtonElement>("button[data-family]").forEach((button) => {
+        if (!families.includes(button.dataset.family as Family)) button.remove();
       });
+      families.forEach((family) => {
+        let button = filters.querySelector<HTMLButtonElement>(`button[data-family='${family}']`);
+        if (!button) {
+          button = document.createElement("button");
+          button.type = "button";
+          button.dataset.family = family;
+          button.addEventListener("click", () => {
+            selectedFamily = family;
+            render();
+          });
+          filters.append(button);
+        }
+        button.textContent = familyLabel(family);
+        button.setAttribute("aria-pressed", String(selectedFamily === family));
+      });
+      if (focusedFamily && !families.includes(focusedFamily as Family)) filters.querySelector<HTMLButtonElement>("button[data-family='all']")?.focus();
     };
 
     const visibleRows = () => {
       if (!snapshot) return [];
-      const rows = snapshot.rows.filter((row) => selectedFamily === "all" || familyOf(row) === selectedFamily);
-      return rows.sort((a, b) => {
-        if (sortMode === "pass-rate") return passRate(b) - passRate(a) || b.score - a.score;
-        if (sortMode === "name") return a.label.localeCompare(b.label, locale() === "en" ? "en" : "zh-CN");
-        return b.score - a.score || passRate(b) - passRate(a);
-      });
+      return selectModelIqRows(snapshot.rows, selectedFamily, sortMode, locale() === "en" ? "en" : "zh-CN");
     };
 
     const renderOverview = () => {
@@ -282,7 +312,7 @@ import { site } from "../config/site";
         metrics.append(
           metric(String(row.passed), text("通过", "passed")),
           metric(String(row.tasks), text("任务", "tasks")),
-          metric(`${(passRate(row) * 100).toFixed(1)}%`, text("通过率", "pass rate"))
+          metric(row.tasks > 0 ? `${(passRate(row) * 100).toFixed(1)}%` : "—", text("通过率", "pass rate"))
         );
         item.append(model, score, metrics);
         ranking.append(item);
@@ -299,48 +329,62 @@ import { site } from "../config/site";
       updated.dateTime = snapshot.updatedAt;
       updated.textContent = formatDate(snapshot.updatedAt);
       content.hidden = false;
-      empty.hidden = true;
     };
 
     const load = async () => {
+      const returnFocusToRefresh = document.activeElement === retry;
       controller?.abort();
-      controller = new AbortController();
-      const timeout = window.setTimeout(() => controller?.abort(), 8000);
+      const request = new AbortController();
+      controller = request;
+      timedOut = false;
+      const timeout = window.setTimeout(() => { timedOut = true; request.abort(); }, 8000);
       refresh && (refresh.disabled = true);
+      retry && (retry.disabled = true);
+      root.setAttribute("aria-busy", "true");
       if (!snapshot && loading) loading.hidden = false;
-      setStatus(text("正在读取公开摘要…", "Loading public summary…"), "loading");
+      loadState = "loading";
+      renderLoadState();
       try {
         const response = await fetch(modelIqEndpoint, {
-          signal: controller.signal,
+          signal: request.signal,
           headers: { Accept: "application/json" }
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const next = parseModelIqSummary(await response.json());
         if (!next) throw new Error("invalid public summary");
+        if (controller !== request) return;
         snapshot = next;
         render();
-        setStatus(text("公开摘要已同步", "Public summary synced"), "success");
+        loadState = "success";
+        renderLoadState();
       } catch {
-        if (empty) {
-          empty.hidden = false;
-          empty.textContent = text("暂时无法读取公开摘要，请稍后重试或打开数据来源。", "The public summary is temporarily unavailable. Try again later or open the data source.");
-        }
+        if (controller !== request) return;
+        loadState = "error";
+        renderLoadState();
         if (!snapshot && content) content.hidden = true;
-        setStatus(text("读取失败", "Unable to load"), "error");
       } finally {
         window.clearTimeout(timeout);
-        if (loading) loading.hidden = true;
-        refresh && (refresh.disabled = false);
+        if (controller === request) {
+          if (loading) loading.hidden = true;
+          refresh && (refresh.disabled = false);
+          retry && (retry.disabled = false);
+          root.setAttribute("aria-busy", "false");
+          if (returnFocusToRefresh && loadState === "success") refresh?.focus();
+        }
       }
     };
 
     sort?.addEventListener("change", () => {
       sortMode = sort.value as SortMode;
+      renderSortDescription();
       renderRanking();
     });
     refresh?.addEventListener("click", () => void load());
+    retry?.addEventListener("click", () => void load());
     window.addEventListener("site-locale-change", () => {
       if (snapshot) render();
+      else renderStaticCopy();
+      renderLoadState();
     });
     void load();
   };
@@ -351,3 +395,9 @@ import { site } from "../config/site";
     initializeModelIqViewer();
   }
 </script>
+
+<style>
+  .model-iq-empty p { margin: 0 0 12px; }
+  .model-iq-retry { padding: 9px 14px; color: var(--ink); background: var(--surface-solid); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); font: inherit; font-size: 0.8rem; cursor: pointer; }
+  .model-iq-retry:focus-visible { outline: 2px solid var(--ice-bright); outline-offset: 3px; }
+</style>
