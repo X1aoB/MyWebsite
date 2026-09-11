@@ -141,6 +141,12 @@ const structuredDataJson = JSON.stringify(structuredData).replace(/</g, "\\u003c
       <slot name="rail"><SiteRail /></slot>
     </div>
     <Footer />
+    <!-- Optional analytics: delete this tag and public/statistics to remove. -->
+    <script is:inline type="module">
+      import config from "/statistics/config.mjs";
+      import { installAnalytics } from "/statistics/bootstrap.mjs";
+      installAnalytics(config);
+    </script>
 
     <script>
       import { initializeSitePreferences } from "../scripts/site-preferences";

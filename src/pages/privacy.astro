@@ -20,6 +20,11 @@ import { site } from "../config/site";
 
       <div class="privacy-grid">
         <article class="notice-panel" data-reveal>
+          <h2>可选匿名统计（默认关闭）</h2>
+          <p>站点启用此功能后，只有选择“允许匿名访问统计”才会创建独立的统计标识，收集允许页面的访问及试玩入口点击。标识最多保留 30 天，与小吉终端各自独立；一次性跳转编号仅用于入口归因，不合并长期身份。可通过页面按钮随时关闭并清除统计标识。</p>
+          <p>统计不包含查询参数、JSON 工具输入、聊天正文或密钥。原始事件保留目标为 7 天，匿名辅助记录最多 30 天，日聚合最多 90 天；公开页只展示汇总。服务器完成请求的基础质量统计使用已有脱敏日志，不依赖浏览器访问统计同意。</p>
+        </article>
+        <article class="notice-panel" data-reveal>
           <p class="section-kicker"><LocalizedText zh="本站本身" en="This site" /></p>
           <h2><LocalizedText zh="个人站是静态页面，试玩入口是独立服务" en="The personal site is static; the preview is a separate service" /></h2>
           <p>
@@ -32,7 +37,7 @@ import { site } from "../config/site";
 
         <article class="notice-panel" data-reveal>
           <p class="section-kicker"><LocalizedText zh="浏览器偏好" en="Browser preferences" /></p>
-          <h2><LocalizedText zh="只保存主题和语言选择" en="Only theme and language choices" /></h2>
+          <h2><LocalizedText zh="主题、语言与可选统计偏好" en="Theme, language and optional analytics preferences" /></h2>
           <p>
             <LocalizedText
               zh="主题和语言切换会保存在当前浏览器的本地存储中（x1ao-theme、x1ao-locale），用于记住你的显示偏好；清除浏览器站点数据即可删除。"

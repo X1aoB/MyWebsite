@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="访问统计" description="个人网站与小吉终端的公开基础统计。" noindex={true}>
+  <section class="section">
+    <div class="container" data-statistics>
+      <header class="page-hero">
+        <div class="eyebrow">Statistics</div>
+        <h1>访问与服务统计</h1>
+        <p>每日访问、匿名活跃与服务完成情况。统计按香港时间划分日期。</p>
+      </header>
+      <p role="status" aria-live="polite" data-statistics-status>正在读取统计状态……</p>
+      <div class="statistics-table">
+        <table>
+          <caption>每日基础指标</caption>
+          <thead><tr><th>日期</th><th>应用</th><th>PV</th><th>匿名 UV</th><th>完成请求</th><th>成功率</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p>匿名 UV 在各应用内按日去重，不代表跨设备人数；每日 UV 不累加为区间去重人数。访问统计受用户选择和采集丢失影响。</p>
+      <p>完成请求与成功率来自服务端完成事件，不包含尚未到达生成阶段的请求。无请求时不计算成功率。</p>
+      <h2>近期页面与角色热度</h2>
+      <ul data-statistics-popularity></ul>
+      <p>公开内容仅包含汇总结果，<a href="/privacy/">查看隐私说明</a>。</p>
+    </div>
+  </section>
+  <script is:inline type="module">
+    import config from "/statistics/config.mjs";
+    import { renderSummary } from "/statistics/public-summary.mjs";
+    renderSummary(document.querySelector("[data-statistics]"), config.summaryEndpoint);
+  </script>
+</BaseLayout>
+<style>
+  .statistics-table { overflow-x: auto; margin-block: 1.5rem; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  th, td { padding: .75rem; text-align: left; border-bottom: 1px solid currentColor; white-space: nowrap; }
+  caption { text-align: left; margin-bottom: .5rem; }
+</style>
