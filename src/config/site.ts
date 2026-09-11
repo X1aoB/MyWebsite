@@ -1,10 +1,10 @@
 const configuredSiteUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, "");
 
 export const site = {
-  name: "Xiao B · Data & Systems",
+  name: "小B的开发小站",
   shortName: "Xiao B",
   displayName: "小B",
-  description: "小B 的个人站：记录小吉终端、数据开发与分析实践、摄影和个人工具。",
+  description: "小B的开发小站：分享小吉终端、开源项目、数据开发与分析实践、面试经历、摄影和个人工具。",
   locale: "zh-CN",
   url: configuredSiteUrl || "https://xiaob.dev",
   githubAccount: "X1aoB",

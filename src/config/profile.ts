@@ -26,8 +26,8 @@ export const profileContacts = {
 
 export const profile = {
   homeHeading: {
-    zh: "你好，我是小B！",
-    en: "Hi, I’m Xiao B!"
+    zh: "小B的开发小站",
+    en: "Xiao B Dev Corner"
   },
   sidebarIntro: {
     zh: "小B的个人网站，这里会介绍我的开源项目，更新开发日志，分享本人经历，以及偶尔更新摄影作品",
