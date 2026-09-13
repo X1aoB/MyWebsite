@@ -280,5 +280,6 @@ export const titleTranslations: Record<string, string> = {
   "页面未找到 · 小B的开发小站": "Page not found · Xiao B Dev Corner",
   "小吉终端：为可追溯 RAG 构建数据底座 · 小B的开发小站": "Xiaoji Terminal: a traceable RAG data foundation · Xiao B Dev Corner",
   "站点状态 · 小B的开发小站": "Site status · Xiao B Dev Corner",
-  "隐私与数据说明 · 小B的开发小站": "Privacy & data · Xiao B Dev Corner"
+  "隐私与数据说明 · 小B的开发小站": "Privacy & data · Xiao B Dev Corner",
+  "访问统计 · 小B的开发小站": "Statistics · Xiao B Dev Corner"
 };
