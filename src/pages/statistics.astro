@@ -1,27 +1,29 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import LocalizedText from "../components/LocalizedText.astro";
 ---
 <BaseLayout title="访问统计" description="个人网站与小吉终端的公开基础统计。" noindex={true}>
   <section class="section">
     <div class="container" data-statistics>
       <header class="page-hero">
         <div class="eyebrow">Statistics</div>
-        <h1>访问与服务统计</h1>
-        <p>每日访问、匿名活跃与服务完成情况。统计按香港时间划分日期。</p>
+        <h1><LocalizedText zh="访问与服务统计" en="Visits & service statistics" /></h1>
+        <p><LocalizedText zh="每日访问、匿名活跃与已记录的生成请求。统计按香港时间划分日期。" en="Daily visits, browser activity and recorded generation requests, grouped by Hong Kong date." /></p>
       </header>
       <p role="status" aria-live="polite" data-statistics-status>正在读取统计状态……</p>
       <div class="statistics-table">
         <table>
-          <caption>每日基础指标</caption>
-          <thead><tr><th>日期</th><th>应用</th><th>PV</th><th>匿名 UV</th><th>完成请求</th><th>成功率</th></tr></thead>
+          <caption><LocalizedText zh="每日基础指标" en="Daily basic metrics" /></caption>
+          <thead><tr><th><LocalizedText zh="日期" en="Date" /></th><th><LocalizedText zh="应用" en="Application" /></th><th>PV</th><th><LocalizedText zh="匿名 UV" en="Browser UV" /></th><th><LocalizedText zh="已记录生成请求" en="Recorded generations" /></th><th><LocalizedText zh="成功率" en="Success rate" /></th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
-      <p>匿名 UV 在各应用内按日去重，不代表跨设备人数；每日 UV 不累加为区间去重人数。访问统计受用户选择和采集丢失影响。</p>
-      <p>完成请求与成功率来自服务端完成事件，不包含尚未到达生成阶段的请求。无请求时不计算成功率。</p>
-      <h2>近期页面与角色热度</h2>
+      <p><LocalizedText zh="匿名 UV 在各应用内按日去重，不代表跨设备人数；每日 UV 不累加为区间去重人数。访问统计受用户选择和采集丢失影响。" en="Browser UV is deduplicated per application and day. It does not count people across devices, and daily UV is not added up as distinct visitors across a date range. Consent choices and collection gaps affect coverage." /></p>
+      <p><LocalizedText zh="请求量与成功率的分母为已记录的生成请求，来自脱敏生成完成日志，不代表所有 HTTP 请求或所有聊天尝试。日志缺口不视为成功；无请求时不计算成功率。" en="Request counts and success rates use recorded generation requests from filtered completion logs. They do not represent every HTTP request or chat attempt. Missing logs are not counted as successes, and no success rate is calculated without requests." /></p>
+      <p><LocalizedText zh="每个日期最早在第三天后的 00:15 公开。各指标组分别检查样本门槛，未达到条件显示“样本不足”，未到日期显示“等待公开”。这些规则降低暴露风险，不保证完全匿名。" en="A date first becomes eligible for publication at 00:15 three days later. Each metric group has its own sample checks: insufficient samples and dates awaiting publication are labelled separately. These rules reduce exposure risk but do not guarantee anonymity." /></p>
+      <h2><LocalizedText zh="近期页面与角色热度" en="Recent page & character popularity" /></h2>
       <ul data-statistics-popularity></ul>
-      <p>公开内容仅包含汇总结果，<a href="/privacy/">查看隐私说明</a>。</p>
+      <p><LocalizedText zh="公开内容仅包含汇总结果。" en="Only aggregate results are public. " /><a href="/privacy/"><LocalizedText zh="查看隐私说明" en="Read the privacy notice" /></a></p>
     </div>
   </section>
   <script is:inline type="module">
