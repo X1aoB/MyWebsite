@@ -20,6 +20,16 @@ import { site } from "../config/site";
 
       <div class="privacy-grid">
         <article class="notice-panel" data-reveal>
+          <h2><LocalizedText zh="可选访问统计（默认关闭）" en="Optional visit analytics (off by default)" /></h2>
+          <p><LocalizedText zh="只有选择“允许访问统计”后，本站才会创建独立统计标识，记录允许页面的访问及试玩入口点击。不记录查询参数、JSON 工具输入、聊天正文、密钥、联系方式或原始 IP。匿名标识与同意/拒绝偏好最多保留 30 天；它是浏览器标识，不代表无法关联的完全匿名数据。" en="Only after you choose Allow visit analytics do we create separate analytics identifiers and record approved page visits and clicks to try Xiaoji Terminal. Query parameters, JSON tool input, chat text, keys, contact details and raw IP addresses are excluded. Identifiers and allow/decline preferences last up to 30 days. A browser identifier does not guarantee complete anonymity." /></p>
+          <p><LocalizedText zh="可随时通过“访问统计设置”撤销；本来源所有已打开标签页会停止后续访问统计并清除统计标识，不修改主题、语言、聊天或其他业务存储。已接收事件不会因撤销自动删除：原始统计事件保留目标 7 天，匿名辅助记录最多 30 天，日聚合最多 90 天。浏览器 GPC 或 DNT 信号也会关闭访问统计。" en="Withdraw at any time through Visit analytics settings. Open tabs on this origin stop future visit analytics and remove analytics identifiers, without changing theme, language, chat or other application storage. Withdrawal does not automatically delete already accepted events: raw statistical events have a 7-day retention target, identifier support records up to 30 days and daily aggregates up to 90 days. Browser GPC or DNT signals also disable visit analytics." /></p>
+          <p><LocalizedText zh="个人网站与小吉终端各自决定是否允许，各自保存标识，不合并长期或跨设备身份。仅当两端均已允许时，用一次性跳转编号关联点击后 30 分钟内的成功对话；目的站尚未允许时会丢弃编号，之后允许也不补报先前入口。采集和本机分析只用于本站使用情况与服务改进，公开页仅展示延迟汇总并隐藏不满足发布条件的小样本；缺失数据不等于零。" en="The personal site and Xiaoji Terminal keep separate choices and identifiers, without merging long-term or cross-device identity. When both sites have already been allowed, a one-time entry code links a successful conversation within 30 minutes of the click. The destination discards the code if permission has not been given; allowing later does not report earlier entries. Collection and local analysis support usage understanding and service improvement. Only delayed aggregates are public, with small samples withheld; missing values do not mean zero." /></p>
+        </article>
+        <article class="notice-panel" data-reveal>
+          <h2><LocalizedText zh="独立的服务质量统计" en="Separate service quality statistics" /></h2>
+          <p><LocalizedText zh="小吉终端从既有脱敏生成完成日志提取请求编号、公开角色、完成时间、成功与否及耗时，用于已记录生成请求的数量和成功率。此处理不依赖浏览器访问统计同意，不带访问统计匿名/会话标识，也不读取聊天正文、密钥或详细错误。请求数量不代表所有 HTTP 请求或全部聊天尝试；公开日志未覆盖的失败不能解释为成功。" en="Xiaoji Terminal extracts request IDs, public characters, completion times, outcomes and duration from its existing filtered generation-completion logs to count recorded generations and their success rate. This is independent of the visit analytics choice and includes no visit/session identifiers, chat text, keys or detailed errors. These counts do not represent every HTTP request or chat attempt, and failures absent from the logs must not be interpreted as successes." /></p>
+        </article>
+        <article class="notice-panel" data-reveal>
           <p class="section-kicker"><LocalizedText zh="本站本身" en="This site" /></p>
           <h2><LocalizedText zh="个人站是静态页面，试玩入口是独立服务" en="The personal site is static; the preview is a separate service" /></h2>
           <p>
@@ -32,7 +42,7 @@ import { site } from "../config/site";
 
         <article class="notice-panel" data-reveal>
           <p class="section-kicker"><LocalizedText zh="浏览器偏好" en="Browser preferences" /></p>
-          <h2><LocalizedText zh="只保存主题和语言选择" en="Only theme and language choices" /></h2>
+          <h2><LocalizedText zh="主题、语言与可选统计偏好" en="Theme, language and optional analytics preferences" /></h2>
           <p>
             <LocalizedText
               zh="主题和语言切换会保存在当前浏览器的本地存储中（x1ao-theme、x1ao-locale），用于记住你的显示偏好；清除浏览器站点数据即可删除。"
