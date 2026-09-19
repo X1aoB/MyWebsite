@@ -36,8 +36,19 @@ const dailyNote: NowItem = {
   tags: []
 };
 
+const japanTripNote: NowItem = {
+  slug: "japan-trip-preparation",
+  publishedAt: "2026-09-19T13:32:55+08:00",
+  title: { zh: "日本旅游准备中", en: "Preparing for a trip to Japan" },
+  description: {
+    zh: "国庆和室友去日本玩一圈。闲鱼，中国黑市这一块，订巴士确实便宜。选了一些景点，打算随便逛逛；现在二次元浓度已经没有以前那么高了，也不玩什么圣地巡礼了，拍拍照就够了。后续也许会同步更新旅游攻略和相册。",
+    en: "My roommate and I are planning a trip around Japan during the National Day holiday. Xianyu really lives up to its reputation as China's black market—booking buses there is genuinely cheaper. We picked a handful of places and will mostly wander around. My anime concentration is not what it used to be, so there will be no grand pilgrimage this time; taking photos is enough. I may publish a travel guide and photo album afterward."
+  },
+  tags: ["日本", "旅行准备", "摄影"]
+};
+
 export const now = {
-  updatedAt: "2026-09-03",
+  updatedAt: "2026-09-19",
   intro: {
     zh: "小B的龙门阵和随想",
     en: "Xiao B's ramblings and thoughts"
@@ -48,7 +59,7 @@ export const now = {
       slug: "daily",
       label: { zh: "Daily sharing", en: "Daily sharing" },
       title: { zh: "日常分享", en: "Daily sharing" },
-      items: [dailyNote]
+      items: [japanTripNote, dailyNote]
     },
     {
       id: "now-interviews",
