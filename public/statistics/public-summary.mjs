@@ -46,7 +46,29 @@ function validate(data) {
   return data;
 }
 
-export async function renderSummary(root, endpoint, env = globalThis) {
+/**
+ * Return the latest public row for one application without exposing the raw
+ * payload to the page. Compact cards use this same validated contract as the
+ * full statistics page.
+ */
+export function summarizeCompact(data, scope) {
+  const validated = validate(data);
+  const rows = validated.daily
+    .filter((row) => scope === "all" || row.app === scope)
+    .sort((a, b) => b.date.localeCompare(a.date));
+  const row = rows[0] || null;
+  if (!row) return { status: validated.status, generatedAt: validated.generated_at, row: null };
+  const groups = validated.schema_version === 2
+    ? { access: row.access, quality: row.quality, popularity: row.popularity }
+    : {
+        access: { state: "published", value: { pv: row.pv, uv: row.uv } },
+        quality: { state: "published", value: { requests: row.requests, successes: row.successes, success_rate: row.requests ? row.successes / row.requests : null } },
+        popularity: { state: "published", value: null }
+      };
+  return { status: validated.status, generatedAt: validated.generated_at, row: { ...row, groups } };
+}
+
+export async function renderSummary(root, endpoint, env = globalThis, fallbackEndpoint = "") {
   if (!root) return () => {};
   active.get(root)?.();
   const status = root.querySelector("[data-statistics-status]");
@@ -100,9 +122,15 @@ export async function renderSummary(root, endpoint, env = globalThis) {
     if (stopped || fetching || !endpoint) return;
     fetching = true; controller = new AbortController();
     const timeout = env.setTimeout(() => controller?.abort(), 4000);
-    try {
-      const response = await env.fetch(endpoint, { credentials: "omit", referrerPolicy: "no-referrer", signal: controller.signal });
+    const read = async (target) => {
+      const response = await env.fetch(target, { credentials: "omit", referrerPolicy: "no-referrer", signal: controller.signal });
       if (!response.ok) throw Error("unavailable");
+      return response;
+    };
+    try {
+      let response;
+      try { response = await read(endpoint); }
+      catch (error) { if (!fallbackEndpoint) throw error; response = await read(fallbackEndpoint); }
       const data = validate(await response.json());
       if (!stopped) { cached = data; failed = false; }
     } catch { if (!stopped) failed = true; }
@@ -135,5 +163,83 @@ export async function renderSummary(root, endpoint, env = globalThis) {
       observer.observe(env.document.documentElement, { attributes: true, attributeFilter: ["lang"] });
     }
   }
+  return stop;
+}
+
+/** Render a small, scope-filtered summary card for pages that need a quick read. */
+export async function renderCompactSummary(root, endpoint, scope = "all", env = globalThis, fallbackEndpoint = "") {
+  if (!root) return () => {};
+  active.get(root)?.();
+  const status = root.querySelector("[data-statistics-status]");
+  const generated = root.querySelector("[data-statistics-generated]");
+  const date = root.querySelector("[data-statistics-date]");
+  const values = {
+    pv: root.querySelector("[data-statistics-pv]"),
+    uv: root.querySelector("[data-statistics-uv]"),
+    requests: root.querySelector("[data-statistics-requests]"),
+    success: root.querySelector("[data-statistics-success]")
+  };
+  const retry = root.querySelector("[data-statistics-retry]");
+  const language = () => (root.dataset?.statisticsLocale || env.document?.documentElement?.lang || "zh").startsWith("en") ? "en" : "zh";
+  const now = () => env.Date?.now?.() ?? Date.now();
+  let stopped = false, fetching = false, controller = null, cached = null, failed = false;
+  const labels = () => dictionaries[language()];
+  const formatDate = (value) => {
+    const parsed = value ? new Date(value) : null;
+    if (!parsed || Number.isNaN(parsed.valueOf())) return value || "—";
+    return new Intl.DateTimeFormat(language() === "en" ? "en-GB" : "zh-CN", { year: "numeric", month: "short", day: "numeric", timeZone: "Asia/Hong_Kong" }).format(parsed);
+  };
+  const formatNumber = (value) => value == null ? "—" : new Intl.NumberFormat(language() === "en" ? "en-US" : "zh-CN").format(value);
+  const setValue = (node, value) => { if (node) node.textContent = value; };
+  const draw = () => {
+    const copy = labels();
+    if (!cached) {
+      setValue(status, endpoint ? copy.unavailable : copy.disabled);
+      if (failed && endpoint) setValue(status, copy.offline);
+      return;
+    }
+    const generatedAt = cached.generatedAt ? new Date(cached.generatedAt) : null;
+    const stale = generatedAt && now() - generatedAt.getTime() > STALE_MS;
+    const state = stale ? "stale" : cached.status;
+    setValue(status, `${failed ? copy.offline : copy[state] || copy.unavailable}${generatedAt ? ` · ${copy.updated} ${formatDate(cached.generatedAt)}` : ""}`);
+    const row = cached.row;
+    if (!row) {
+      setValue(date, copy.noData); setValue(values.pv, "—"); setValue(values.uv, "—"); setValue(values.requests, "—"); setValue(values.success, "—");
+      return;
+    }
+    setValue(date, formatDate(row.date));
+    const access = row.groups.access;
+    const quality = row.groups.quality;
+    setValue(values.pv, access.value?.pv == null ? copy[access.state] || copy.noData : formatNumber(access.value.pv));
+    setValue(values.uv, access.value?.uv == null ? copy[access.state] || copy.noData : formatNumber(access.value.uv));
+    setValue(values.requests, quality.value?.requests == null ? copy[quality.state] || copy.noData : formatNumber(quality.value.requests));
+    setValue(values.success, quality.value?.success_rate == null ? copy[quality.state] || copy.noData : `${(quality.value.success_rate * 100).toFixed(1)}%`);
+    setValue(generated, `${copy.updated} ${formatDate(cached.generatedAt)}`);
+  };
+  const refresh = async () => {
+    if (stopped || fetching || !endpoint) return;
+    fetching = true; controller = new AbortController();
+    const timeout = env.setTimeout(() => controller?.abort(), 4000);
+    const read = async (target) => {
+      const response = await env.fetch(target, { credentials: "omit", referrerPolicy: "no-referrer", signal: controller.signal });
+      if (!response.ok) throw Error("unavailable");
+      return response;
+    };
+    try {
+      let response;
+      try { response = await read(endpoint); }
+      catch (error) { if (!fallbackEndpoint) throw error; response = await read(fallbackEndpoint); }
+      cached = summarizeCompact(await response.json(), scope);
+      failed = false;
+    } catch { failed = true; }
+    finally { env.clearTimeout(timeout); fetching = false; if (!stopped) draw(); }
+  };
+  const onLocale = () => draw();
+  const stop = () => { stopped = true; controller?.abort(); env.removeEventListener?.("site-locale-change", onLocale); };
+  active.set(root, stop);
+  retry?.addEventListener?.("click", refresh);
+  env.addEventListener?.("site-locale-change", onLocale);
+  draw();
+  await refresh();
   return stop;
 }

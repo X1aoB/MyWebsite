@@ -6,6 +6,7 @@ import LocalizedText from "../../components/LocalizedText.astro";
 import { site } from "../../config/site";
 import { projectSnow } from "../../config/project-snow";
 import { xiaojiScreenshots, getXiaojiScreenshot } from "../../assets/xiaoji-terminal/screenshots";
+import StatisticsPanel from "../../components/StatisticsPanel.astro";
 
 const projectShots = await Promise.all(xiaojiScreenshots.map(async (shot) => ({ ...shot, image: await getXiaojiScreenshot(shot.src) })));
 const fullScreenshotSizes = "(max-width: 760px) calc(100vw - 34px), (max-width: 1199px) calc(100vw - 254px), (max-width: 1536px) calc(95.4vw - 472px), 992px";
@@ -40,6 +41,8 @@ const startingSteps = [
         <a href="#snow-details"><LocalizedText zh="技术与说明" en="Technical details" /><span aria-hidden="true">↗</span></a>
       </nav>
     </header>
+
+    <StatisticsPanel scope="project_snow" title={{ zh: "CHARACTER DIALOGUE · 延迟公开统计", en: "CHARACTER DIALOGUE · delayed public statistics" }} />
 
     <section class="snow-section" id="snow-experience" aria-labelledby="snow-experience-title">
       <div class="snow-section-heading" data-reveal>

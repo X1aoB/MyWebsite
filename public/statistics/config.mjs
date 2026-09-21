@@ -5,5 +5,6 @@ export default Object.freeze({
   app: "mywebsite",
   endpoint: "https://stats.xiaob.dev/analytics/v1/events",
   summaryEndpoint: "https://stats.xiaob.dev/analytics/public/v2/summary.json",
+  summarySnapshotEndpoint: "/statistics-summary.json",
   paths,
 });

@@ -1,0 +1,48 @@
+---
+import LocalizedText from "./LocalizedText.astro";
+import "../styles/statistics-panel.css";
+
+interface Props {
+  scope: "mywebsite" | "project_snow" | "all";
+  title?: { zh: string; en: string };
+  compact?: boolean;
+}
+
+const {
+  scope,
+  title = scope === "project_snow"
+    ? { zh: "小吉终端 · 延迟公开统计", en: "Xiaoji Terminal · delayed public statistics" }
+    : { zh: "小站 · 延迟公开统计", en: "Site · delayed public statistics" },
+  compact = true
+} = Astro.props;
+---
+
+<section class:list={["statistics-panel", compact && "statistics-panel-compact"]} data-statistics-compact data-statistics-scope={scope} aria-labelledby={`statistics-panel-title-${scope}`}>
+  <header class="statistics-panel-heading">
+    <div>
+      <p class="section-kicker">PUBLIC / AGGREGATE</p>
+      <h2 id={`statistics-panel-title-${scope}`}><LocalizedText {...title} /></h2>
+      <p class="statistics-panel-description"><LocalizedText zh="只展示经过延迟、阈值和隐私规则处理的公开汇总。" en="Only delayed, thresholded, privacy-safe aggregates are shown." /></p>
+    </div>
+    <a class="text-link" href="/statistics/"><LocalizedText zh="查看完整统计" en="View full statistics" /> <span aria-hidden="true">→</span></a>
+  </header>
+  <div class="statistics-panel-status-row">
+    <p data-statistics-status role="status" aria-live="polite"><LocalizedText zh="正在读取统计状态……" en="Loading statistics…" /></p>
+    <button type="button" data-statistics-retry><LocalizedText zh="重试" en="Retry" /></button>
+  </div>
+  <div class="statistics-panel-grid" aria-label="公开统计指标">
+    <div class="statistics-panel-metric"><span>PV</span><strong data-statistics-pv>—</strong><small><LocalizedText zh="页面访问" en="page views" /></small></div>
+    <div class="statistics-panel-metric"><span>UV</span><strong data-statistics-uv>—</strong><small><LocalizedText zh="匿名日活" en="daily browsers" /></small></div>
+    <div class="statistics-panel-metric"><span><LocalizedText zh="生成请求" en="Requests" /></span><strong data-statistics-requests>—</strong><small><LocalizedText zh="已记录" en="recorded" /></small></div>
+    <div class="statistics-panel-metric"><span><LocalizedText zh="成功率" en="Success" /></span><strong data-statistics-success>—</strong><small><LocalizedText zh="公开质量指标" en="public quality" /></small></div>
+  </div>
+  <p class="statistics-panel-date"><span><LocalizedText zh="统计日期" en="Statistic date" /></span> <time data-statistics-date>—</time><span class="statistics-panel-generated" data-statistics-generated></span></p>
+</section>
+
+<script is:inline type="module">
+  import config from "/statistics/config.mjs";
+  import { renderCompactSummary } from "/statistics/public-summary.mjs";
+  document.querySelectorAll("[data-statistics-compact]").forEach((root) => {
+    renderCompactSummary(root, config.summarySnapshotEndpoint || config.summaryEndpoint, root.dataset.statisticsScope || "all", globalThis, config.summarySnapshotEndpoint ? config.summaryEndpoint : "");
+  });
+</script>

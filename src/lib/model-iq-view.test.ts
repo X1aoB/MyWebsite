@@ -16,9 +16,9 @@ describe("Model IQ filtering and sorting", () => {
     expect(rows.map(({ key }) => key)).toEqual(["a", "b", "c"]);
   });
 
-  it("recognizes Astra, filters by family, and keeps unknown models in Other", () => {
-    expect(modelIqFamily(rows[1])).toBe("astra");
-    expect(selectModelIqRows(rows, "luna", "score", "en")).toEqual([rows[2]]);
+  it("recognizes GPT groups, filters by family, and keeps unknown models in Other", () => {
+    expect(modelIqFamily(rows[1])).toBe("gpt-6");
+    expect(selectModelIqRows(rows, "gpt-5.6", "score", "en")).toEqual([rows[0], rows[2]]);
     expect(modelIqFamily(row("unknown", "Future model", 0, 0))).toBe("other");
   });
 
@@ -26,5 +26,9 @@ describe("Model IQ filtering and sorting", () => {
     expect(modelIqPassRate(row("zero", "Zero", 90, 0, 0))).toBe(0);
     const tied = [row("b", "Same", 100, 8), row("a", "Same", 100, 8)];
     expect(selectModelIqRows(tied, "all", "score", "en").map(({ key }) => key)).toEqual(["a", "b"]);
+  });
+
+  it("filters by reasoning effort after applying the model group", () => {
+    expect(selectModelIqRows(rows, "gpt-5.6", "score", "en", "high").map(({ key }) => key)).toEqual(["a", "c"]);
   });
 });

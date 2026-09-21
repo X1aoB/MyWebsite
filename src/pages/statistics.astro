@@ -29,7 +29,7 @@ import LocalizedText from "../components/LocalizedText.astro";
   <script is:inline type="module">
     import config from "/statistics/config.mjs";
     import { renderSummary } from "/statistics/public-summary.mjs";
-    renderSummary(document.querySelector("[data-statistics]"), config.summaryEndpoint);
+    renderSummary(document.querySelector("[data-statistics]"), config.summarySnapshotEndpoint || config.summaryEndpoint, globalThis, config.summarySnapshotEndpoint ? config.summaryEndpoint : "");
   </script>
 </BaseLayout>
 <style>

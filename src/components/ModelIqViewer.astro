@@ -9,7 +9,7 @@ import "../styles/model-iq.css";
     <div>
       <div class="section-kicker"><LocalizedText zh="公开摘要" en="Live public summary" /></div>
       <h2 id="model-iq-dashboard-title"><LocalizedText zh="当前模型表现" en="Current model performance" /></h2>
-      <p><LocalizedText zh="按 Codex Radar 公开摘要整理当前模型分数、任务通过情况与相对排名。" en="Current model scores, passed tasks, and relative rankings from the Codex Radar public summary." /></p>
+      <p><LocalizedText zh="按 Codex Radar 构建快照整理当前模型分数、任务通过情况与相对排名。" en="Current model scores, passed tasks, and relative rankings from a Codex Radar build snapshot." /></p>
     </div>
     <div class="model-iq-actions">
       <button type="button" data-model-iq-refresh>
@@ -26,6 +26,7 @@ import "../styles/model-iq.css";
       <i aria-hidden="true"></i><LocalizedText zh="正在读取公开摘要…" en="Loading public summary…" />
     </p>
     <p><LocalizedText zh="摘要更新时间" en="Summary updated" /> <time data-model-iq-updated>—</time></p>
+    <p data-model-iq-source-status><LocalizedText zh="构建快照" en="Build snapshot" /></p>
   </div>
 
   <div class="model-iq-loading" data-model-iq-loading aria-hidden="true">
@@ -59,8 +60,14 @@ import "../styles/model-iq.css";
     <div class="model-iq-controls">
       <div class="model-iq-filter-field">
         <span data-controls-label="family">模型族</span>
-        <div class="model-iq-filter" role="group" aria-label="模型族筛选" data-model-iq-filters></div>
+        <div class="model-iq-filter" role="group" aria-label="模型分区筛选" data-model-iq-filters></div>
       </div>
+      <label class="model-iq-effort-field">
+        <span data-controls-label="effort">推理强度</span>
+        <select data-model-iq-effort aria-label="推理强度筛选">
+          <option value="all">全部</option>
+        </select>
+      </label>
       <label class="model-iq-sort-field">
         <span data-controls-label="sort">排序</span>
         <select data-model-iq-sort aria-label="模型 IQ 排序方式">
@@ -88,12 +95,12 @@ import "../styles/model-iq.css";
 
   <footer class="model-iq-source-note">
     <p><LocalizedText zh="IQ 为 Codex Radar 的第三方基准分，不代表通用智商，也不是本站独立测评；结果会受任务集、采样和发布状态影响。" en="IQ is Codex Radar's third-party benchmark score, not general intelligence and not an independent test by this site. Results depend on its task set, sampling, and publication status." /></p>
-    <p><LocalizedText zh="数据来自" en="Data from" /> <a href={site.external.codexRadar} target="_blank" rel="noreferrer">Codex 雷达 codexradar.com ↗</a></p>
+    <p><LocalizedText zh="数据来自" en="Data from" /> <a href="https://deng.codexradar.com/" target="_blank" rel="noreferrer">众测雷达 deng.codexradar.com ↗</a> · <a href={site.external.codexRadarSummary} target="_blank" rel="noreferrer">current.json ↗</a></p>
   </footer>
 </section>
 
 <script>
-  import { classifyModelIq, iqHueForScore, modelIqEndpoint, parseModelIqSummary, type ModelIqSummary, type ModelIqTier } from "../lib/model-iq";
+  import { classifyModelIq, iqHueForScore, modelIqEndpoint, modelIqFallbackEndpoint, parseModelIqSnapshot, parseModelIqSummary, type ModelIqSummary, type ModelIqTier } from "../lib/model-iq";
   import { modelIqFamily as familyOf, modelIqPassRate as passRate, selectModelIqRows, type ModelIqFamily as Family, type ModelIqSortMode as SortMode } from "../lib/model-iq-view";
 
   const initializeModelIqViewer = () => {
@@ -110,10 +117,12 @@ import "../styles/model-iq.css";
     const errorMessage = root.querySelector<HTMLElement>("[data-model-iq-error-message]");
     const retry = root.querySelector<HTMLButtonElement>("[data-model-iq-retry]");
     const filters = root.querySelector<HTMLElement>("[data-model-iq-filters]");
+    const effort = root.querySelector<HTMLSelectElement>("[data-model-iq-effort]");
     const sort = root.querySelector<HTMLSelectElement>("[data-model-iq-sort]");
     const ranking = root.querySelector<HTMLOListElement>("[data-model-iq-ranking]");
     let snapshot: ModelIqSummary | null = null;
     let selectedFamily: Family = "all";
+    let selectedEffort = "all";
     let sortMode: SortMode = "score";
     let controller: AbortController | undefined;
     let loadState: "loading" | "success" | "error" = "loading";
@@ -134,10 +143,8 @@ import "../styles/model-iq.css";
     };
     const familyLabel = (family: Family) => ({
       all: text("全部", "All"),
-      astra: "Astra",
-      sol: "Sol",
-      terra: "Terra",
-      luna: "Luna",
+      "gpt-6": "GPT-6",
+      "gpt-5.6": "GPT-5.6",
       "gpt-5.5": "5.5",
       other: text("其他", "Other")
     })[family];
@@ -204,14 +211,16 @@ import "../styles/model-iq.css";
         const copy = overviewDetails[node.dataset.overviewCopy ?? ""];
         if (copy) node.textContent = text(...copy);
       });
-      root.querySelector<HTMLElement>("[data-controls-label='family']")!.textContent = text("模型族", "Model family");
+      root.querySelector<HTMLElement>("[data-controls-label='family']")!.textContent = text("模型分区", "Model groups");
+      root.querySelector<HTMLElement>("[data-controls-label='effort']")!.textContent = text("推理强度", "Reasoning effort");
       root.querySelector<HTMLElement>("[data-controls-label='sort']")!.textContent = text("排序", "Sort by");
       root.querySelector<HTMLElement>("[data-ranking-title]")!.textContent = text("模型排名", "Model ranking");
       renderSortDescription();
       root.querySelector<HTMLElement>("[data-model-iq-content]")?.setAttribute("aria-label", text("模型 IQ 数据与排名", "Model IQ data and ranking"));
       root.querySelector<HTMLElement>("[data-model-iq-overview]")?.setAttribute("aria-label", text("模型 IQ 概览", "Model IQ overview"));
-      root.querySelector<HTMLElement>("[data-model-iq-filters]")?.setAttribute("aria-label", text("模型族筛选", "Model family filters"));
+      root.querySelector<HTMLElement>("[data-model-iq-filters]")?.setAttribute("aria-label", text("模型分区筛选", "Model group filters"));
       sort?.setAttribute("aria-label", text("模型 IQ 排序方式", "Model IQ sort order"));
+      effort?.setAttribute("aria-label", text("推理强度筛选", "Reasoning effort filter"));
       ranking?.setAttribute("aria-label", text("模型 IQ 排名", "Model IQ ranking"));
       if (sort) {
         sort.options[0].textContent = text("IQ 分数", "IQ score");
@@ -223,7 +232,7 @@ import "../styles/model-iq.css";
     const renderFilters = () => {
       if (!snapshot || !filters) return;
       const available = new Set(snapshot.rows.map(familyOf));
-      const familyOrder: Family[] = ["astra", "sol", "terra", "luna", "gpt-5.5", "other"];
+      const familyOrder: Family[] = ["gpt-6", "gpt-5.6", "gpt-5.5", "other"];
       const families: Family[] = ["all", ...familyOrder.filter((family) => available.has(family))];
       const focusedFamily = document.activeElement instanceof HTMLElement && filters.contains(document.activeElement)
         ? document.activeElement.dataset.family : undefined;
@@ -247,11 +256,19 @@ import "../styles/model-iq.css";
         button.setAttribute("aria-pressed", String(selectedFamily === family));
       });
       if (focusedFamily && !families.includes(focusedFamily as Family)) filters.querySelector<HTMLButtonElement>("button[data-family='all']")?.focus();
+      if (effort) {
+        const efforts = [...new Set(snapshot.rows.map((row) => row.reasoningEffort).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+        const selected = selectedEffort;
+        effort.replaceChildren(new Option(text("全部", "All"), "all"));
+        efforts.forEach((value) => effort.append(new Option(value, value)));
+        effort.value = efforts.includes(selected) ? selected : "all";
+        selectedEffort = effort.value;
+      }
     };
 
     const visibleRows = () => {
       if (!snapshot) return [];
-      return selectModelIqRows(snapshot.rows, selectedFamily, sortMode, locale() === "en" ? "en" : "zh-CN");
+      return selectModelIqRows(snapshot.rows, selectedFamily, sortMode, locale() === "en" ? "en" : "zh-CN", selectedEffort);
     };
 
     const renderOverview = () => {
@@ -266,6 +283,8 @@ import "../styles/model-iq.css";
       root.querySelector<HTMLElement>("[data-model-iq-pass-rate]")!.textContent = tasks ? `${((passed / tasks) * 100).toFixed(1)}%` : "—";
       root.querySelector<HTMLElement>("[data-model-iq-pass-tasks]")!.textContent = text(`${passed} / ${tasks} 次任务`, `${passed} / ${tasks} tasks`);
       root.querySelector<HTMLElement>("[data-model-iq-count]")!.textContent = String(snapshot.rows.length);
+      const sourceStatus = root.querySelector<HTMLElement>("[data-model-iq-source-status]");
+      if (sourceStatus) sourceStatus.textContent = snapshot.status === "partial" ? text("部分来源可用", "Partial sources") : text("构建快照", "Build snapshot");
     };
 
     const renderRanking = () => {
@@ -287,7 +306,9 @@ import "../styles/model-iq.css";
         model.className = "model-iq-rank-model";
         const name = document.createElement("strong");
         name.textContent = row.label;
-        model.append(name);
+        const context = document.createElement("small");
+        context.textContent = `${row.reasoningEffort || text("默认", "default")} · ${row.source === "radar" ? "Radar" : "current.json"}`;
+        model.append(name, context);
 
         const score = document.createElement("div");
         score.className = "model-iq-rank-score";
@@ -350,8 +371,18 @@ import "../styles/model-iq.css";
           headers: { Accept: "application/json" }
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const next = parseModelIqSummary(await response.json());
-        if (!next) throw new Error("invalid public summary");
+        const parsedSnapshot = parseModelIqSnapshot(await response.json());
+        let next: ModelIqSummary | null = parsedSnapshot
+          ? { updatedAt: parsedSnapshot.sourceUpdatedAt || parsedSnapshot.generatedAt, rows: parsedSnapshot.rows, status: parsedSnapshot.status, sourceUpdatedAt: parsedSnapshot.sourceUpdatedAt, sources: parsedSnapshot.sources }
+          : null;
+        if (!next?.rows.length) {
+          const fallback = await fetch(modelIqFallbackEndpoint, { signal: request.signal, headers: { Accept: "application/json" } });
+          if (fallback.ok) {
+            const fallbackSummary = parseModelIqSummary(await fallback.json());
+            if (fallbackSummary) next = { ...fallbackSummary, status: "partial", sources: [] };
+          }
+        }
+        if (!next?.rows.length) throw new Error("invalid public summary");
         if (controller !== request) return;
         snapshot = next;
         render();
@@ -377,6 +408,10 @@ import "../styles/model-iq.css";
     sort?.addEventListener("change", () => {
       sortMode = sort.value as SortMode;
       renderSortDescription();
+      renderRanking();
+    });
+    effort?.addEventListener("change", () => {
+      selectedEffort = effort.value;
       renderRanking();
     });
     refresh?.addEventListener("click", () => void load());

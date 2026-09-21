@@ -214,12 +214,14 @@
 }
 
 .model-iq-filter-field,
+.model-iq-effort-field,
 .model-iq-sort-field {
   display: grid;
   gap: 8px;
 }
 
 .model-iq-filter-field > span,
+.model-iq-effort-field > span,
 .model-iq-sort-field > span {
   color: var(--dim);
   font-size: 0.68rem;
@@ -252,6 +254,7 @@
   border-color: var(--line-strong);
 }
 
+.model-iq-effort-field select,
 .model-iq-sort-field select {
   min-width: 142px;
   min-height: 36px;
@@ -375,6 +378,14 @@
   color: var(--ink);
   font-size: 0.91rem;
   line-height: 1.35;
+}
+
+.model-iq-rank-model small {
+  overflow: hidden;
+  color: var(--dim);
+  font-size: 0.61rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .model-iq-rank-score {
@@ -523,10 +534,12 @@
     border-top: 1px solid var(--line);
   }
 
+  .model-iq-effort-field,
   .model-iq-sort-field {
     margin-top: 14px;
   }
 
+  .model-iq-effort-field select,
   .model-iq-sort-field select {
     width: 100%;
   }

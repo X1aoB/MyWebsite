@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LocalizedText from "../../components/LocalizedText.astro";
+import { personalSkillGroups, personalSkills } from "../../config/personal-skills";
+import "../../styles/personal-skills.css";
+---
+
+<BaseLayout title="个人 Skills" description="面向数据、交付、内容和职业材料的 10 个通用生产工作流 Skill。">
+  <section class="page-hero personal-skills-hero">
+    <div class="container" data-reveal>
+      <a class="text-link" href="/tools/"><span aria-hidden="true">←</span><LocalizedText zh="返回工具" en="Back to tools" /></a>
+      <div class="eyebrow">AI tools / personal skills</div>
+      <h1><LocalizedText zh="个人 Skills" en="Personal Skills" /></h1>
+      <p><LocalizedText zh="把日常生产流程整理成可迁移的操作单元。每个 Skill 都可以单独下载、解压并安装到个人 Skills 目录。" en="Reusable units for everyday production work. Download, unpack, and install each Skill separately in your personal Skills directory." /></p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container personal-skills-directory">
+      <p class="personal-skills-count"><LocalizedText zh={`共 ${personalSkills.length} 个独立 Skill · 单个 ZIP 下载`} en={`${personalSkills.length} independent Skills · one ZIP per download`} /></p>
+      {personalSkillGroups.map((group) => (
+        <section class="personal-skill-group" aria-labelledby={`skills-${group.id}-title`} data-reveal>
+          <header class="personal-skill-group-heading">
+            <div><div class="section-kicker">{group.id.toUpperCase()}</div><h2 id={`skills-${group.id}-title`}><LocalizedText {...group.title} /></h2></div>
+            <p><LocalizedText {...group.description} /></p>
+          </header>
+          <div class="personal-skill-grid">
+            {personalSkills.filter((skill) => skill.group === group.id).map((skill) => (
+              <article class="personal-skill-card">
+                <div class="personal-skill-card-head"><span class="personal-skill-icon" aria-hidden="true">{skill.icon}</span><span class="personal-skill-tags">{skill.tags.join(" / ")}</span></div>
+                <h3><LocalizedText {...skill.title} /></h3>
+                <p><LocalizedText {...skill.summary} /></p>
+                <dl class="personal-skill-facts">
+                  <div><dt><LocalizedText zh="适用时机" en="Use when" /></dt><dd><LocalizedText {...skill.useWhen} /></dd></div>
+                  <div><dt><LocalizedText zh="输出" en="Output" /></dt><dd><LocalizedText {...skill.output} /></dd></div>
+                </dl>
+                <a class="button personal-skill-download" href={`/downloads/skills/${skill.slug}.zip`} download={`${skill.slug}.zip`}><LocalizedText zh="下载 Skill ZIP" en="Download Skill ZIP" /> <span aria-hidden="true">↓</span></a>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

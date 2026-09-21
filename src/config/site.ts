@@ -55,7 +55,7 @@ export const site = {
     ccByNcSa: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
     projectSnowPlay: "https://snow.xiaob.dev/",
     projectSnowPrivacy: "https://snow.xiaob.dev/privacy/",
-    codexRadar: "https://codexradar.com/#model-ratings",
+    codexRadar: "https://deng.codexradar.com/",
     codexRadarSummary: "https://codexradar.com/current.json"
   }
 } as const;

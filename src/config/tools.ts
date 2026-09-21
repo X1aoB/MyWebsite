@@ -21,6 +21,13 @@ export const tools: Tool[] = [
     tags: ["AI", "模型", "Codex Radar", "benchmark"]
   },
   {
+    id: "personal-skills", url: "/tools/skills/", category: "ai", icon: "SK",
+    title: { zh: "个人 Skills", en: "Personal Skills" },
+    description: { zh: "下载面向数据、交付、内容和职业材料的通用生产工作流。", en: "Download reusable production workflows for data, delivery, content, and career material." },
+    status: { zh: "10 个可下载", en: "10 downloads" },
+    tags: ["AI", "Skills", "生产流程", "workflow"]
+  },
+  {
     id: "json", url: "/tools/json/", category: "data", icon: "{ }",
     title: { zh: "JSON 工作台", en: "JSON workbench" },
     description: { zh: "在浏览器中格式化、压缩、校验 JSON，保留大整数精度，一键复制或下载。", en: "Format, minify, and validate JSON locally while preserving large numbers. Copy or download the result." },
