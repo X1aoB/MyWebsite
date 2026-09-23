@@ -6,7 +6,7 @@
 
 关闭时将该环境变量改为 `false` 并重新发布，核对正式 `/statistics/config.mjs` 为 `enabled: false`。已打开的标签页刷新后取得新配置；紧急情况下可先关闭 collector 接收，使未刷新页面的请求不能入库。配置以 `no-store` 发布，但这不会自动替换已经执行的页面脚本。页脚公开统计入口由独立的 `PUBLIC_STATISTICS_PAGE_ENABLED=true` 控制；关闭采集与移除页面分别操作。
 
-统计页面 `/statistics/` 和首页/项目页紧凑卡优先读取构建生成的同源 `/statistics-summary.json`，避免公开汇总端点缺少 CORS 时影响浏览器；该快照由构建时请求 `summaryEndpoint` 生成，失败时写入可渲染的 unavailable 合约。运行时仍保留 summaryEndpoint 作为配置降级源。页脚入口由 PUBLIC_STATISTICS_PAGE_ENABLED=true 控制。公开 JSON 仅允许聚合，页面没有数据库凭据。
+统计页面 `/statistics/` 和首页/项目页紧凑卡运行时优先读取 `summaryEndpoint`，每次读取使用 `no-store` 和时间参数，避免 CDN 或浏览器保留旧汇总；同源 `/statistics-summary.json` 是构建生成的故障回退快照，失败时写入可渲染的 unavailable 合约。完整页面和紧凑卡都会在页面可见时定期刷新，页面隐藏时暂停请求。页脚入口由 PUBLIC_STATISTICS_PAGE_ENABLED=true 控制。公开 JSON 仅允许聚合，页面没有数据库凭据。
 
 实现源为独立 Snow_Statistics 仓库中的 v1 浏览器适配器，当前仓库持有完整副本，运行、构建和测试不依赖其存在。修改副本后独立测试、提交与发布。
 

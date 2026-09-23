@@ -2,6 +2,11 @@
 const active = new WeakMap();
 const STALE_MS = 26 * 60 * 60 * 1000;
 const REFRESH_MS = 5 * 60 * 1000;
+const cacheBusted = (target, stamp) => {
+  if (!target) return target;
+  const separator = target.includes("?") ? "&" : "?";
+  return `${target}${separator}__statistics_refresh=${encodeURIComponent(stamp)}`;
+};
 const dictionaries = {
   zh: { disabled: "统计尚未启用。", unavailable: "统计暂不可用，请稍后再试。", ok: "延迟公开的汇总统计",
     empty: "尚无可公开的数据", stale: "历史结果，等待更新", archived: "历史归档", updated: "更新于",
@@ -123,7 +128,9 @@ export async function renderSummary(root, endpoint, env = globalThis, fallbackEn
     fetching = true; controller = new AbortController();
     const timeout = env.setTimeout(() => controller?.abort(), 4000);
     const read = async (target) => {
-      const response = await env.fetch(target, { credentials: "omit", referrerPolicy: "no-referrer", signal: controller.signal });
+      const response = await env.fetch(cacheBusted(target, now()), {
+        credentials: "omit", referrerPolicy: "no-referrer", cache: "no-store", signal: controller.signal
+      });
       if (!response.ok) throw Error("unavailable");
       return response;
     };
@@ -182,7 +189,7 @@ export async function renderCompactSummary(root, endpoint, scope = "all", env = 
   const retry = root.querySelector("[data-statistics-retry]");
   const language = () => (root.dataset?.statisticsLocale || env.document?.documentElement?.lang || "zh").startsWith("en") ? "en" : "zh";
   const now = () => env.Date?.now?.() ?? Date.now();
-  let stopped = false, fetching = false, controller = null, cached = null, failed = false;
+  let stopped = false, fetching = false, controller = null, cached = null, failed = false, interval = null, refreshed = 0;
   const labels = () => dictionaries[language()];
   const formatDate = (value) => {
     const parsed = value ? new Date(value) : null;
@@ -221,7 +228,9 @@ export async function renderCompactSummary(root, endpoint, scope = "all", env = 
     fetching = true; controller = new AbortController();
     const timeout = env.setTimeout(() => controller?.abort(), 4000);
     const read = async (target) => {
-      const response = await env.fetch(target, { credentials: "omit", referrerPolicy: "no-referrer", signal: controller.signal });
+      const response = await env.fetch(cacheBusted(target, now()), {
+        credentials: "omit", referrerPolicy: "no-referrer", cache: "no-store", signal: controller.signal
+      });
       if (!response.ok) throw Error("unavailable");
       return response;
     };
@@ -232,14 +241,31 @@ export async function renderCompactSummary(root, endpoint, scope = "all", env = 
       cached = summarizeCompact(await response.json(), scope);
       failed = false;
     } catch { failed = true; }
-    finally { env.clearTimeout(timeout); fetching = false; if (!stopped) draw(); }
+    finally { env.clearTimeout(timeout); fetching = false; refreshed = now(); if (!stopped) draw(); }
   };
   const onLocale = () => draw();
-  const stop = () => { stopped = true; controller?.abort(); env.removeEventListener?.("site-locale-change", onLocale); };
+  const visible = () => env.document?.visibilityState !== "hidden";
+  const tick = () => { if (!stopped) { draw(); if (visible() && now() - refreshed >= REFRESH_MS) void refresh(); } };
+  const pagehide = event => { if (!event.persisted) stop(); };
+  const stop = () => {
+    stopped = true;
+    controller?.abort();
+    if (interval !== null) env.clearInterval?.(interval);
+    env.removeEventListener?.("site-locale-change", onLocale);
+    env.document?.removeEventListener?.("visibilitychange", tick);
+    env.removeEventListener?.("pagehide", pagehide);
+    env.removeEventListener?.("pageshow", tick);
+  };
   active.set(root, stop);
   retry?.addEventListener?.("click", refresh);
   env.addEventListener?.("site-locale-change", onLocale);
   draw();
   await refresh();
+  if (!stopped) {
+    if (env.setInterval) interval = env.setInterval(tick, 60000);
+    env.document?.addEventListener?.("visibilitychange", tick);
+    env.addEventListener?.("pagehide", pagehide);
+    env.addEventListener?.("pageshow", tick);
+  }
   return stop;
 }

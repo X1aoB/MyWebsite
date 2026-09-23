@@ -27,7 +27,7 @@ export async function GET() {
   return new Response(JSON.stringify(await readSummary()), {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "public, max-age=300, stale-while-revalidate=3600"
+      "Cache-Control": "no-store, max-age=0"
     }
   });
 }

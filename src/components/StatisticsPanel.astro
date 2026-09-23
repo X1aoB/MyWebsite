@@ -43,6 +43,7 @@ const {
   import config from "/statistics/config.mjs";
   import { renderCompactSummary } from "/statistics/public-summary.mjs";
   document.querySelectorAll("[data-statistics-compact]").forEach((root) => {
-    renderCompactSummary(root, config.summarySnapshotEndpoint || config.summaryEndpoint, root.dataset.statisticsScope || "all", globalThis, config.summarySnapshotEndpoint ? config.summaryEndpoint : "");
+    renderCompactSummary(root, config.summaryEndpoint || config.summarySnapshotEndpoint, root.dataset.statisticsScope || "all", globalThis,
+      config.summaryEndpoint && config.summarySnapshotEndpoint && config.summaryEndpoint !== config.summarySnapshotEndpoint ? config.summarySnapshotEndpoint : "");
   });
 </script>
