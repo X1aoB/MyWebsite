@@ -94,12 +94,11 @@
 }
 
 .statistics-panel-metric strong {
-  overflow: hidden;
   color: var(--ink);
   font-size: clamp(1.25rem, 3vw, 1.8rem);
-  line-height: 1.1;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .statistics-panel-date {

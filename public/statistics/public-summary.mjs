@@ -52,16 +52,19 @@ function validate(data) {
 }
 
 /**
- * Return the latest public row for one application without exposing the raw
- * payload to the page. Compact cards use this same validated contract as the
- * full statistics page.
+ * Prefer the latest day with any published group for this application. Keep
+ * every metric on that same day; when no day is published, show the latest
+ * state. Compact cards use the full page's validated public contract.
  */
 export function summarizeCompact(data, scope) {
   const validated = validate(data);
   const rows = validated.daily
     .filter((row) => scope === "all" || row.app === scope)
     .sort((a, b) => b.date.localeCompare(a.date));
-  const row = rows[0] || null;
+  const published = validated.schema_version === 2
+    ? rows.find(row => [row.access, row.quality, row.popularity].some(group => group.state === "published"))
+    : null;
+  const row = published || rows[0] || null;
   if (!row) return { status: validated.status, generatedAt: validated.generated_at, row: null };
   const groups = validated.schema_version === 2
     ? { access: row.access, quality: row.quality, popularity: row.popularity }
