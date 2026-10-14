@@ -47,8 +47,96 @@ const japanTripNote: NowItem = {
   tags: ["日本", "旅行准备", "摄影"]
 };
 
+const failedBeforeTheStartNote: NowItem = {
+  slug: "failed-before-the-start",
+  publishedAt: "2026-10-14T18:30:11+08:00",
+  title: {
+    zh: "出师未捷身先死这一块",
+    en: "Dying before victory is kind of my thing"
+  },
+  description: {
+    zh: "发现自己好像确实是不是编程脑子，一直刷力扣和SQL是不是路给走窄了...手撕撕不出来真的感觉不是这块料，该考虑换行了也许，数据开发也没有什么具体的经历看上去也是死路一条啊，感觉来个一年的耍起指不定真是最好的选择XDDDDDDDDD",
+    en: "I am starting to wonder whether I genuinely just do not have the brain for programming. Have I boxed myself in by grinding LeetCode and SQL all the time...? When I cannot solve a live coding problem, it really feels like I am not cut out for this. Maybe it is time to switch lines. I do not have any concrete data engineering experience either, so that looks like a dead end too. Feels like taking a year off to mess around might genuinely be the best choice XDDDDDDDDD"
+  },
+  tags: []
+};
+
+const japanRouteGuide: NowItem = {
+  slug: "japan-eleven-day-route-and-tips",
+  publishedAt: "2026-10-14T18:30:12+08:00",
+  title: {
+    zh: "日本旅游路线总结与个人经验",
+    en: "Japan itinerary summary and personal tips"
+  },
+  description: {
+    zh: `1.路线总结：
+
+①10月2日从香港飞往成田机场，落地后乘京成和JR前往东京站，当晚从东京站八重洲乘坐夜巴，第二天早上抵达神户三宫。
+
+②10月3日在神户从三宫一路经过生田神社、Center Plaza、南京町、旧居留地、美利坚公园和Harborland，傍晚从神户站乘JR前往大阪入住。
+
+③10月4日在大阪游览大阪城、黑门市场、日本桥电器街、新世界、法善寺横丁、道顿堀和心斋桥。
+
+④10月5日从大阪前往奈良，游览兴福寺、猿泽池、奈良国立博物馆外观、奈良公园、南大门和东大寺，下午继续前往京都入住。
+
+⑤10月6日在京都游览伏见稻荷、清水寺、二年坂、八坂塔、祇园、八坂神社、寺町和新京极，下午乘JR前往名古屋，晚上入住网咖。
+
+⑥10月7日在名古屋游览热田神宫、大须、名古屋城外观、丸善、Oasis 21和MIRAI Tower，下午乘铁路前往御殿场并入住酒店。
+
+⑦10月8日天气好的情况下，从御殿场乘巴士前往河口湖，租自行车或电助力车环湖，傍晚乘巴士前往东京；天气不好则放弃河口湖，改为御殿场Premium Outlets和横滨，之后前往东京。
+
+⑧东京部分自行查找攻略，想怎么逛就怎么逛，交通吃饭都非常方便。朋友在10月11日晚前往羽田机场，乘坐10月12日凌晨的航班，路线总结到朋友起飞为止。
+
+2.个人经验：
+
+①各种地方都对外国人友好，无需担心交流问题，餐厅有点单机，一点英语+翻译器即可。
+
+②可以搜一下自己想买的东西，无论是衣服还是电气或者周边之类的大多数都可以买到并且还能退税，个人买了鸟和巴塔的衣服，比国内还是便宜很多。
+
+③如果有固定地点可以选择行李额+旅行箱（有的酒店可以提前/延后寄存行李），如果像我这样随时转移阵地，可以背徒步包。
+
+④这次出行付款基本是BOCHK的万事达扣账卡+现金+微信/支付宝 现金需要准备一些不需要太多，支付宝和微信有汇率折扣可以领，还是能省一点钱。
+
+⑤按照我们体验来看机票来回+托运行李额在2000以下就很划算了，酒店的话波动比较大并且远近也不同，这里给出150/人/晚的参考价，大床房两人分担最划算。
+
+⑥如果有更多问题，可以通过网站邮箱联系我，乐意解答√`,
+    en: `1. Route summary:
+
+① On October 2, fly from Hong Kong to Narita Airport. After landing, take the Keisei line and JR to Tokyo Station, then board an overnight bus from Tokyo Station Yaesu and arrive at Kobe Sannomiya the next morning.
+
+② On October 3, walk through Kobe from Sannomiya via Ikuta Shrine, Center Plaza, Nankinmachi, the Former Foreign Settlement, Meriken Park, and Harborland. In the evening, take JR from Kobe Station to Osaka and check in.
+
+③ On October 4, visit Osaka Castle, Kuromon Market, Nipponbashi electronics district, Shinsekai, Hozenji Yokocho, Dotonbori, and Shinsaibashi.
+
+④ On October 5, travel from Osaka to Nara and visit Kofukuji, Sarusawa Pond, the exterior of the Nara National Museum, Nara Park, Nandaimon, and Todaiji. Continue to Kyoto in the afternoon and check in.
+
+⑤ On October 6, visit Fushimi Inari, Kiyomizudera, Ninenzaka, Yasaka Pagoda, Gion, Yasaka Shrine, Teramachi, and Shinkyogoku in Kyoto. Take JR to Nagoya in the afternoon and stay overnight at an internet cafe.
+
+⑥ On October 7, visit Atsuta Shrine, Osu, the exterior of Nagoya Castle, Maruzen, Oasis 21, and MIRAI Tower in Nagoya. Travel by rail to Gotemba in the afternoon and check into the hotel.
+
+⑦ On October 8, if the weather is good, take a bus from Gotemba to Lake Kawaguchi, rent a bicycle or e-bike to ride around the lake, and take an evening bus to Tokyo. If the weather is poor, skip Lake Kawaguchi and visit Gotemba Premium Outlets and Yokohama before heading to Tokyo.
+
+⑧ Look up Tokyo guides yourself and wander however you like; getting around and finding food are both very convenient. My friend heads to Haneda Airport on the evening of October 11 for a flight in the early hours of October 12, and this route summary ends when that flight departs.
+
+2. Personal experience:
+
+① Everywhere is friendly to foreign visitors, so there is no need to worry much about communication. Restaurants often have ordering machines, and a little English plus a translation app is enough.
+
+② Search for anything you want to buy in advance. Most clothes, electronics, and merchandise are available, often with tax refunds. I bought clothes from Arc'teryx and Patagonia, and they were still much cheaper than in China.
+
+③ If you are staying in fixed locations, you can buy checked baggage and bring a suitcase; some hotels can store luggage before check-in or after check-out. If you keep moving around like I did, a hiking backpack works better.
+
+④ I paid mainly with a BOCHK Mastercard debit card, cash, and WeChat Pay or Alipay. Bring some cash, but not too much. Alipay and WeChat sometimes offer exchange-rate discounts that can save a little money.
+
+⑤ Based on our experience, a round-trip flight with checked baggage for under RMB 2,000 is a very good deal. Hotel prices vary greatly by date and distance, so RMB 150 per person per night is a useful reference. Splitting a double room between two people is usually the cheapest option.
+
+⑥ If you have more questions, contact me through the website email. I am happy to help √`
+  },
+  tags: []
+};
+
 export const now = {
-  updatedAt: "2026-09-19",
+  updatedAt: "2026-10-14",
   intro: {
     zh: "小B的龙门阵和随想",
     en: "Xiao B's ramblings and thoughts"
@@ -59,7 +147,7 @@ export const now = {
       slug: "daily",
       label: { zh: "Daily sharing", en: "Daily sharing" },
       title: { zh: "日常分享", en: "Daily sharing" },
-      items: [japanTripNote, dailyNote]
+      items: [failedBeforeTheStartNote, japanTripNote, dailyNote]
     },
     {
       id: "now-interviews",
@@ -123,7 +211,7 @@ My main problem was not a total lack of experience, but an inability to present 
       slug: "guides",
       label: { zh: "Odds & guides", en: "Odds & guides" },
       title: { zh: "随机攻略", en: "Random guides" },
-      items: []
+      items: [japanRouteGuide]
     }
   ] satisfies readonly NowSection[]
 } as const;
