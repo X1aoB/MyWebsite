@@ -1,0 +1,43 @@
+---
+/**
+ * One journal entry on a timeline: serial + date marker, then the summary.
+ * `compact` drops the reading time and "read" link and adds a trailing arrow (home page).
+ */
+import Icon from "./Icon.astro";
+import LocalizedText from "./LocalizedText.astro";
+import { estimateReadingMinutes, journalSerial } from "../lib/reading";
+
+interface Props {
+  post: {
+    id: string;
+    body?: string;
+    data: { title: string; description: string; pubDate: Date; tags: string[]; accent: "ice" | "mint" | "violet" };
+  };
+  compact?: boolean;
+}
+
+const { post, compact = false } = Astro.props;
+const serial = journalSerial(post.id);
+const href = `/journal/${post.id}/`;
+const stamp = new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "UTC" })
+  .format(post.data.pubDate)
+  .replaceAll("/", ".");
+const minutes = estimateReadingMinutes(post.body ?? "");
+---
+
+<article class:list={["journal-entry", `journal-entry--${post.data.accent}`, { "journal-entry--compact": compact }]} data-reveal>
+  <div class="journal-entry-marker">
+    <span class="journal-entry-no">{serial ? `No.${serial}` : <LocalizedText zh="专题" en="Feature" />}</span>
+    <time datetime={post.data.pubDate.toISOString()}>{stamp}</time>
+  </div>
+  <div class="journal-entry-body">
+    <p class="article-meta journal-entry-meta">
+      {!compact && <><LocalizedText zh={`约 ${minutes} 分钟`} en={`${minutes} min read`} /><span aria-hidden="true">·</span></>}
+      <span lang="zh-CN" data-no-translate>{post.data.tags.join(" / ")}</span>
+    </p>
+    <h3 lang="zh-CN" data-no-translate><a href={href}>{post.data.title}</a></h3>
+    <p lang="zh-CN" data-no-translate>{post.data.description}</p>
+    {!compact && <a class="text-link" href={href}><LocalizedText zh="阅读文章" en="Read article" /><span aria-hidden="true"><Icon name="arrow-right" /></span></a>}
+  </div>
+  {compact && <a class="feed-arrow" href={href} aria-label={`阅读：${post.data.title}`}><span aria-hidden="true"><Icon name="arrow-right" /></span></a>}
+</article>

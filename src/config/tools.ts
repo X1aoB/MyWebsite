@@ -1,10 +1,11 @@
+import type { IconName } from "../lib/icons";
 import type { SearchLocalizedValue } from "../lib/search";
 
 type Tool = {
   id: string;
   url: string;
   category: "ai" | "data";
-  icon: string;
+  icon: IconName;
   title: SearchLocalizedValue;
   description: SearchLocalizedValue;
   status: SearchLocalizedValue;
@@ -14,21 +15,21 @@ type Tool = {
 /** Published utilities only. Tools are searchable, but are not editorial updates. */
 export const tools: Tool[] = [
   {
-    id: "model-iq", url: "/tools/model-iq/", category: "ai", icon: "IQ",
+    id: "model-iq", url: "/tools/model-iq/", category: "ai", icon: "radar",
     title: { zh: "模型 IQ 雷达", en: "Model IQ radar" },
     description: { zh: "查看模型分数、任务通过率、排名和更新时间。", en: "Explore model scores, pass rates, rankings, and update times." },
     status: { zh: "公开数据", en: "Public data" },
     tags: ["AI", "模型", "Codex Radar", "benchmark"]
   },
   {
-    id: "personal-skills", url: "/tools/skills/", category: "ai", icon: "SK",
+    id: "personal-skills", url: "/tools/skills/", category: "ai", icon: "package",
     title: { zh: "个人 Skills", en: "Personal Skills" },
     description: { zh: "下载面向数据、交付、内容和职业材料的通用生产工作流。", en: "Download reusable production workflows for data, delivery, content, and career material." },
     status: { zh: "10 个可下载", en: "10 downloads" },
     tags: ["AI", "Skills", "生产流程", "workflow"]
   },
   {
-    id: "json", url: "/tools/json/", category: "data", icon: "{ }",
+    id: "json", url: "/tools/json/", category: "data", icon: "braces",
     title: { zh: "JSON 工作台", en: "JSON workbench" },
     description: { zh: "在浏览器中格式化、压缩、校验 JSON，保留大整数精度，一键复制或下载。", en: "Format, minify, and validate JSON locally while preserving large numbers. Copy or download the result." },
     status: { zh: "本地处理", en: "Local processing" },

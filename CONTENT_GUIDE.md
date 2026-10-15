@@ -98,7 +98,7 @@ draft: false
 ---
 ```
 
-`cover` 是列表页的标题图，`photos` 是悬浮阅读窗里顺序展示的内容，`equipment` 是公开展示的设备信息。`caption` 和 `note` 会保留在内容数据中供搜索与后续整理，但不会在图片窗口内显示；`aspect` 都可以不写，图片横竖比例不同时填写 `landscape`、`portrait` 或 `square` 会让网格更贴合原图。
+`cover` 是列表页的标题图，`photos` 是悬浮阅读窗里顺序展示的内容，`equipment` 是公开展示的设备信息。`caption` 和 `note` 会保留在内容数据中供搜索与后续整理，但不会在图片窗口内显示；`aspect` 都可以不写，图片横竖比例不同时填写 `landscape`、`portrait` 或 `square` 会让网格更贴合原图。封面的 `aspect` 还决定摄影集宽屏排布：`landscape` 占两列，`portrait` 和 `square` 占一列。
 
 图片建议优先使用 WebP 或 JPEG，单张尽量控制在 1–3 MB 内。上传前移除 EXIF 中不希望公开的 GPS 信息；地点可以只写城市、区域或留空，不必写精确位置。
 

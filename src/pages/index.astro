@@ -1,4 +1,5 @@
 ---
+import Icon from "../components/Icon.astro";
 import { getCollection } from "astro:content";
 import CharacterArtSlot from "../components/CharacterArtSlot.astro";
 import LocalizedText from "../components/LocalizedText.astro";
@@ -8,6 +9,7 @@ import { site } from "../config/site";
 import { projectSnow } from "../config/project-snow";
 import { getXiaojiScreenshot, xiaojiScreenshots } from "../assets/xiaoji-terminal/screenshots";
 import StatisticsPanel from "../components/StatisticsPanel.astro";
+import JournalEntry from "../components/JournalEntry.astro";
 
 const homeScreenshot = xiaojiScreenshots[0];
 const homePreview = await getXiaojiScreenshot(homeScreenshot.src);
@@ -15,9 +17,6 @@ const homePreview = await getXiaojiScreenshot(homeScreenshot.src);
 const posts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
-
-const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
 ---
 
 <BaseLayout>
@@ -26,14 +25,17 @@ const formatDate = (date: Date) =>
       <span>PERSONAL SYSTEMS / 2026</span>
       <div class="spice-theme-ornaments">
         <svg class="spice-motif spice-motif-wheat" viewBox="0 0 100 120" fill="none">
-          <path class="spice-stem" d="M49 111C48 79 52 46 66 12" />
-          <path class="spice-grain" d="M62 29c-14 1-17 11-10 18 12-3 15-12 10-18Z" />
-          <path class="spice-grain" d="M70 17c-13 3-15 13-7 19 11-5 13-14 7-19Z" />
-          <path class="spice-grain" d="M52 44c-13 3-15 13-7 19 11-5 13-14 7-19Z" />
-          <path class="spice-grain" d="M62 53c-14 1-17 11-10 18 12-3 15-12 10-18Z" />
-          <path class="spice-grain" d="M44 61c-12 5-12 15-3 20 10-7 10-16 3-20Z" />
-          <path class="spice-grain" d="M55 73c-13 3-15 13-7 19 11-5 13-14 7-19Z" />
+          <g id="spice-wheat-ear">
+            <path class="spice-stem" d="M49 111C48 79 52 46 66 12" />
+            <path class="spice-grain" d="M62 29c-14 1-17 11-10 18 12-3 15-12 10-18Z" />
+            <path class="spice-grain" d="M70 17c-13 3-15 13-7 19 11-5 13-14 7-19Z" />
+            <path class="spice-grain" d="M52 44c-13 3-15 13-7 19 11-5 13-14 7-19Z" />
+            <path class="spice-grain" d="M62 53c-14 1-17 11-10 18 12-3 15-12 10-18Z" />
+            <path class="spice-grain" d="M44 61c-12 5-12 15-3 20 10-7 10-16 3-20Z" />
+            <path class="spice-grain" d="M55 73c-13 3-15 13-7 19 11-5 13-14 7-19Z" />
+          </g>
         </svg>
+        <svg class="spice-motif spice-motif-wheat spice-motif-wheat-two" viewBox="0 0 100 120" fill="none"><use href="#spice-wheat-ear" /></svg>
         <svg class="spice-motif spice-motif-apple" viewBox="0 0 100 100" fill="none">
           <path class="spice-apple-body" d="M50 31c-12-12-32-8-38 11-7 24 8 47 27 50 5 1 8-3 11-3s6 4 11 3c19-3 34-26 27-50-6-19-26-23-38-11Z" />
           <path class="spice-apple-leaf" d="M53 27c1-14 12-21 25-19-2 13-12 21-25 19Z" />
@@ -45,9 +47,27 @@ const formatDate = (date: Date) =>
           <path class="spice-coin-mark" d="m36 20 4 12 12 4-12 4-4 12-4-12-12-4 12-4 4-12Z" />
         </svg>
       </div>
-      <div class="cover-orbit cover-orbit-one"></div>
-      <div class="cover-orbit cover-orbit-two"></div>
-      <div class="cover-grid"></div>
+      <div class="ice-theme-ornaments">
+        <svg class="ice-icicles" viewBox="0 0 520 44" preserveAspectRatio="none" fill="none">
+          <path d="M0 0H520V3L520 3Q517.0 14.7 520.2 29Q518.2 13.9 515 3L515 3Q509.9 7.5 506.8 13Q503.4 7.2 498 3L495 3Q491.1 6.2 488.8 10Q486.2 5.9 482 3L480 3Q476.1 17.9 473.8 36Q471.2 16.9 467 3L463 3Q459.4 6.2 457.2 10Q454.8 5.9 451 3L449 3Q446.6 8.9 445.2 16Q443.6 8.5 441 3L437 3Q432.5 7.5 429.8 13Q426.8 7.2 422 3L419 3Q416.0 9.3 414.2 17Q412.2 8.9 409 3L408 3Q405.6 8.4 404.2 15Q402.6 8.0 400 3L398 3Q393.5 13.3 390.8 26Q387.8 12.7 383 3L380 3Q374.6 19.2 371.4 39Q367.8 18.1 362 3L359 3Q355.7 15.6 353.7 31Q351.5 14.8 348 3L347 3Q344.0 15.2 342.2 30Q340.2 14.3 337 3L336 3Q332.1 9.8 329.8 18Q327.2 9.3 323 3L320 3Q316.1 9.8 313.8 18Q311.2 9.3 307 3L305 3Q299.6 8.4 296.4 15Q292.8 8.0 287 3L284 3Q280.4 13.8 278.2 27Q275.8 13.1 272 3L272 3Q268.1 6.2 265.8 10Q263.2 5.9 259 3L258 3Q253.5 6.2 250.8 10Q247.8 5.9 243 3L240 3Q235.8 9.3 233.3 17Q230.5 8.9 226 3L225 3Q219.9 10.2 216.8 19Q213.4 9.7 208 3L207 3Q204.3 19.2 202.7 39Q200.9 18.1 198 3L197 3Q192.2 8.4 189.3 15Q186.1 8.0 181 3L180 3Q176.1 8.4 173.8 15Q171.2 8.0 167 3L166 3Q160.6 9.8 157.4 18Q153.8 9.3 148 3L147 3Q142.5 7.5 139.8 13Q136.8 7.2 132 3L130 3Q127.0 9.3 125.2 17Q123.2 8.9 120 3L116 3Q113.3 9.8 111.7 18Q109.9 9.3 107 3L103 3Q100.3 19.7 98.7 40Q96.9 18.5 94 3L93 3Q88.8 10.7 86.3 20Q83.5 10.1 79 3L78 3Q75.0 13.8 73.2 27Q71.2 13.1 68 3L66 3Q61.5 6.2 58.8 10Q55.8 5.9 51 3L48 3Q44.4 8.0 42.2 14Q39.8 7.6 36 3L34 3Q31.3 18.3 29.7 37Q27.9 17.3 25 3L23 3Q20.0 9.8 18.2 18Q16.2 9.3 13 3L13 3Q9.1 11.6 6.8 22Q4.2 11.0 0 3L0 0Z" />
+        </svg>
+        <svg class="ice-crystal ice-crystal-large" viewBox="0 0 100 100" fill="none">
+          <defs>
+            <g id="ice-crystal-arm"><path d="M50 50V7M50 21l-9-9M50 21l9-9M50 35l-7-7M50 35l7-7" /></g>
+          </defs>
+          <use href="#ice-crystal-arm" /><use href="#ice-crystal-arm" transform="rotate(60 50 50)" /><use href="#ice-crystal-arm" transform="rotate(120 50 50)" />
+          <use href="#ice-crystal-arm" transform="rotate(180 50 50)" /><use href="#ice-crystal-arm" transform="rotate(240 50 50)" /><use href="#ice-crystal-arm" transform="rotate(300 50 50)" />
+          <path d="m50 42 7 4v8l-7 4-7-4v-8Z" />
+        </svg>
+        <svg class="ice-crystal ice-crystal-small" viewBox="0 0 100 100" fill="none">
+          <use href="#ice-crystal-arm" /><use href="#ice-crystal-arm" transform="rotate(60 50 50)" /><use href="#ice-crystal-arm" transform="rotate(120 50 50)" />
+          <use href="#ice-crystal-arm" transform="rotate(180 50 50)" /><use href="#ice-crystal-arm" transform="rotate(240 50 50)" /><use href="#ice-crystal-arm" transform="rotate(300 50 50)" />
+        </svg>
+        <svg class="ice-crystal ice-crystal-tiny" viewBox="0 0 100 100" fill="none">
+          <use href="#ice-crystal-arm" /><use href="#ice-crystal-arm" transform="rotate(60 50 50)" /><use href="#ice-crystal-arm" transform="rotate(120 50 50)" />
+          <use href="#ice-crystal-arm" transform="rotate(180 50 50)" /><use href="#ice-crystal-arm" transform="rotate(240 50 50)" /><use href="#ice-crystal-arm" transform="rotate(300 50 50)" />
+        </svg>
+      </div>
     </div>
     <div class="home-feature-body">
       <div>
@@ -55,7 +75,7 @@ const formatDate = (date: Date) =>
         <h1><LocalizedText {...profile.homeHeading} /></h1>
         <p class="home-feature-lead"><LocalizedText {...profile.homeLead} /></p>
         <div class="button-row">
-          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="试玩小吉终端" en="Play Xiaoji Terminal" /> <span aria-hidden="true">↗</span></a>
+          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="试玩小吉终端" en="Play Xiaoji Terminal" /> <span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
           <a class="button button-secondary" href="/journal/">阅读开发日志</a>
         </div>
         <div class="home-signals" aria-label="站点特性">
@@ -77,15 +97,13 @@ const formatDate = (date: Date) =>
     </div>
   </section>
 
-  <StatisticsPanel scope="mywebsite" />
-
   <section class="home-section" aria-labelledby="snow-title">
     <header class="feed-heading" data-reveal>
       <div>
         <p class="section-kicker">当前主项目</p>
         <h2 id="snow-title"><LocalizedText {...projectSnow.productName} /></h2>
       </div>
-      <a class="text-link" href="/projects/project-snow/">项目状态与路线图 <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="/projects/project-snow/">项目状态与路线图 <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
     </header>
 
     <article class="project-feed-card home-snow-card" data-reveal>
@@ -97,13 +115,13 @@ const formatDate = (date: Date) =>
           <span><LocalizedText zh="文字通讯" en="Messaging" /></span><span><LocalizedText zh="面对面场景" en="Face-to-face scenes" /></span><span><LocalizedText zh="连续对话" en="Continuity" /></span>
         </div>
         <div class="button-row">
-          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer">开始试玩 ↗</a>
-          <a class="button button-secondary" href="/projects/project-snow/"><LocalizedText zh="了解项目" en="Explore the project" /> <span aria-hidden="true">→</span></a>
+          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer">开始试玩 <span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
+          <a class="button button-secondary" href="/projects/project-snow/"><LocalizedText zh="了解项目" en="Explore the project" /> <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
         </div>
       </div>
       <a class="home-snow-preview" href="/projects/project-snow/#showcase-title">
         <img src={homePreview.src} srcset={homePreview.srcset} sizes="(max-width: 760px) calc(100vw - 76px), (max-width: 1100px) calc(100vw - 288px), 400px" width={homePreview.width} height={homePreview.height} alt={homeScreenshot.alt.zh} loading="lazy" decoding="async" />
-        <span><LocalizedText zh="米娅 · 面对面体验 · 0.10.0-rc.3" en="Face-to-face experience · 0.10.0-rc.3" /> <i aria-hidden="true">↗</i></span>
+        <span><LocalizedText zh="米娅 · 面对面体验 · 0.10.0-rc.3" en="Face-to-face experience · 0.10.0-rc.3" /> <i aria-hidden="true"><Icon name="arrow-up-right" /></i></span>
       </a>
     </article>
     <div class="home-snow-progress" aria-label="项目最新进度">
@@ -122,35 +140,18 @@ const formatDate = (date: Date) =>
         <p class="section-kicker">最近更新</p>
         <h2 id="journal-title">开发日志</h2>
       </div>
-      <a class="text-link" href="/journal/">查看全部 <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="/journal/">查看全部 <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
     </header>
 
-    <div class="home-post-list">
-      {
-        posts.length > 0 ? (
-          posts.map((post) => (
-            <article class="home-post-card" data-reveal>
-              <div class={`home-post-stamp ${post.data.accent}`} aria-hidden="true">
-                <span>LOG</span>
-                <strong>{post.data.pubDate.getFullYear()}</strong>
-              </div>
-              <div>
-                <div class="article-meta">
-                  <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-                  <span>·</span>
-                  <span>{post.data.tags.join(" / ")}</span>
-                </div>
-                <h3><a href={`/journal/${post.id}/`}>{post.data.title}</a></h3>
-                <p>{post.data.description}</p>
-              </div>
-              <a class="feed-arrow" href={`/journal/${post.id}/`} aria-label={`阅读：${post.data.title}`}><span aria-hidden="true">→</span></a>
-            </article>
-          ))
-        ) : (
-          <p class="empty-feed">第一篇开发日志正在整理中。</p>
-        )
-      }
-    </div>
+    {
+      posts.length > 0 ? (
+        <ol class="journal-timeline journal-timeline--compact">
+          {posts.map((post) => <li><JournalEntry post={post} compact /></li>)}
+        </ol>
+      ) : (
+        <p class="empty-feed">第一篇开发日志正在整理中。</p>
+      )
+    }
   </section>
 
   <section class="home-section home-routes" aria-labelledby="routes-title">
@@ -165,20 +166,22 @@ const formatDate = (date: Date) =>
         <span class="route-index">01</span>
         <h3>工具</h3>
         <p>按数据工具与 AI 工具分类收纳，选择后进入独立页面。</p>
-        <span class="text-link">查看工具 <span aria-hidden="true">→</span></span>
+        <span class="text-link">查看工具 <span aria-hidden="true"><Icon name="arrow-right" /></span></span>
       </a>
       <a class="route-card route-gallery" href="/gallery/" data-reveal>
         <span class="route-index">02</span>
         <h3>摄影集</h3>
         <p>用于收纳自己拍摄的照片，以及每一张的简短上下文。</p>
-        <span class="text-link">进入相册 <span aria-hidden="true">→</span></span>
+        <span class="text-link">进入相册 <span aria-hidden="true"><Icon name="arrow-right" /></span></span>
       </a>
       <a class="route-card" href="/about/" data-reveal>
         <span class="route-index">03</span>
         <h3>关于与作品集</h3>
         <p>数据开发方向、公开项目与后续协作入口。</p>
-        <span class="text-link">了解更多 <span aria-hidden="true">→</span></span>
+        <span class="text-link">了解更多 <span aria-hidden="true"><Icon name="arrow-right" /></span></span>
       </a>
     </div>
   </section>
+
+  <StatisticsPanel scope="mywebsite" variant="bar" title={{ zh: "小站公开统计", en: "Public site statistics" }} />
 </BaseLayout>

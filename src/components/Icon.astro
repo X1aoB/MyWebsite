@@ -1,0 +1,39 @@
+---
+/**
+ * One inline SVG icon from the shared set in src/lib/icons.ts.
+ * Decorative by default (aria-hidden); pass `label` when the icon is the only
+ * accessible name of its control. Size follows font-size unless `size` is set.
+ */
+import { icons, type IconName } from "../lib/icons";
+
+interface Props {
+  name: IconName;
+  size?: number | string;
+  strokeWidth?: number;
+  label?: string;
+  class?: string;
+}
+
+const { name, size = "1em", strokeWidth = 1.75, label, class: className } = Astro.props;
+const icon = icons[name];
+const isStroke = icon.kind === "stroke";
+const dimension = String(size);
+---
+
+<svg
+  class:list={["icon", `icon-${name}`, className]}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width={dimension}
+  height={dimension}
+  fill={isStroke ? "none" : "currentColor"}
+  stroke={isStroke ? "currentColor" : "none"}
+  stroke-width={isStroke ? strokeWidth : undefined}
+  stroke-linecap={isStroke ? "round" : undefined}
+  stroke-linejoin={isStroke ? "round" : undefined}
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  focusable="false"
+  set:html={icon.body}
+></svg>

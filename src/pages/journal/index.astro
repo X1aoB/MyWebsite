@@ -1,8 +1,10 @@
 ---
+import Icon from "../../components/Icon.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import JournalEntry from "../../components/JournalEntry.astro";
 import LocalizedText from "../../components/LocalizedText.astro";
-import { compareReadingPosts, estimateReadingMinutes } from "../../lib/reading";
+import { compareReadingPosts } from "../../lib/reading";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(compareReadingPosts);
 
@@ -14,9 +16,6 @@ const projectGroups = [...new Set(posts.map((post) => post.data.project))].map((
 const projectAnchor = (project: string) =>
   project === "小吉终端" ? "journal-project-project-snow" :
     `journal-project-${project.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/gi, "-").replace(/^-|-$/g, "")}`;
-
-const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }).format(date);
 ---
 
 <BaseLayout title="开发日志" description="记录 小吉终端 与数据工程实践中的设计、约束和构建过程。">
@@ -41,27 +40,13 @@ const formatDate = (date: Date) =>
               </div>
               {group.project === "小吉终端" && (
                 <a class="text-link" href="/projects/project-snow/">
-                  <LocalizedText zh="查看项目" en="View project" /><span aria-hidden="true">↗</span>
+                  <LocalizedText zh="查看项目" en="View project" /><span aria-hidden="true"><Icon name="arrow-up-right" /></span>
                 </a>
               )}
             </header>
-            <div class="article-list">
-              {
-                group.posts.map((post) => (
-                  <article class="article-card" data-reveal>
-                    <div class={`article-accent ${post.data.accent}`} aria-hidden="true">
-                      LOG / {post.data.pubDate.getFullYear()}
-                    </div>
-                    <div>
-                      <div class="article-meta journal-reading-meta"><time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time><span aria-hidden="true">·</span><LocalizedText zh={`约 ${estimateReadingMinutes(post.body ?? "")} 分钟`} en={`${estimateReadingMinutes(post.body ?? "")} min read`} /><span aria-hidden="true">·</span><span lang="zh-CN" data-no-translate>{post.data.tags.join(" / ")}</span></div>
-                      <h3 lang="zh-CN" data-no-translate><a href={`/journal/${post.id}/`}>{post.data.title}</a></h3>
-                      <p lang="zh-CN" data-no-translate>{post.data.description}</p>
-                      <a class="text-link" href={`/journal/${post.id}/`}><LocalizedText zh="阅读文章" en="Read article" /><span aria-hidden="true">→</span></a>
-                    </div>
-                  </article>
-                ))
-              }
-            </div>
+            <ol class="journal-timeline">
+              {group.posts.map((post) => <li><JournalEntry post={post} /></li>)}
+            </ol>
           </section>
         ))
       }
@@ -69,6 +54,3 @@ const formatDate = (date: Date) =>
   </section>
 </BaseLayout>
 
-<style>
-  .journal-reading-meta { flex-wrap: wrap; row-gap: 6px; }
-</style>

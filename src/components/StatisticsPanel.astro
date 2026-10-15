@@ -1,4 +1,5 @@
 ---
+import Icon from "./Icon.astro";
 import LocalizedText from "./LocalizedText.astro";
 import "../styles/statistics-panel.css";
 
@@ -6,6 +7,8 @@ interface Props {
   scope: "mywebsite" | "project_snow" | "all";
   title?: { zh: string; en: string };
   compact?: boolean;
+  /** "card" is the full panel; "bar" is a one-line metric strip with the same data hooks. */
+  variant?: "card" | "bar";
 }
 
 const {
@@ -13,31 +16,54 @@ const {
   title = scope === "project_snow"
     ? { zh: "小吉终端 · 延迟公开统计", en: "Xiaoji Terminal · delayed public statistics" }
     : { zh: "小站 · 延迟公开统计", en: "Site · delayed public statistics" },
-  compact = true
+  compact = true,
+  variant = "card"
 } = Astro.props;
+const titleId = variant === "bar" ? `statistics-bar-title-${scope}` : `statistics-panel-title-${scope}`;
 ---
 
-<section class:list={["statistics-panel", compact && "statistics-panel-compact"]} data-statistics-compact data-statistics-scope={scope} aria-labelledby={`statistics-panel-title-${scope}`}>
-  <header class="statistics-panel-heading">
-    <div>
-      <p class="section-kicker">PUBLIC / AGGREGATE</p>
-      <h2 id={`statistics-panel-title-${scope}`}><LocalizedText {...title} /></h2>
-      <p class="statistics-panel-description"><LocalizedText zh="优先展示最近已有公开指标的一天，各项对应同一日期；尚未公开时显示最新状态。" en="Shows the latest day with published metrics. All figures share one date; otherwise, the latest status is shown." /></p>
+{variant === "bar" ? (
+  <section class="statistics-bar" data-statistics-compact data-statistics-scope={scope} aria-labelledby={titleId}>
+    <div class="statistics-bar-heading">
+      <h2 id={titleId}><LocalizedText {...title} /></h2>
+      <p><LocalizedText zh="统计日期" en="Statistic date" /> <time data-statistics-date>—</time></p>
+      <p class="statistics-bar-status" data-statistics-status role="status" aria-live="polite"><LocalizedText zh="正在读取统计状态……" en="Loading statistics…" /></p>
     </div>
-    <a class="text-link" href="/statistics/"><LocalizedText zh="查看完整统计" en="View full statistics" /> <span aria-hidden="true">→</span></a>
-  </header>
-  <div class="statistics-panel-status-row">
-    <p data-statistics-status role="status" aria-live="polite"><LocalizedText zh="正在读取统计状态……" en="Loading statistics…" /></p>
-    <button type="button" data-statistics-retry><LocalizedText zh="重试" en="Retry" /></button>
-  </div>
-  <div class="statistics-panel-grid" aria-label="公开统计指标">
-    <div class="statistics-panel-metric"><span>PV</span><strong data-statistics-pv>—</strong><small><LocalizedText zh="页面访问" en="page views" /></small></div>
-    <div class="statistics-panel-metric"><span>UV</span><strong data-statistics-uv>—</strong><small><LocalizedText zh="匿名日活" en="daily browsers" /></small></div>
-    <div class="statistics-panel-metric"><span><LocalizedText zh="生成请求" en="Requests" /></span><strong data-statistics-requests>—</strong><small><LocalizedText zh="已记录" en="recorded" /></small></div>
-    <div class="statistics-panel-metric"><span><LocalizedText zh="成功率" en="Success" /></span><strong data-statistics-success>—</strong><small><LocalizedText zh="公开质量指标" en="public quality" /></small></div>
-  </div>
-  <p class="statistics-panel-date"><span><LocalizedText zh="统计日期" en="Statistic date" /></span> <time data-statistics-date>—</time><span class="statistics-panel-generated" data-statistics-generated></span></p>
-</section>
+    <dl class="statistics-bar-metrics" aria-label="公开统计指标">
+      <div><dt>PV</dt><dd data-statistics-pv>—</dd></div>
+      <div><dt>UV</dt><dd data-statistics-uv>—</dd></div>
+      <div><dt><LocalizedText zh="生成请求" en="Requests" /></dt><dd data-statistics-requests>—</dd></div>
+      <div><dt><LocalizedText zh="成功率" en="Success" /></dt><dd data-statistics-success>—</dd></div>
+    </dl>
+    <div class="statistics-bar-actions">
+      <button type="button" class="statistics-bar-retry" data-statistics-retry aria-label="重试"><Icon name="refresh-cw" /></button>
+      <a class="text-link" href="/statistics/"><LocalizedText zh="查看完整统计" en="View full statistics" /> <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
+    </div>
+    <span hidden data-statistics-generated></span>
+  </section>
+) : (
+  <section class:list={["statistics-panel", compact && "statistics-panel-compact"]} data-statistics-compact data-statistics-scope={scope} aria-labelledby={titleId}>
+    <header class="statistics-panel-heading">
+      <div>
+        <p class="section-kicker">PUBLIC / AGGREGATE</p>
+        <h2 id={titleId}><LocalizedText {...title} /></h2>
+        <p class="statistics-panel-description"><LocalizedText zh="优先展示最近已有公开指标的一天，各项对应同一日期；尚未公开时显示最新状态。" en="Shows the latest day with published metrics. All figures share one date; otherwise, the latest status is shown." /></p>
+      </div>
+      <a class="text-link" href="/statistics/"><LocalizedText zh="查看完整统计" en="View full statistics" /> <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
+    </header>
+    <div class="statistics-panel-status-row">
+      <p data-statistics-status role="status" aria-live="polite"><LocalizedText zh="正在读取统计状态……" en="Loading statistics…" /></p>
+      <button type="button" data-statistics-retry><LocalizedText zh="重试" en="Retry" /></button>
+    </div>
+    <div class="statistics-panel-grid" aria-label="公开统计指标">
+      <div class="statistics-panel-metric"><span>PV</span><strong data-statistics-pv>—</strong><small><LocalizedText zh="页面访问" en="page views" /></small></div>
+      <div class="statistics-panel-metric"><span>UV</span><strong data-statistics-uv>—</strong><small><LocalizedText zh="匿名日活" en="daily browsers" /></small></div>
+      <div class="statistics-panel-metric"><span><LocalizedText zh="生成请求" en="Requests" /></span><strong data-statistics-requests>—</strong><small><LocalizedText zh="已记录" en="recorded" /></small></div>
+      <div class="statistics-panel-metric"><span><LocalizedText zh="成功率" en="Success" /></span><strong data-statistics-success>—</strong><small><LocalizedText zh="公开质量指标" en="public quality" /></small></div>
+    </div>
+    <p class="statistics-panel-date"><span><LocalizedText zh="统计日期" en="Statistic date" /></span> <time data-statistics-date>—</time><span class="statistics-panel-generated" data-statistics-generated></span></p>
+  </section>
+)}
 
 <script is:inline type="module">
   import config from "/statistics/config.mjs";

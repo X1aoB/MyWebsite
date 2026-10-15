@@ -1,4 +1,5 @@
 ---
+import Icon from "../../components/Icon.astro";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Giscus from "../../components/Giscus.astro";
@@ -61,18 +62,18 @@ const formatDate = (locale: string) => new Intl.DateTimeFormat(locale, {
       <p class="reading-continuation-label"><LocalizedText zh="连续阅读" en="Continue reading" />{neighbors.project && <span data-no-translate> · {neighbors.project}</span>}</p>
       <nav class="reading-neighbors" aria-label="连续阅读" data-reading-neighbors>
         {neighbors.previous && <a class="reading-neighbor" href={`/journal/${neighbors.previous.id}/`} rel="prev">
-          <span><LocalizedText zh="← 上一篇" en="← Previous article" /></span>
+          <span><Icon name="arrow-left" /> <LocalizedText zh="上一篇" en="Previous article" /></span>
           <strong lang="zh-CN" data-no-translate>{neighbors.previous.data.title}</strong>
         </a>}
         {neighbors.next && <a class="reading-neighbor reading-neighbor--next" href={`/journal/${neighbors.next.id}/`} rel="next">
-          <span><LocalizedText zh="下一篇 →" en="Next article →" /></span>
+          <span><LocalizedText zh="下一篇" en="Next article" /> <Icon name="arrow-right" /></span>
           <strong lang="zh-CN" data-no-translate>{neighbors.next.data.title}</strong>
         </a>}
       </nav>
     </>}
     <div class="article-footer-actions">
-      <a class="text-link" href="/journal/"><span aria-hidden="true">←</span><LocalizedText zh="返回开发日志" en="Back to dev log" /></a>
-      <a class="text-link" href="#article-title"><LocalizedText zh="回到顶部" en="Back to top" /><span aria-hidden="true">↑</span></a>
+      <a class="text-link" href="/journal/"><span aria-hidden="true"><Icon name="arrow-left" /></span><LocalizedText zh="返回开发日志" en="Back to dev log" /></a>
+      <a class="text-link" href="#article-title"><LocalizedText zh="回到顶部" en="Back to top" /><span aria-hidden="true"><Icon name="arrow-up" /></span></a>
     </div>
   </footer>
   <Giscus />

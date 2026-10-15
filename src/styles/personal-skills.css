@@ -88,7 +88,7 @@
   height: 32px;
   place-items: center;
   color: var(--ice-bright);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 800;
   border: 1px solid var(--line-strong);
@@ -97,7 +97,7 @@
 
 .personal-skill-tags {
   color: var(--dim);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.61rem;
   text-align: right;
 }

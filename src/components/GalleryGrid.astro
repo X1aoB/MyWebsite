@@ -1,7 +1,10 @@
 ---
+import Icon from "./Icon.astro";
 import { getGalleryImage } from "../lib/gallery-images";
+import { coverSpan, packRows } from "../lib/gallery-layout";
 import "../styles/gallery.css";
 import "../styles/gallery-navigation.css";
+import "../styles/gallery-stage.css";
 
 type PhotoAspect = "landscape" | "portrait" | "square";
 
@@ -40,7 +43,11 @@ const images = new Map(await Promise.all(
   [...new Set(photoSets.flatMap((set) => [set.data.cover.image, ...set.data.photos.map((photo) => photo.image)]))]
     .map(async (source) => [source, await getGalleryImage(source)] as const)
 ));
-const coverSizes = "(max-width: 760px) calc(100vw - 36px), (max-width: 1100px) 45vw, 400px";
+// Four columns at the widest layout: landscape covers span two, portrait and square one.
+const orderedSets = packRows(photoSets, (set) => coverSpan(set.data.cover.aspect), 4);
+const coverSizes = (wide: boolean) => wide
+  ? "(max-width: 760px) calc(100vw - 36px), (max-width: 1199px) calc(100vw - 300px), 560px"
+  : "(max-width: 760px) calc(100vw - 36px), (max-width: 1199px) calc(50vw - 150px), 280px";
 const storySizes = "(max-width: 760px) calc((100vw - 76px) / 2), (max-width: 1080px) calc((100vw - 140px) / 3), 300px";
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(date);
@@ -48,15 +55,17 @@ const formatDate = (date: Date) =>
 
 <ol class="gallery-set-grid" aria-label="摄影套图列表">
   {
-    photoSets.map((photoSet, index) => {
+    orderedSets.map((photoSet, index) => {
       const dialogId = `photo-set-dialog-${photoSet.id.replace(/[^a-z0-9_-]/gi, "-")}`;
       const hashId = `photo-set-${photoSet.id.replace(/[^a-z0-9_-]/gi, "-")}`;
       const dialogTitleId = `${dialogId}-title`;
       const dialogDescriptionId = `${dialogId}-description`;
       const equipment = photoSet.data.equipment || "待补充";
+      const cover = images.get(photoSet.data.cover.image)!;
+      const wide = coverSpan(photoSet.data.cover.aspect) === 2;
 
       return (
-        <li class="gallery-set-item" data-reveal style={`--reveal-delay: ${index * 75}ms;`}>
+        <li class:list={["gallery-set-item", { "is-wide": wide }]} data-reveal style={`--reveal-delay: ${index * 75}ms; --cover-ratio: ${cover.width} / ${cover.height};`}>
           <button
             id={hashId}
             class={`gallery-set-card ${photoSet.data.cover.aspect}`}
@@ -70,11 +79,11 @@ const formatDate = (date: Date) =>
           >
             <span class="gallery-set-cover">
               <img
-                src={images.get(photoSet.data.cover.image)!.src}
-                srcset={images.get(photoSet.data.cover.image)!.srcset}
-                sizes={coverSizes}
-                width={images.get(photoSet.data.cover.image)!.width}
-                height={images.get(photoSet.data.cover.image)!.height}
+                src={cover.src}
+                srcset={cover.srcset}
+                sizes={coverSizes(wide)}
+                width={cover.width}
+                height={cover.height}
                 alt={photoSet.data.cover.alt}
                 loading={index === 0 ? "eager" : "lazy"}
                 fetchpriority={index === 0 ? "high" : "auto"}
@@ -82,7 +91,7 @@ const formatDate = (date: Date) =>
               />
               <span class="gallery-set-cover-wash" aria-hidden="true"></span>
               <span class="gallery-set-open" aria-hidden="true">
-                <span>↗</span>
+                <span><Icon name="images" /></span>
                 <small>打开套图</small>
               </span>
             </span>
@@ -128,7 +137,7 @@ const formatDate = (date: Date) =>
           >
             <div class="photo-set-dialog-controls">
               <button class="photo-set-dialog-close" type="button" aria-label={`关闭套图：${photoSet.data.title}`} data-photo-set-close>
-                <span aria-hidden="true">×</span>
+                <span aria-hidden="true"><Icon name="x" /></span>
               </button>
             </div>
             <article class="photo-set-dialog-content">
@@ -210,7 +219,7 @@ const formatDate = (date: Date) =>
   <div class="photo-lightbox-frame">
     <p id="photo-lightbox-title" class="sr-only">大图预览</p>
     <button class="photo-lightbox-close" type="button" aria-label="关闭大图预览" data-photo-lightbox-close>
-      <span aria-hidden="true">×</span>
+      <span aria-hidden="true"><Icon name="x" /></span>
     </button>
     <button
       class="photo-lightbox-image-button"
@@ -227,11 +236,11 @@ const formatDate = (date: Date) =>
     </button>
     <div class="photo-lightbox-navigation" aria-label="照片导航" data-photo-navigation>
       <button class="photo-lightbox-step" type="button" aria-label="上一张" data-photo-previous>
-        <span aria-hidden="true">←</span><span data-photo-previous-label>上一张</span>
+        <span aria-hidden="true"><Icon name="arrow-left" /></span><span data-photo-previous-label>上一张</span>
       </button>
       <output class="photo-lightbox-count" data-photo-count aria-live="polite" aria-atomic="true"></output>
       <button class="photo-lightbox-step" type="button" aria-label="下一张" data-photo-next>
-        <span data-photo-next-label>下一张</span><span aria-hidden="true">→</span>
+        <span data-photo-next-label>下一张</span><span aria-hidden="true"><Icon name="arrow-right" /></span>
       </button>
     </div>
     <p class="photo-lightbox-feedback" data-photo-feedback hidden role="status"></p>

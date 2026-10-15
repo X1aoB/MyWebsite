@@ -1,0 +1,98 @@
+/*
+ * Motion system (medium intensity).
+ *   - Cross-page transitions: native cross-document view transitions. The sidebar holds still,
+ *     the page body fades and rises about 240ms. Browsers without support navigate normally.
+ *   - Ambient layer: two tiled layers per theme (snow; wheat grains and leaves), composited
+ *     transforms only, paused while the tab is hidden, static under reduced motion.
+ *   - Durations come from three tokens: --dur-fast 160ms, --dur-base 240ms, --dur-slow 420ms.
+ */
+@import "./ambient-tiles.css";
+
+/* ---------- Cross-page transitions ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+.site-sidebar { view-transition-name: site-sidebar; }
+.site-main { view-transition-name: site-main; }
+.site-rail { view-transition-name: site-rail; }
+
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; }
+::view-transition-group(site-sidebar) { animation-duration: var(--dur-fast); }
+::view-transition-group(site-main),
+::view-transition-group(site-rail) { animation: none; }
+::view-transition-old(site-main),
+::view-transition-old(site-rail) { animation: vt-fade-out var(--dur-fast) var(--ease-in-out) both; }
+::view-transition-new(site-main) { animation: vt-rise-in var(--dur-base) var(--ease-out) var(--dur-instant) both; }
+::view-transition-new(site-rail) { animation: vt-fade-in var(--dur-base) var(--ease-out) var(--dur-instant) both; }
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in { from { opacity: 0; } }
+@keyframes vt-rise-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* ---------- Ambient layer ---------- */
+.ambient-layer {
+  position: fixed;
+  z-index: -2;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+.ambient-layer::before,
+.ambient-layer::after {
+  position: absolute;
+  content: "";
+  background-repeat: repeat;
+}
+/* Each layer is one tile larger than the viewport and travels exactly one tile per loop. */
+html[data-theme="ice"] .ambient-layer::before { inset: -300px 0 0; background-image: var(--ambient-ice-far); background-size: 300px 300px; opacity: .75; }
+html[data-theme="ice"] .ambient-layer::after { inset: -560px 0 0; background-image: var(--ambient-ice-near); background-size: 560px 560px; opacity: .9; }
+html[data-theme="holo"] .ambient-layer::before { inset: -320px 0 0 -320px; background-image: var(--ambient-holo-far); background-size: 320px 320px; opacity: .7; }
+html[data-theme="holo"] .ambient-layer::after { inset: -600px 0 0 -600px; background-image: var(--ambient-holo-near); background-size: 600px 600px; opacity: .8; }
+
+@keyframes snow-fall-far { to { transform: translate3d(0, 300px, 0); } }
+@keyframes snow-fall-near { to { transform: translate3d(0, 560px, 0); } }
+@keyframes grain-drift-far { to { transform: translate3d(320px, 320px, 0); } }
+@keyframes leaf-drift-near { to { transform: translate3d(600px, 600px, 0); } }
+html[data-theme="ice"][data-motion="enabled"] .ambient-layer::before { animation: snow-fall-far 42s linear infinite; }
+html[data-theme="ice"][data-motion="enabled"] .ambient-layer::after { animation: snow-fall-near 30s linear infinite; }
+html[data-theme="holo"][data-motion="enabled"] .ambient-layer::before { animation: grain-drift-far 60s linear infinite; }
+html[data-theme="holo"][data-motion="enabled"] .ambient-layer::after { animation: leaf-drift-near 46s linear infinite; }
+html[data-motion="enabled"] .ambient-layer::before,
+html[data-motion="enabled"] .ambient-layer::after { will-change: transform; }
+
+/* Small screens keep only the far, finer layer. */
+@media (max-width: 760px) {
+  .ambient-layer::after { display: none; }
+}
+
+/* ---------- Durations and hover feedback ---------- */
+.button,
+.route-card,
+.tool-entry,
+.gallery-set-card,
+.home-snow-progress > a,
+.feed-arrow,
+.footer-social-mark,
+.journal-entry {
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+.gallery-set-cover img,
+.photo-set-story-photo img { transition: transform var(--dur-slow) var(--ease-emphasized), filter var(--dur-base) ease; }
+.text-link > span,
+.tool-entry-arrow,
+.rail-arrow { transition: transform var(--dur-fast) var(--ease-out); }
+
+@media (hover: hover) and (pointer: fine) {
+  .route-card:hover,
+  .tool-entry:hover,
+  .gallery-set-card:hover { transform: translateY(-3px); }
+  .home-snow-progress > a:hover { transform: translateY(-2px); }
+  .rail-now a:hover .rail-arrow,
+  .journal-entry:hover .feed-arrow { transform: translateX(3px); }
+}

@@ -1,17 +1,22 @@
 ---
 import { site } from "../config/site";
+import Icon from "./Icon.astro";
 import LocalizedText from "./LocalizedText.astro";
 import { profileContacts } from "../config/profile";
+import type { IconName } from "../lib/icons";
 
 const year = new Date().getFullYear();
 
-const socialLinks = [
-  { label: { zh: "Bilibili", en: "Bilibili" }, mark: "B", href: profileContacts.bilibili },
-  { label: { zh: "GitHub", en: "GitHub" }, mark: "GH", href: site.githubProfile },
-  { label: { zh: "小吉终端试玩", en: "Xiaoji Terminal" }, mark: "XJ", href: site.external.projectSnowPlay },
-  { label: { zh: "Steam", en: "Steam" }, mark: "S", href: profileContacts.steam },
-  { label: { zh: "邮箱", en: "Email" }, mark: "@", href: `mailto:${profileContacts.email}` }
-].filter((link) => link.href);
+type SocialLink = { label: { zh: string; en: string }; icon: IconName; href: string };
+
+const allSocialLinks: SocialLink[] = [
+  { label: { zh: "Bilibili", en: "Bilibili" }, icon: "bilibili", href: profileContacts.bilibili },
+  { label: { zh: "GitHub", en: "GitHub" }, icon: "github", href: site.githubProfile },
+  { label: { zh: "小吉终端试玩", en: "Xiaoji Terminal" }, icon: "snowflake", href: site.external.projectSnowPlay },
+  { label: { zh: "Steam", en: "Steam" }, icon: "steam", href: profileContacts.steam },
+  { label: { zh: "邮箱", en: "Email" }, icon: "mail", href: `mailto:${profileContacts.email}` }
+];
+const socialLinks = allSocialLinks.filter((link) => link.href);
 ---
 
 <footer class="site-footer">
@@ -43,7 +48,7 @@ const socialLinks = [
             target={link.href.startsWith("mailto:") ? undefined : "_blank"}
             rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
           >
-            <span class="footer-social-mark" aria-hidden="true">{link.mark}</span>
+            <span class="footer-social-mark" aria-hidden="true"><Icon name={link.icon} /></span>
             <span class="footer-social-label"><LocalizedText {...link.label} /></span>
           </a>
         ))}
@@ -64,7 +69,7 @@ const socialLinks = [
       <p class="footer-legal-line">
         <LocalizedText {...site.legal.projectSnow} />
         <a class="license-badge" href={site.external.ccByNcSa} target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>
-        <a href={site.external.bWiki} target="_blank" rel="noreferrer"><LocalizedText zh="查看来源 ↗" en="View source ↗" /></a>
+        <a href={site.external.bWiki} target="_blank" rel="noreferrer"><LocalizedText zh="查看来源" en="View source" /> <Icon name="arrow-up-right" /></a>
       </p>
       <p class="footer-legal-line"><LocalizedText {...site.legal.rights} /></p>
       <p class="footer-legal-line"><LocalizedText {...site.legal.theme} /></p>
