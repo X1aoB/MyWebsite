@@ -1,4 +1,5 @@
 ---
+import Icon from "../components/Icon.astro";
 import LocalizedText from "../components/LocalizedText.astro";
 import { getCollection } from "astro:content";
 import { now } from "../config/now";
@@ -37,7 +38,7 @@ const updatedAt = new Intl.DateTimeFormat("zh-CN", {
             <span class="now-category-label"><LocalizedText {...section.label} /></span>
             <h2><LocalizedText {...section.title} /></h2>
             <span class="now-category-count"><LocalizedText zh={`${section.articleCount} 篇文章`} en={`${section.articleCount} ${section.articleCount === 1 ? "article" : "articles"}`} /></span>
-            <span class="now-category-action" aria-hidden="true"><span class="now-category-symbol">↗</span><LocalizedText zh="进入" en="Explore" /></span>
+            <span class="now-category-action" aria-hidden="true"><span class="now-category-symbol"><Icon name="arrow-up-right" /></span><LocalizedText zh="进入" en="Explore" /></span>
           </a>
         </article>
       ))}

@@ -1,5 +1,6 @@
 ---
 import { giscus, site } from "../config/site";
+import Icon from "./Icon.astro";
 
 const enabled = Boolean(giscus.repoId && giscus.categoryId);
 ---
@@ -27,7 +28,7 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
       <div class="giscus-fallback">
         <p>评论区将在站点部署配置完成后启用。</p>
         <a href={`${site.repositories.website}/discussions`} target="_blank" rel="noreferrer">
-          前往 GitHub Discussions 参与讨论 ↗
+          前往 GitHub Discussions 参与讨论 <Icon name="arrow-up-right" />
         </a>
       </div>
     )

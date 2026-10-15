@@ -1,4 +1,5 @@
 ---
+import Icon from "./Icon.astro";
 import LocalizedText from "./LocalizedText.astro";
 ---
 
@@ -14,7 +15,7 @@ import LocalizedText from "./LocalizedText.astro";
 
   <div class="json-toolbar" aria-label="JSON 操作">
     <div class="json-toolbar-primary">
-      <button type="button" class="json-primary" data-json-action="format"><span aria-hidden="true">≡</span><LocalizedText zh="格式化" en="Format" /></button>
+      <button type="button" class="json-primary" data-json-action="format"><span aria-hidden="true"><Icon name="align-left" /></span><LocalizedText zh="格式化" en="Format" /></button>
       <button type="button" data-json-action="minify"><LocalizedText zh="压缩" en="Minify" /></button>
       <button type="button" data-json-action="validate"><LocalizedText zh="校验" en="Validate" /></button>
       <label class="json-indent"><span><LocalizedText zh="缩进" en="Indent" /></span><select data-json-indent><option value="2">2</option><option value="4">4</option></select><span><LocalizedText zh="空格" en="spaces" /></span></label>
@@ -40,7 +41,7 @@ import LocalizedText from "./LocalizedText.astro";
     <p class="json-status" id="json-status" role="status" aria-live="polite" aria-atomic="true" data-json-status data-state="idle"><LocalizedText zh="粘贴 JSON，或先试试示例。" en="Paste JSON, or try the example." /></p>
     <div class="json-result-actions">
       <button type="button" data-json-copy disabled><LocalizedText zh="复制结果" en="Copy result" /></button>
-      <button type="button" data-json-download disabled><span aria-hidden="true">↓</span><LocalizedText zh="下载 JSON" en="Download JSON" /></button>
+      <button type="button" data-json-download disabled><span aria-hidden="true"><Icon name="download" /></span><LocalizedText zh="下载 JSON" en="Download JSON" /></button>
     </div>
   </footer>
   <noscript><p><LocalizedText zh="这个工具需要启用 JavaScript。处理过程仅在当前浏览器中完成。" en="Enable JavaScript to use this tool. Processing happens only in your browser." /></p></noscript>

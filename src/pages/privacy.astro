@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 import LocalizedText from "../components/LocalizedText.astro";
 import { site } from "../config/site";
 ---
@@ -60,7 +61,7 @@ import { site } from "../config/site";
               en="An API key briefly passes through Xiaoji Terminal server memory to the selected official model endpoint, but is not written to the database, disk, feedback, or logs; its encrypted credential remains in the current tab for up to 12 hours. Chats, summaries, drafts, and favorites are plaintext in the current browser's IndexedDB. Feedback context can be previewed or removed, while feedback text and optional encrypted QQ are retained for 30 days."
             />
           </p>
-          <a class="text-link" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="阅读游戏完整隐私与素材说明 ↗" en="Read the full game privacy & asset notice ↗" /></a>
+          <a class="text-link" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="阅读游戏完整隐私与素材说明" en="Read the full game privacy & asset notice" /> <Icon name="arrow-up-right" /></a>
         </article>
 
         <article class="notice-panel" data-reveal>

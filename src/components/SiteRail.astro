@@ -1,4 +1,5 @@
 ---
+import Icon from "./Icon.astro";
 import LocalizedText from "./LocalizedText.astro";
 import { getUpdates } from "../lib/updates";
 import { projectSnow } from "../config/project-snow";
@@ -13,7 +14,7 @@ const latestUpdates = (await getUpdates()).slice(0, 3);
       <span class="rail-signal"><i></i> <LocalizedText {...projectSnow.status} /></span>
       <h2><LocalizedText {...projectSnow.productName} /></h2>
       <p><LocalizedText zh="文字通讯与面对面体验，全新界面与 22 位角色的立绘、表情现已加入。" en="Messages and face-to-face stories, now with a new interface and artwork and expressions for 22 characters." /></p>
-      <span class="rail-arrow" aria-hidden="true">→</span>
+      <span class="rail-arrow" aria-hidden="true"><Icon name="arrow-right" /></span>
     </a>
   </section>
 
@@ -29,9 +30,9 @@ const latestUpdates = (await getUpdates()).slice(0, 3);
 
   <section class="rail-note rail-updates">
     <div class="rail-note-heading">
-      <span aria-hidden="true">✦</span>
+      <span aria-hidden="true"><Icon name="sparkles" /></span>
       <p class="rail-label">最新更新</p>
-      <a href="/updates/">查看全部 ↗</a>
+      <a href="/updates/">查看全部 <Icon name="arrow-right" /></a>
     </div>
     <ol class="rail-update-list">
       {latestUpdates.map((update) => (

@@ -98,6 +98,9 @@ draft: false
 
 设计 token（颜色、字体栈、字距、圆角、阴影、动效时长与曲线）统一在 `src/styles/tokens.css` 维护：两套主题只替换 token 值，组件样式通过 `var(--accent)`、`var(--radius-md)`、`var(--dur-base)` 等读取。新样式使用语义名（`--accent`、`--accent-strong` 等）；`--ice`、`--ice-bright`、`--mint`、`--violet` 只是保留给旧规则的别名。站点只使用系统字体，不请求 webfont。共享布局与主题位于 `src/styles/global.css` 和 `refinements.css`；摄影、项目、模型 IQ 与阅读增强的样式随页面分别加载。首页正文直接显示，装饰在离开视口或页面转入后台时暂停；系统减少动态效果时关闭装饰运动。英文翻译字典按需下载，中文首屏复用静态 HTML。
 
+图标统一使用 `src/components/Icon.astro`：线性图标来自 Lucide（ISC），页脚品牌标识来自 Simple Icons（CC0），几何数据内联在 `src/lib/icons.ts`，不发额外请求。图标默认 `aria-hidden`，跟随 `font-size` 和 `currentColor`；只有图标充当控件唯一名称时才传 `label`。新增图标时把名称加到 `scripts/generate-icons.mjs`，先运行 `npm install --no-save lucide-static@1.57.0 simple-icons@16.35.0`，再运行 `node scripts/generate-icons.mjs` 重新生成，不要手改 `icons.ts`。
+
+
 ## 搜索、更新流与 RSS
 
 这些功能全部在 `npm run build` 时生成，不需要数据库、服务器或第三方搜索服务：

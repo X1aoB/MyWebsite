@@ -1,4 +1,5 @@
 ---
+import Icon from "../components/Icon.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LocalizedText from "../components/LocalizedText.astro";
 import { site } from "../config/site";
@@ -33,7 +34,7 @@ import { projectSnow } from "../config/project-snow";
             />
           </p>
           <a class="text-link" href={site.repositories.website} target="_blank" rel="noreferrer">
-            <LocalizedText zh="查看公开代码" en="View public code" /> <span aria-hidden="true">↗</span>
+            <LocalizedText zh="查看公开代码" en="View public code" /> <span aria-hidden="true"><Icon name="arrow-up-right" /></span>
           </a>
         </article>
 
@@ -46,7 +47,7 @@ import { projectSnow } from "../config/project-snow";
               en="The preview runs at snow.xiaob.dev independently from this Cloudflare Pages deployment. Unified live uptime monitoring is not connected yet, so the footer status does not represent real-time availability for model providers or every Xiaoji Terminal backend dependency."
             />
           </p>
-          <a class="text-link" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="打开小规模测试 ↗" en="Open the small-scale test ↗" /></a>
+          <a class="text-link" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="打开小规模测试" en="Open the small-scale test" /> <Icon name="arrow-up-right" /></a>
         </article>
 
         <article class="notice-panel" data-reveal>

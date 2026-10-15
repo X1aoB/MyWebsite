@@ -1,4 +1,5 @@
 ---
+import Icon from "../components/Icon.astro";
 import { getCollection } from "astro:content";
 import CharacterArtSlot from "../components/CharacterArtSlot.astro";
 import LocalizedText from "../components/LocalizedText.astro";
@@ -55,7 +56,7 @@ const formatDate = (date: Date) =>
         <h1><LocalizedText {...profile.homeHeading} /></h1>
         <p class="home-feature-lead"><LocalizedText {...profile.homeLead} /></p>
         <div class="button-row">
-          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="试玩小吉终端" en="Play Xiaoji Terminal" /> <span aria-hidden="true">↗</span></a>
+          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="试玩小吉终端" en="Play Xiaoji Terminal" /> <span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
           <a class="button button-secondary" href="/journal/">阅读开发日志</a>
         </div>
         <div class="home-signals" aria-label="站点特性">
@@ -85,7 +86,7 @@ const formatDate = (date: Date) =>
         <p class="section-kicker">当前主项目</p>
         <h2 id="snow-title"><LocalizedText {...projectSnow.productName} /></h2>
       </div>
-      <a class="text-link" href="/projects/project-snow/">项目状态与路线图 <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="/projects/project-snow/">项目状态与路线图 <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
     </header>
 
     <article class="project-feed-card home-snow-card" data-reveal>
@@ -97,13 +98,13 @@ const formatDate = (date: Date) =>
           <span><LocalizedText zh="文字通讯" en="Messaging" /></span><span><LocalizedText zh="面对面场景" en="Face-to-face scenes" /></span><span><LocalizedText zh="连续对话" en="Continuity" /></span>
         </div>
         <div class="button-row">
-          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer">开始试玩 ↗</a>
-          <a class="button button-secondary" href="/projects/project-snow/"><LocalizedText zh="了解项目" en="Explore the project" /> <span aria-hidden="true">→</span></a>
+          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer">开始试玩 <span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
+          <a class="button button-secondary" href="/projects/project-snow/"><LocalizedText zh="了解项目" en="Explore the project" /> <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
         </div>
       </div>
       <a class="home-snow-preview" href="/projects/project-snow/#showcase-title">
         <img src={homePreview.src} srcset={homePreview.srcset} sizes="(max-width: 760px) calc(100vw - 76px), (max-width: 1100px) calc(100vw - 288px), 400px" width={homePreview.width} height={homePreview.height} alt={homeScreenshot.alt.zh} loading="lazy" decoding="async" />
-        <span><LocalizedText zh="米娅 · 面对面体验 · 0.10.0-rc.3" en="Face-to-face experience · 0.10.0-rc.3" /> <i aria-hidden="true">↗</i></span>
+        <span><LocalizedText zh="米娅 · 面对面体验 · 0.10.0-rc.3" en="Face-to-face experience · 0.10.0-rc.3" /> <i aria-hidden="true"><Icon name="arrow-up-right" /></i></span>
       </a>
     </article>
     <div class="home-snow-progress" aria-label="项目最新进度">
@@ -122,7 +123,7 @@ const formatDate = (date: Date) =>
         <p class="section-kicker">最近更新</p>
         <h2 id="journal-title">开发日志</h2>
       </div>
-      <a class="text-link" href="/journal/">查看全部 <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="/journal/">查看全部 <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
     </header>
 
     <div class="home-post-list">
@@ -143,7 +144,7 @@ const formatDate = (date: Date) =>
                 <h3><a href={`/journal/${post.id}/`}>{post.data.title}</a></h3>
                 <p>{post.data.description}</p>
               </div>
-              <a class="feed-arrow" href={`/journal/${post.id}/`} aria-label={`阅读：${post.data.title}`}><span aria-hidden="true">→</span></a>
+              <a class="feed-arrow" href={`/journal/${post.id}/`} aria-label={`阅读：${post.data.title}`}><span aria-hidden="true"><Icon name="arrow-right" /></span></a>
             </article>
           ))
         ) : (
@@ -165,19 +166,19 @@ const formatDate = (date: Date) =>
         <span class="route-index">01</span>
         <h3>工具</h3>
         <p>按数据工具与 AI 工具分类收纳，选择后进入独立页面。</p>
-        <span class="text-link">查看工具 <span aria-hidden="true">→</span></span>
+        <span class="text-link">查看工具 <span aria-hidden="true"><Icon name="arrow-right" /></span></span>
       </a>
       <a class="route-card route-gallery" href="/gallery/" data-reveal>
         <span class="route-index">02</span>
         <h3>摄影集</h3>
         <p>用于收纳自己拍摄的照片，以及每一张的简短上下文。</p>
-        <span class="text-link">进入相册 <span aria-hidden="true">→</span></span>
+        <span class="text-link">进入相册 <span aria-hidden="true"><Icon name="arrow-right" /></span></span>
       </a>
       <a class="route-card" href="/about/" data-reveal>
         <span class="route-index">03</span>
         <h3>关于与作品集</h3>
         <p>数据开发方向、公开项目与后续协作入口。</p>
-        <span class="text-link">了解更多 <span aria-hidden="true">→</span></span>
+        <span class="text-link">了解更多 <span aria-hidden="true"><Icon name="arrow-right" /></span></span>
       </a>
     </div>
   </section>

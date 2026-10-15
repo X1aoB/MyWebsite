@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import GalleryGrid from "../../components/GalleryGrid.astro";
+import Icon from "../../components/Icon.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const photoSets = (await getCollection("gallery", ({ data }) => !data.draft)).sort(
@@ -24,7 +25,7 @@ const frameCount = photoSets.reduce((total, photoSet) => total + photoSet.data.p
     </header>
 
     <div class="gallery-intro" data-reveal>
-      <span aria-hidden="true">◌</span>
+      <span aria-hidden="true"><Icon name="info" /></span>
       <p>点击标题图会在当前页面打开可下拉阅读的套图窗。图片按原始比例排列，点按任意画面即可放大查看。</p>
     </div>
 

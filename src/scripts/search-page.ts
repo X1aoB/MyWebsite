@@ -96,7 +96,19 @@ const createResult = (entry: SearchIndexEntry, locale: Locale) => {
   link.textContent = labels[locale].read;
   const arrow = document.createElement("span");
   arrow.setAttribute("aria-hidden", "true");
-  arrow.textContent = "→";
+  // Same geometry and attributes as <Icon name="arrow-right" />, built without innerHTML.
+  const svgNs = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNs, "svg");
+  for (const [key, value] of Object.entries({
+    class: "icon icon-arrow-right", viewBox: "0 0 24 24", width: "1em", height: "1em", fill: "none",
+    stroke: "currentColor", "stroke-width": "1.75", "stroke-linecap": "round", "stroke-linejoin": "round", focusable: "false"
+  })) svg.setAttribute(key, value);
+  for (const d of ["M5 12h14", "m12 5 7 7-7 7"]) {
+    const path = document.createElementNS(svgNs, "path");
+    path.setAttribute("d", d);
+    svg.append(path);
+  }
+  arrow.append(svg);
   link.append(" ", arrow);
   footer.append(link);
 

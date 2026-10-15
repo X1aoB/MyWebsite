@@ -1,3 +1,5 @@
+import type { IconName } from "../lib/icons";
+
 const configuredSiteUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, "");
 
 export const site = {
@@ -61,14 +63,14 @@ export const site = {
 } as const;
 
 export const navigation = [
-  { href: "/", label: "首页", icon: "⌂", spiceIcon: "apple" },
-  { href: "/journal/", label: "开发日志", icon: "≡", spiceIcon: "wheat" },
-  { href: "/projects/project-snow/", label: "小吉终端", icon: "✦", spiceIcon: "constellation" },
-  { href: "/tools/", label: "工具", icon: "⌘", spiceIcon: "tool-grid" },
-  { href: "/gallery/", label: "摄影集", icon: "◌", spiceIcon: "field" },
-  { href: "/now/", label: "Now", icon: "◔", spiceIcon: "coin" },
-  { href: "/about/", label: "关于", icon: "◎", spiceIcon: "tail" }
-] as const;
+  { href: "/", label: "首页", icon: "house" },
+  { href: "/journal/", label: "开发日志", icon: "notebook-pen" },
+  { href: "/projects/project-snow/", label: "小吉终端", icon: "messages-square" },
+  { href: "/tools/", label: "工具", icon: "wrench" },
+  { href: "/gallery/", label: "摄影集", icon: "camera" },
+  { href: "/now/", label: "Now", icon: "clock" },
+  { href: "/about/", label: "关于", icon: "user-round" }
+] as const satisfies readonly { href: string; label: string; icon: IconName }[];
 
 export const giscus = {
   repo: "X1aoB/MyWebsite",

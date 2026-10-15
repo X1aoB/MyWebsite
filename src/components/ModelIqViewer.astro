@@ -1,4 +1,5 @@
 ---
+import Icon from "./Icon.astro";
 import LocalizedText from "./LocalizedText.astro";
 import { site } from "../config/site";
 import "../styles/model-iq.css";
@@ -13,10 +14,10 @@ import "../styles/model-iq.css";
     </div>
     <div class="model-iq-actions">
       <button type="button" data-model-iq-refresh>
-        <span aria-hidden="true">↻</span><LocalizedText zh="刷新" en="Refresh" />
+        <span aria-hidden="true"><Icon name="refresh-cw" /></span><LocalizedText zh="刷新" en="Refresh" />
       </button>
       <a href={site.external.codexRadar} target="_blank" rel="noreferrer">
-        <LocalizedText zh="数据来源" en="Data source" /><span aria-hidden="true">↗</span>
+        <LocalizedText zh="数据来源" en="Data source" /><span aria-hidden="true"><Icon name="arrow-up-right" /></span>
       </a>
     </div>
   </header>
@@ -95,7 +96,7 @@ import "../styles/model-iq.css";
 
   <footer class="model-iq-source-note">
     <p><LocalizedText zh="IQ 为 Codex Radar 的第三方基准分，不代表通用智商，也不是本站独立测评；结果会受任务集、采样和发布状态影响。" en="IQ is Codex Radar's third-party benchmark score, not general intelligence and not an independent test by this site. Results depend on its task set, sampling, and publication status." /></p>
-    <p><LocalizedText zh="数据来自" en="Data from" /> <a href="https://deng.codexradar.com/" target="_blank" rel="noreferrer">众测雷达 deng.codexradar.com ↗</a> · <a href={site.external.codexRadarSummary} target="_blank" rel="noreferrer">current.json ↗</a></p>
+    <p><LocalizedText zh="数据来自" en="Data from" /> <a href="https://deng.codexradar.com/" target="_blank" rel="noreferrer">众测雷达 deng.codexradar.com <Icon name="arrow-up-right" /></a> · <a href={site.external.codexRadarSummary} target="_blank" rel="noreferrer">current.json <Icon name="arrow-up-right" /></a></p>
   </footer>
 </section>
 

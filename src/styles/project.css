@@ -10,7 +10,7 @@
 .snow-page .snow-kicker {
   margin: 0;
   color: var(--ice-bright);
-  font: 600 0.66rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font: 600 0.66rem/1.55 var(--font-mono);
   letter-spacing: 0.1em;
 }
 .snow-hero,
@@ -64,9 +64,8 @@
   border: 1px solid var(--line);
   border-radius: 14px;
 }
-.snow-experience-icon { display: flex; align-items: center; gap: 11px; margin-bottom: 15px; color: var(--ice-bright); }
-.snow-experience-icon svg { width: 38px; height: 38px; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
-.snow-experience-icon > span { font: 600 0.68rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.14em; }
+.snow-experience-icon { display: flex; align-items: center; gap: 11px; min-height: 38px; margin-bottom: 15px; color: var(--ice-bright); font-size: 30px; }
+.snow-experience-icon > span { font: 600 0.68rem var(--font-mono); letter-spacing: 0.14em; }
 .snow-experience h3 { margin: 0; font-size: 1.2rem; line-height: 1.5; letter-spacing: var(--tracking-heading); }
 .snow-experience p { margin: 8px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.85; }
 .snow-experience ul { display: grid; gap: 9px; padding: 16px 0 0 17px; margin: 16px 0 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.76rem; line-height: 1.7; }
@@ -106,14 +105,14 @@
 .snow-start-steps { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; }
 .snow-start-steps li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 15px; padding: 19px 0; border-bottom: 1px solid var(--line); }
 .snow-start-steps li:first-child { padding-top: 2px; }
-.snow-step-number { display: grid; place-items: center; align-self: start; width: 36px; height: 36px; color: var(--ice-bright); background: var(--surface-raised); border: 1px solid var(--line); border-radius: 10px; font: 600 0.73rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.snow-step-number { display: grid; place-items: center; align-self: start; width: 36px; height: 36px; color: var(--ice-bright); background: var(--surface-raised); border: 1px solid var(--line); border-radius: 10px; font: 600 0.73rem var(--font-mono); }
 .snow-start-steps h3 { margin: 0; font-size: 0.94rem; line-height: 1.65; }
 .snow-start-steps p { margin: 5px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.85; }
 
 .snow-details { display: grid; gap: 17px; }
 .snow-detail-card { padding: clamp(20px, 3.6cqi, 27px); border: 1px solid var(--line); border-radius: 13px; background: var(--surface); }
 .snow-detail-card > header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; padding-bottom: 15px; border-bottom: 1px solid var(--line); }
-.snow-detail-marker { flex: 0 0 auto; color: var(--ice-bright); font: 600 0.72rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.snow-detail-marker { flex: 0 0 auto; color: var(--ice-bright); font: 600 0.72rem var(--font-mono); }
 .snow-detail-card h3 { margin: 0; color: var(--ink); font-size: 1.03rem; line-height: 1.65; }
 .snow-detail-body { color: var(--muted); font-size: 0.82rem; line-height: 1.95; }
 .snow-detail-body p { margin: 0 0 13px; }

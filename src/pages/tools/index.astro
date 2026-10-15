@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
 import LocalizedText from "../../components/LocalizedText.astro";
 import { tools } from "../../config/tools";
 
@@ -28,13 +29,13 @@ const categories = [
           <div class="tool-entry-grid">
             {tools.filter((tool) => tool.category === category.id).map((tool) => (
               <a class="tool-entry" href={tool.url}>
-                <span class="tool-entry-icon" aria-hidden="true">{tool.icon}</span>
+                <span class="tool-entry-icon" aria-hidden="true"><Icon name={tool.icon} /></span>
                 <span class="tool-entry-copy">
                   <span class="tool-entry-status"><i aria-hidden="true"></i><LocalizedText {...tool.status} /></span>
                   <strong><LocalizedText {...tool.title} /></strong>
                   <span><LocalizedText {...tool.description} /></span>
                 </span>
-                <span class="tool-entry-arrow" aria-hidden="true">→</span>
+                <span class="tool-entry-arrow" aria-hidden="true"><Icon name="arrow-right" /></span>
               </a>
             ))}
           </div>

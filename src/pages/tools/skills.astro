@@ -1,4 +1,5 @@
 ---
+import Icon from "../../components/Icon.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LocalizedText from "../../components/LocalizedText.astro";
 import { personalSkillGroups, personalSkills } from "../../config/personal-skills";
@@ -8,7 +9,7 @@ import "../../styles/personal-skills.css";
 <BaseLayout title="个人 Skills" description="面向数据、交付、内容和职业材料的 10 个通用生产工作流 Skill。">
   <section class="page-hero personal-skills-hero">
     <div class="container" data-reveal>
-      <a class="text-link" href="/tools/"><span aria-hidden="true">←</span><LocalizedText zh="返回工具" en="Back to tools" /></a>
+      <a class="text-link" href="/tools/"><span aria-hidden="true"><Icon name="arrow-left" /></span><LocalizedText zh="返回工具" en="Back to tools" /></a>
       <div class="eyebrow">AI tools / personal skills</div>
       <h1><LocalizedText zh="个人 Skills" en="Personal Skills" /></h1>
       <p><LocalizedText zh="把日常生产流程整理成可迁移的操作单元。每个 Skill 都可以单独下载、解压并安装到个人 Skills 目录。" en="Reusable units for everyday production work. Download, unpack, and install each Skill separately in your personal Skills directory." /></p>
@@ -34,7 +35,7 @@ import "../../styles/personal-skills.css";
                   <div><dt><LocalizedText zh="适用时机" en="Use when" /></dt><dd><LocalizedText {...skill.useWhen} /></dd></div>
                   <div><dt><LocalizedText zh="输出" en="Output" /></dt><dd><LocalizedText {...skill.output} /></dd></div>
                 </dl>
-                <a class="button personal-skill-download" href={`/downloads/skills/${skill.slug}.zip`} download={`${skill.slug}.zip`}><LocalizedText zh="下载 Skill ZIP" en="Download Skill ZIP" /> <span aria-hidden="true">↓</span></a>
+                <a class="button personal-skill-download" href={`/downloads/skills/${skill.slug}.zip`} download={`${skill.slug}.zip`}><LocalizedText zh="下载 Skill ZIP" en="Download Skill ZIP" /> <span aria-hidden="true"><Icon name="download" /></span></a>
               </article>
             ))}
           </div>

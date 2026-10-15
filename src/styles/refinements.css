@@ -1,6 +1,8 @@
 /* Shared presentation system. Tokens live in tokens.css; page-specific styles live with their routes. */
 html { scroll-padding-top: 100px; }
 time, .article-meta, .rail-update-list, .statistics-panel { font-variant-numeric: tabular-nums; }
+/* Shared line icons (Icon.astro): sized by font-size, coloured by currentColor. */
+.icon { display: inline-block; flex: none; vertical-align: -0.125em; overflow: visible; }
 body { text-rendering: optimizeLegibility; }
 button, a, input, textarea, select { touch-action: manipulation; }
 button { cursor: pointer; }

@@ -1,4 +1,5 @@
 ---
+import Icon from "../../components/Icon.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LocalizedText from "../../components/LocalizedText.astro";
@@ -41,7 +42,7 @@ const formatDate = (date: Date) =>
               </div>
               {group.project === "小吉终端" && (
                 <a class="text-link" href="/projects/project-snow/">
-                  <LocalizedText zh="查看项目" en="View project" /><span aria-hidden="true">↗</span>
+                  <LocalizedText zh="查看项目" en="View project" /><span aria-hidden="true"><Icon name="arrow-up-right" /></span>
                 </a>
               )}
             </header>
@@ -56,7 +57,7 @@ const formatDate = (date: Date) =>
                       <div class="article-meta journal-reading-meta"><time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time><span aria-hidden="true">·</span><LocalizedText zh={`约 ${estimateReadingMinutes(post.body ?? "")} 分钟`} en={`${estimateReadingMinutes(post.body ?? "")} min read`} /><span aria-hidden="true">·</span><span lang="zh-CN" data-no-translate>{post.data.tags.join(" / ")}</span></div>
                       <h3 lang="zh-CN" data-no-translate><a href={`/journal/${post.id}/`}>{post.data.title}</a></h3>
                       <p lang="zh-CN" data-no-translate>{post.data.description}</p>
-                      <a class="text-link" href={`/journal/${post.id}/`}><LocalizedText zh="阅读文章" en="Read article" /><span aria-hidden="true">→</span></a>
+                      <a class="text-link" href={`/journal/${post.id}/`}><LocalizedText zh="阅读文章" en="Read article" /><span aria-hidden="true"><Icon name="arrow-right" /></span></a>
                     </div>
                   </article>
                 ))

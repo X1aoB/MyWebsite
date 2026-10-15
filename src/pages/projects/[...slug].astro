@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
 import "../../styles/project.css";
 import { isPublicContent } from "../../lib/search";
 
@@ -31,7 +32,7 @@ const { Content } = await render(project);
         <div><span>技术栈</span><strong>{project.data.techStack.join(" · ")}</strong></div>
       </div>
       <div class="tag-list" aria-label="项目标签">{project.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
-      <a class="button button-secondary" href={project.data.repository} target="_blank" rel="noreferrer">查看仓库 ↗</a>
+      <a class="button button-secondary" href={project.data.repository} target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
     </header>
 
     <div class="project-case-content article-content" data-reveal>

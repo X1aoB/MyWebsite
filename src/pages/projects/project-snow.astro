@@ -1,4 +1,5 @@
 ---
+import Icon from "../../components/Icon.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import "../../styles/project.css";
 import Giscus from "../../components/Giscus.astro";
@@ -31,14 +32,14 @@ const startingSteps = [
       <p class="snow-hero-intro"><LocalizedText {...projectSnow.intro} /></p>
       <p class="snow-hero-description"><LocalizedText {...projectSnow.summary} /></p>
       <div class="snow-actions">
-        <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="开始试玩 ↗" en="Play now ↗" /></a>
-        <a class="button button-secondary" href="#snow-experience"><LocalizedText zh="先了解怎么玩 ↓" en="Explore the experience ↓" /></a>
+        <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="开始试玩" en="Play now" /> <span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
+        <a class="button button-secondary" href="#snow-experience"><LocalizedText zh="先了解怎么玩" en="Explore the experience" /> <span aria-hidden="true"><Icon name="arrow-down" /></span></a>
       </div>
       <p class="snow-hero-note"><LocalizedText zh="无需注册 · 自备模型 API Key · 浏览器内保存聊天记录" en="No registration · Bring your own API key · Browser-local chat history" /></p>
       <nav class="snow-section-nav" aria-label="项目页章节" data-zh-label="项目页章节" data-en-label="Project page sections">
-        <a href="#progress-title"><LocalizedText zh="最新进度" en="Latest progress" /><span aria-hidden="true">↗</span></a>
-        <a href="#showcase-title"><LocalizedText zh="实机界面" en="Screenshots" /><span aria-hidden="true">↗</span></a>
-        <a href="#snow-details"><LocalizedText zh="技术与说明" en="Technical details" /><span aria-hidden="true">↗</span></a>
+        <a href="#progress-title"><LocalizedText zh="最新进度" en="Latest progress" /><span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
+        <a href="#showcase-title"><LocalizedText zh="实机界面" en="Screenshots" /><span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
+        <a href="#snow-details"><LocalizedText zh="技术与说明" en="Technical details" /><span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
       </nav>
     </header>
 
@@ -52,7 +53,7 @@ const startingSteps = [
       </div>
       <div class="snow-experiences">
         <article class="snow-experience" data-reveal>
-          <div class="snow-experience-icon" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M8 8h24v18H18l-8 6v-6H8z"/><path d="M14 15h12M14 20h8"/></svg><span>TEXT</span></div>
+          <div class="snow-experience-icon" aria-hidden="true"><Icon name="message-square-text" strokeWidth={1.5} /><span>TEXT</span></div>
           <h3><LocalizedText zh="文字通讯" en="Text communication" /></h3>
           <p><LocalizedText zh="用熟悉的聊天节奏，和角色保持联系。" en="Stay in touch through the familiar rhythm of a messenger." /></p>
           <ul>
@@ -62,7 +63,7 @@ const startingSteps = [
           </ul>
         </article>
         <article class="snow-experience" data-reveal>
-          <div class="snow-experience-icon" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M7 9h26v23H7zM7 26h26"/><circle cx="20" cy="17" r="4"/><path d="M12 26c1-7 15-7 16 0"/></svg><span>SCENE</span></div>
+          <div class="snow-experience-icon" aria-hidden="true"><Icon name="users-round" strokeWidth={1.5} /><span>SCENE</span></div>
           <h3><LocalizedText zh="面对面" en="Face to face" /></h3>
           <p><LocalizedText zh="走进 Galgame 式场景，让对白带上动作。" en="Step into a visual-novel-style scene where dialogue meets action." /></p>
           <ul>
@@ -88,7 +89,7 @@ const startingSteps = [
           </article>
         ))}
       </div>
-      <a class="snow-text-link snow-progress-link" href="/journal/#journal-project-project-snow"><LocalizedText zh="在开发日志里查看项目记录" en="Follow the project in the dev logs" /><span aria-hidden="true">→</span></a>
+      <a class="snow-text-link snow-progress-link" href="/journal/#journal-project-project-snow"><LocalizedText zh="在开发日志里查看项目记录" en="Follow the project in the dev logs" /><span aria-hidden="true"><Icon name="arrow-right" /></span></a>
     </section>
 
     <section class="snow-section" aria-labelledby="showcase-title">
@@ -103,7 +104,7 @@ const startingSteps = [
           <article class={"project-shot project-shot-" + (index + 1)} data-reveal>
             <a class="project-shot-open" href={shot.src} target="_blank" rel="noreferrer" data-project-shot-open data-project-shot-src={shot.src} data-project-shot-width={shot.image.width} data-project-shot-height={shot.image.height} aria-label={"查看小吉终端完整截图：" + shot.title.zh} data-zh-label={"查看小吉终端完整截图：" + shot.title.zh} data-en-label={"View full Xiaoji Terminal screenshot: " + shot.title.en}>
               <img src={shot.image.src} srcset={shot.image.srcset} sizes={index === 2 || index === 3 ? supportingScreenshotSizes : fullScreenshotSizes} alt={shot.alt.zh} data-zh-alt={shot.alt.zh} data-en-alt={shot.alt.en} width={shot.image.width} height={shot.image.height} loading="lazy" decoding="async" />
-              <span class="project-shot-zoom" aria-hidden="true">↗</span>
+              <span class="project-shot-zoom" aria-hidden="true"><Icon name="maximize-2" /></span>
             </a>
             <div class="project-shot-copy"><span class="project-shot-type"><span aria-hidden="true">0{index + 1} / </span><LocalizedText {...shot.type} /></span><h3><LocalizedText {...shot.title} /></h3><p><LocalizedText {...shot.description} /></p></div>
           </article>
@@ -130,7 +131,7 @@ const startingSteps = [
               <div><h4><LocalizedText zh="资料检索与人物关系" en="Source retrieval and relationships" /></h4><p><LocalizedText zh="角色回应结合公开 Wiki 资料、人物关系与当前场景。SQLite FTS5 全文检索与本地向量召回共同寻找相关资料，Qdrant 承载向量检索，Neo4j 保存人物与剧情关系；检索结果为模型补充语境。" en="Replies draw on public Wiki material, relationships, and the current scene. SQLite FTS5 full-text search and local vector retrieval find relevant sources, with Qdrant serving vector search and Neo4j storing character and story relationships. Retrieved material adds context for the model." /></p></div>
             </div>
             <div class="snow-tech-list"><span>FastAPI</span><span>JavaScript</span><span>IndexedDB</span><span>SSE</span><span>SQLite FTS5</span><span>Qdrant</span><span>Neo4j</span></div>
-            <a class="snow-text-link" href={site.repositories.projectSnow} target="_blank" rel="noreferrer"><LocalizedText zh="在 GitHub 查看源码 ↗" en="Explore the source on GitHub ↗" /></a>
+            <a class="snow-text-link" href={site.repositories.projectSnow} target="_blank" rel="noreferrer"><LocalizedText zh="在 GitHub 查看源码" en="Explore the source on GitHub" /> <Icon name="arrow-up-right" /></a>
           </div>
         </article>
         <article class="snow-detail-card" aria-labelledby="snow-data-title" data-reveal>
@@ -142,7 +143,7 @@ const startingSteps = [
               <div><dt><LocalizedText zh="聊天记录" en="Chat history" /></dt><dd><LocalizedText zh="聊天、摘要、草稿与收藏以明文保存在当前浏览器，不会自动跨设备同步。可以在记录管理中回看或清理，共享设备上的记录也需要自行清理。" en="Chats, summaries, drafts, and favorites are stored as plaintext in the current browser and do not automatically sync across devices. Review or clear them through history management, including after using a shared device." /></dd></div>
               <div><dt><LocalizedText zh="反馈与联系" en="Feedback & contact" /></dt><dd><LocalizedText zh="提交前可以预览或取消附带的一问一答与请求编号。QQ 完全可选并加密保存，随反馈在 30 天后删除；反馈内容与完整清理规则见公开说明。" en="Preview or remove the attached question, answer, and request ID before submitting feedback. QQ is entirely optional, encrypted, and deleted with the feedback after 30 days. The public notice explains the full handling and deletion rules." /></dd></div>
             </dl>
-            <a class="snow-text-link" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="阅读完整隐私与素材说明 ↗" en="Read the full privacy and asset notice ↗" /></a>
+            <a class="snow-text-link" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="阅读完整隐私与素材说明" en="Read the full privacy and asset notice" /> <Icon name="arrow-up-right" /></a>
           </div>
         </article>
         <article class="snow-detail-card" aria-labelledby="snow-license-title" data-reveal>
@@ -151,10 +152,10 @@ const startingSteps = [
             <p><LocalizedText zh="小吉终端是基于《尘白禁区》公开 Wiki 资料的非官方、非商业项目，不代表游戏官方。知识资料、头像与表情按固定来源修订记录署名、许可依据与处理方式，具体页面的特殊声明优先。" en="Xiaoji Terminal is an unofficial, non-commercial project based on public Snowbreak Wiki material and is not affiliated with the game. Knowledge sources, avatars, and stickers record attribution, license basis, and transformations against fixed source revisions, with page-specific notices taking priority." /></p>
             <p><LocalizedText zh="公开署名索引用于说明资料从哪里来、经过哪些处理；它不代表项目已确认原始游戏美术的全部权属，也不构成额外授权。模型生成的对话可能偏离原作设定。" en="The public attribution index documents source material and its processing. It does not establish ownership of all original game artwork or grant additional rights. Model-generated dialogue may differ from canon." /></p>
             <dl class="snow-license-links">
-              <div><dt><LocalizedText zh="资料来源" en="Source" /></dt><dd><a href={site.external.bWiki} target="_blank" rel="noreferrer">BWiki ↗</a></dd></div>
-              <div><dt><LocalizedText zh="逐项署名" en="Attribution" /></dt><dd><a href={site.external.projectSnowPlay + "public/v1/attributions"} target="_blank" rel="noreferrer"><LocalizedText zh="公开署名 JSON ↗" en="Public attribution JSON ↗" /></a></dd></div>
-              <div><dt><LocalizedText zh="数据许可" en="Data license" /></dt><dd><a href={site.external.ccByNcSa} target="_blank" rel="noreferrer">CC BY-NC-SA 4.0 ↗</a></dd></div>
-              <div><dt><LocalizedText zh="代码许可" en="Code license" /></dt><dd><a href={site.repositories.projectSnow} target="_blank" rel="noreferrer">GPL-3.0-only ↗</a></dd></div>
+              <div><dt><LocalizedText zh="资料来源" en="Source" /></dt><dd><a href={site.external.bWiki} target="_blank" rel="noreferrer">BWiki <Icon name="arrow-up-right" /></a></dd></div>
+              <div><dt><LocalizedText zh="逐项署名" en="Attribution" /></dt><dd><a href={site.external.projectSnowPlay + "public/v1/attributions"} target="_blank" rel="noreferrer"><LocalizedText zh="公开署名 JSON" en="Public attribution JSON" /> <Icon name="arrow-up-right" /></a></dd></div>
+              <div><dt><LocalizedText zh="数据许可" en="Data license" /></dt><dd><a href={site.external.ccByNcSa} target="_blank" rel="noreferrer">CC BY-NC-SA 4.0 <Icon name="arrow-up-right" /></a></dd></div>
+              <div><dt><LocalizedText zh="代码许可" en="Code license" /></dt><dd><a href={site.repositories.projectSnow} target="_blank" rel="noreferrer">GPL-3.0-only <Icon name="arrow-up-right" /></a></dd></div>
             </dl>
           </div>
         </article>
@@ -165,13 +166,13 @@ const startingSteps = [
       <span class="snow-kicker"><LocalizedText {...projectSnow.status} /></span>
       <h2><LocalizedText zh="下一句，由你开始。" en="The next line is yours." /></h2>
       <p><LocalizedText zh="准备好 API Key，去和一位角色打个招呼。模型生成内容可能偏离原作；使用前可以先了解隐私与素材说明。" en="Bring your API key and say hello to a character. Model-generated content may differ from canon; the privacy and asset notice explains the experience in more detail." /></p>
-      <div class="snow-actions"><a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="打开小吉终端 ↗" en="Open Xiaoji Terminal ↗" /></a><a class="snow-text-link" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="隐私与素材 ↗" en="Privacy & assets ↗" /></a></div>
+      <div class="snow-actions"><a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="打开小吉终端" en="Open Xiaoji Terminal" /> <span aria-hidden="true"><Icon name="arrow-up-right" /></span></a><a class="snow-text-link" href={site.external.projectSnowPrivacy} target="_blank" rel="noreferrer"><LocalizedText zh="隐私与素材" en="Privacy & assets" /> <Icon name="arrow-up-right" /></a></div>
     </footer>
   </article>
 
   <dialog class="project-shot-lightbox" data-project-shot-lightbox aria-labelledby="project-shot-lightbox-title">
     <div class="project-shot-lightbox-frame">
-      <div class="project-shot-lightbox-bar"><span id="project-shot-lightbox-title"><LocalizedText zh="小吉终端 · 完整截图" en="Xiaoji Terminal · Full screenshot" /></span><button type="button" data-project-shot-close aria-label="关闭大图预览" data-zh-label="关闭大图预览" data-en-label="Close screenshot preview">×</button></div>
+      <div class="project-shot-lightbox-bar"><span id="project-shot-lightbox-title"><LocalizedText zh="小吉终端 · 完整截图" en="Xiaoji Terminal · Full screenshot" /></span><button type="button" data-project-shot-close aria-label="关闭大图预览" data-zh-label="关闭大图预览" data-en-label="Close screenshot preview"><Icon name="x" /></button></div>
       <figure><img data-project-shot-image alt="" width="2559" height="1326" /><figcaption data-project-shot-caption></figcaption></figure>
     </div>
   </dialog>

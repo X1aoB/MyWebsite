@@ -1,5 +1,6 @@
 ---
 import { site } from "../config/site";
+import Icon from "./Icon.astro";
 import LocalizedText from "./LocalizedText.astro";
 ---
 
@@ -15,7 +16,7 @@ import LocalizedText from "./LocalizedText.astro";
 
     <form class="preference-search" role="search" action="/search/" data-site-search-form>
       <label class="sr-only" for="site-search-input"><LocalizedText zh="搜索全站内容" en="Search the site" /></label>
-      <span class="preference-search-icon" aria-hidden="true"></span>
+      <span class="preference-search-icon" aria-hidden="true"><Icon name="search" /></span>
       <input
         id="site-search-input"
         type="search"
@@ -30,18 +31,18 @@ import LocalizedText from "./LocalizedText.astro";
         data-site-search-input
       />
       <button class="preference-search-clear" type="button" aria-label="清除搜索" data-site-search-clear hidden>
-        <span aria-hidden="true">×</span><span class="sr-only"><LocalizedText zh="清除搜索" en="Clear search" /></span>
+        <Icon name="x" /><span class="sr-only"><LocalizedText zh="清除搜索" en="Clear search" /></span>
       </button>
       <div id="site-search-suggestions" class="preference-search-suggestions" role="listbox" aria-label="搜索建议" data-site-search-suggestions hidden></div>
     </form>
 
     <button class="preference-search-toggle" type="button" aria-expanded="false" aria-controls="site-search-input" data-site-search-toggle>
-      <span class="preference-search-icon" aria-hidden="true"></span>
+      <span class="preference-search-icon" aria-hidden="true"><Icon name="search" /></span>
       <span class="sr-only"><LocalizedText zh="搜索全站" en="Search the site" /></span>
     </button>
 
     <button class="preference-settings-toggle" type="button" data-preference-trigger aria-expanded="false" aria-controls="preference-controls">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="var(--surface-solid)"/><circle cx="16" cy="17" r="3" fill="var(--surface-solid)"/></svg>
+      <Icon name="sliders-horizontal" size={18} />
       <span class="sr-only"><LocalizedText zh="外观设置" en="Appearance" /></span>
     </button>
 

@@ -1,4 +1,5 @@
 ---
+import Icon from "./Icon.astro";
 import { getGalleryImage } from "../lib/gallery-images";
 import "../styles/gallery.css";
 import "../styles/gallery-navigation.css";
@@ -82,7 +83,7 @@ const formatDate = (date: Date) =>
               />
               <span class="gallery-set-cover-wash" aria-hidden="true"></span>
               <span class="gallery-set-open" aria-hidden="true">
-                <span>↗</span>
+                <span><Icon name="images" /></span>
                 <small>打开套图</small>
               </span>
             </span>
@@ -128,7 +129,7 @@ const formatDate = (date: Date) =>
           >
             <div class="photo-set-dialog-controls">
               <button class="photo-set-dialog-close" type="button" aria-label={`关闭套图：${photoSet.data.title}`} data-photo-set-close>
-                <span aria-hidden="true">×</span>
+                <span aria-hidden="true"><Icon name="x" /></span>
               </button>
             </div>
             <article class="photo-set-dialog-content">
@@ -210,7 +211,7 @@ const formatDate = (date: Date) =>
   <div class="photo-lightbox-frame">
     <p id="photo-lightbox-title" class="sr-only">大图预览</p>
     <button class="photo-lightbox-close" type="button" aria-label="关闭大图预览" data-photo-lightbox-close>
-      <span aria-hidden="true">×</span>
+      <span aria-hidden="true"><Icon name="x" /></span>
     </button>
     <button
       class="photo-lightbox-image-button"
@@ -227,11 +228,11 @@ const formatDate = (date: Date) =>
     </button>
     <div class="photo-lightbox-navigation" aria-label="照片导航" data-photo-navigation>
       <button class="photo-lightbox-step" type="button" aria-label="上一张" data-photo-previous>
-        <span aria-hidden="true">←</span><span data-photo-previous-label>上一张</span>
+        <span aria-hidden="true"><Icon name="arrow-left" /></span><span data-photo-previous-label>上一张</span>
       </button>
       <output class="photo-lightbox-count" data-photo-count aria-live="polite" aria-atomic="true"></output>
       <button class="photo-lightbox-step" type="button" aria-label="下一张" data-photo-next>
-        <span data-photo-next-label>下一张</span><span aria-hidden="true">→</span>
+        <span data-photo-next-label>下一张</span><span aria-hidden="true"><Icon name="arrow-right" /></span>
       </button>
     </div>
     <p class="photo-lightbox-feedback" data-photo-feedback hidden role="status"></p>
