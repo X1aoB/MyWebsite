@@ -80,7 +80,25 @@ describe("consent notice", () => {
     expect(details[0].children[1].textContent).toContain("服务质量统计");
     expect(details[0].children[2].textContent).toContain("30天");
     expect(copy.find("a")[0].href).toBe("/privacy/");
-    expect(panel.find("button").map((button) => button.textContent)).toEqual(["允许访问统计", "暂不允许", "收起说明"]);
+    expect(panel.find("button").map((button) => button.textContent)).toEqual(["允许访问统计", "暂不允许", "稍后再说"]);
+  });
+
+  it("defers without storing a choice, and labels the same button 完成 once a choice exists", () => {
+    const { env, body, footer, storage } = environment();
+    install(config, env);
+    const panel = body.children.find((node) => node.id === "snow-statistics-notice")!;
+    const settings = footer.children.find((node) => node.id === "snow-statistics-settings")!;
+    const [, decline, later] = panel.find("button");
+    later.click();
+    expect(panel.hidden).toBe(true);
+    expect(storage.has(consentKey)).toBe(false);
+    expect(settings.focused).toBe(true);
+    settings.click();
+    expect(later.textContent).toBe("稍后再说");
+    decline.click();
+    settings.click();
+    expect(panel.hidden).toBe(false);
+    expect(later.textContent).toBe("完成");
   });
 
   it("keeps the storage key, the 30-day expiry and the footer withdrawal entry unchanged", () => {
