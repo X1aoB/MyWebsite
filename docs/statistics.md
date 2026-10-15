@@ -12,6 +12,6 @@
 
 实现源为独立 Snow_Statistics 仓库中的 v1 浏览器适配器，当前仓库持有完整副本，运行、构建和测试不依赖其存在。修改副本后独立测试、提交与发布。
 
-本站副本目前有两处尚未回传上游的本地改动。第一处：`bootstrap.mjs` 把“服务质量统计”和“保留期限”两段放进 `<details>`（展开说明），同意条首层只保留标题、一句说明、隐私说明链接和三个按钮。存储键、30 天时效、页脚撤销入口和同意语义均未改变，测试见 `src/lib/statistics-notice.test.ts`。第二处是关闭按钮的中文文案：尚未选择时显示“稍后再说”（只关闭本次提示，不保存选择），已选择后从页脚设置重新打开时显示“完成”，英文保持 “Close notice”；原文案“收起说明”和“展开说明”放在一起容易误读成一对展开收起。从上游重新覆盖副本前，先把这两处改动合入上游或重新应用。站点的主题样式写在 `src/styles/statistics-notice.css`，`public/statistics/notice.css` 保持适配器的中性默认样式。
+同意条的两处本站改动已于 2026-10-15 回传上游（Snow_Statistics `d90450e`）：服务质量统计和保留期限两段放进 `<details>`（展开说明）；关闭按钮在尚未选择时显示“稍后再说”（只关闭本次提示，不保存选择），已选择后从页脚设置重新打开时显示“完成”，英文保持 “Close notice”。目前 `bootstrap.mjs`、`analytics.mjs`、`notice.css` 与上游除换行符外一致，测试见 `src/lib/statistics-notice.test.ts`。`public-summary.mjs` 仍只在本站有首页/项目页紧凑卡与实时汇总刷新（`summarizeCompact`、`renderCompactSummary`、回退快照 endpoint、缓存参数），从上游重新覆盖副本前须保留这些改动或先回传上游。站点的主题样式写在 `src/styles/statistics-notice.css`，`public/statistics/notice.css` 保持适配器的中性默认样式。
 
 移除：回退 BaseLayout 模块入口，删除 public/statistics，移除/归档 statistics 页面及页脚入口。不会修改业务数据库或主题/语言偏好。
