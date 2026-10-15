@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { compareReadingPosts, estimateReadingMinutes, readingHeadings, readingNeighbors } from "./reading";
+import { compareReadingPosts, estimateReadingMinutes, journalSerial, readingHeadings, readingNeighbors } from "./reading";
 
 const post = (id: string, date: string, project = "Project Snow") => ({ id, data: { pubDate: new Date(date), project } });
 
@@ -46,5 +46,12 @@ describe("article reading helpers", () => {
     const h3 = { depth: 3, slug: "two", text: "Two" };
     expect(readingHeadings([{ depth: 1, slug: "title", text: "Title" }, h2])).toEqual([]);
     expect(readingHeadings([h2, h3, { depth: 4, slug: "tiny", text: "Tiny" }])).toEqual([h2, h3]);
+  });
+
+  it("reads the timeline serial from the entry slug and leaves unnumbered entries blank", () => {
+    expect(journalSerial("development-log-012")).toBe("012");
+    expect(journalSerial("development-log-001")).toBe("001");
+    expect(journalSerial("project-snow-data-foundation")).toBeNull();
+    expect(journalSerial("log-2026-retro")).toBeNull();
   });
 });

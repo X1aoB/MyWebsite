@@ -37,6 +37,9 @@ export const estimateReadingMinutes = (markdown: string): number => {
 
 export type ReadingHeading = { depth: number; slug: string; text: string };
 
+/** Serial shown on journal timelines: "development-log-012" -> "012"; unnumbered entries return null. */
+export const journalSerial = (id: string): string | null => id.match(/-(\d{2,4})$/)?.[1] ?? null;
+
 export const readingHeadings = (headings: ReadingHeading[]) => {
   const sections = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
   return sections.length >= 2 ? sections : [];

@@ -9,6 +9,7 @@ import { site } from "../config/site";
 import { projectSnow } from "../config/project-snow";
 import { getXiaojiScreenshot, xiaojiScreenshots } from "../assets/xiaoji-terminal/screenshots";
 import StatisticsPanel from "../components/StatisticsPanel.astro";
+import JournalEntry from "../components/JournalEntry.astro";
 
 const homeScreenshot = xiaojiScreenshots[0];
 const homePreview = await getXiaojiScreenshot(homeScreenshot.src);
@@ -16,9 +17,6 @@ const homePreview = await getXiaojiScreenshot(homeScreenshot.src);
 const posts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
-
-const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
 ---
 
 <BaseLayout>
@@ -78,8 +76,6 @@ const formatDate = (date: Date) =>
     </div>
   </section>
 
-  <StatisticsPanel scope="mywebsite" />
-
   <section class="home-section" aria-labelledby="snow-title">
     <header class="feed-heading" data-reveal>
       <div>
@@ -126,32 +122,15 @@ const formatDate = (date: Date) =>
       <a class="text-link" href="/journal/">查看全部 <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
     </header>
 
-    <div class="home-post-list">
-      {
-        posts.length > 0 ? (
-          posts.map((post) => (
-            <article class="home-post-card" data-reveal>
-              <div class={`home-post-stamp ${post.data.accent}`} aria-hidden="true">
-                <span>LOG</span>
-                <strong>{post.data.pubDate.getFullYear()}</strong>
-              </div>
-              <div>
-                <div class="article-meta">
-                  <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-                  <span>·</span>
-                  <span>{post.data.tags.join(" / ")}</span>
-                </div>
-                <h3><a href={`/journal/${post.id}/`}>{post.data.title}</a></h3>
-                <p>{post.data.description}</p>
-              </div>
-              <a class="feed-arrow" href={`/journal/${post.id}/`} aria-label={`阅读：${post.data.title}`}><span aria-hidden="true"><Icon name="arrow-right" /></span></a>
-            </article>
-          ))
-        ) : (
-          <p class="empty-feed">第一篇开发日志正在整理中。</p>
-        )
-      }
-    </div>
+    {
+      posts.length > 0 ? (
+        <ol class="journal-timeline journal-timeline--compact">
+          {posts.map((post) => <li><JournalEntry post={post} compact /></li>)}
+        </ol>
+      ) : (
+        <p class="empty-feed">第一篇开发日志正在整理中。</p>
+      )
+    }
   </section>
 
   <section class="home-section home-routes" aria-labelledby="routes-title">
@@ -182,4 +161,6 @@ const formatDate = (date: Date) =>
       </a>
     </div>
   </section>
+
+  <StatisticsPanel scope="mywebsite" variant="bar" title={{ zh: "小站公开统计", en: "Public site statistics" }} />
 </BaseLayout>

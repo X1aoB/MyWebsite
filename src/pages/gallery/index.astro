@@ -10,7 +10,7 @@ const photoSets = (await getCollection("gallery", ({ data }) => !data.draft)).so
 const frameCount = photoSets.reduce((total, photoSet) => total + photoSet.data.photos.length, 0);
 ---
 
-<BaseLayout title="摄影集" description="按套图收纳的影像记录：点击一张标题图，在当前页面的悬浮阅读窗中浏览图片并查看设备信息。">
+<BaseLayout title="摄影集" layout="wide" description="按套图收纳的影像记录：点击一张标题图，在当前页面的悬浮阅读窗中浏览图片并查看设备信息。">
   <section class="gallery-page">
     <header class="gallery-heading" data-reveal>
       <div>

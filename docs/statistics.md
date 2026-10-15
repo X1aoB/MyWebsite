@@ -12,4 +12,6 @@
 
 实现源为独立 Snow_Statistics 仓库中的 v1 浏览器适配器，当前仓库持有完整副本，运行、构建和测试不依赖其存在。修改副本后独立测试、提交与发布。
 
+本站副本目前有一处尚未回传上游的本地改动：`bootstrap.mjs` 把“服务质量统计”和“保留期限”两段放进 `<details>`（展开说明），同意条首层只保留标题、一句说明、隐私说明链接和三个按钮。存储键、30 天时效、页脚撤销入口和同意语义均未改变，测试见 `src/lib/statistics-notice.test.ts`。从上游重新覆盖副本前，先把这一改动合入上游或重新应用。站点的主题样式写在 `src/styles/statistics-notice.css`，`public/statistics/notice.css` 保持适配器的中性默认样式。
+
 移除：回退 BaseLayout 模块入口，删除 public/statistics，移除/归档 statistics 页面及页脚入口。不会修改业务数据库或主题/语言偏好。

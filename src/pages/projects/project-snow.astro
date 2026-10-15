@@ -8,6 +8,16 @@ import { site } from "../../config/site";
 import { projectSnow } from "../../config/project-snow";
 import { xiaojiScreenshots, getXiaojiScreenshot } from "../../assets/xiaoji-terminal/screenshots";
 import StatisticsPanel from "../../components/StatisticsPanel.astro";
+import ReadingToc from "../../components/ReadingToc.astro";
+
+const pageSections = [
+  { depth: 2, slug: "snow-experience-title", text: { zh: "两种体验", en: "Experience" } },
+  { depth: 2, slug: "progress-title", text: { zh: "最新进度", en: "Latest progress" } },
+  { depth: 2, slug: "showcase-title", text: { zh: "实机界面", en: "Screenshots" } },
+  { depth: 2, slug: "snow-start-title", text: { zh: "三步开始", en: "Get started" } },
+  { depth: 2, slug: "snow-details-title", text: { zh: "技术与说明", en: "Technical details" } },
+  { depth: 2, slug: "comments-title", text: { zh: "讨论", en: "Discussion" } }
+];
 
 const projectShots = await Promise.all(xiaojiScreenshots.map(async (shot) => ({ ...shot, image: await getXiaojiScreenshot(shot.src) })));
 const fullScreenshotSizes = "(max-width: 760px) calc(100vw - 34px), (max-width: 1199px) calc(100vw - 254px), (max-width: 1536px) calc(95.4vw - 472px), 992px";
@@ -28,7 +38,7 @@ const startingSteps = [
         <p class="snow-kicker"><LocalizedText {...projectSnow.productName} /> / CHARACTER DIALOGUE</p>
         <span class="snow-live-badge"><span aria-hidden="true"></span><LocalizedText {...projectSnow.status} /></span>
       </div>
-      <h1><LocalizedText {...projectSnow.productName} /></h1>
+      <h1 id="project-title"><LocalizedText {...projectSnow.productName} /></h1>
       <p class="snow-hero-intro"><LocalizedText {...projectSnow.intro} /></p>
       <p class="snow-hero-description"><LocalizedText {...projectSnow.summary} /></p>
       <div class="snow-actions">
@@ -178,7 +188,16 @@ const startingSteps = [
   </dialog>
 
   <Giscus />
+
+  <Fragment slot="rail">
+    <ReadingToc headings={pageSections} variant="desktop" label={{ zh: "本页目录", en: "On this page" }} topHref="#project-title" pageToc />
+  </Fragment>
 </BaseLayout>
+
+<script>
+  import { initializePageToc } from "../../scripts/page-toc";
+  initializePageToc();
+</script>
 
 <script>
   const lightbox = document.querySelector<HTMLDialogElement>("[data-project-shot-lightbox]");
