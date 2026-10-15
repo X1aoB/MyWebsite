@@ -400,7 +400,7 @@
 .model-iq-rank-score strong {
   color: var(--iq-accent);
   font-size: 2rem;
-  letter-spacing: -0.05em;
+  letter-spacing: var(--tracking-display);
   line-height: 1;
 }
 

@@ -1,14 +1,6 @@
-/* Shared presentation system. Page-specific styles live with their routes. */
-:root {
-  --dim: #607c90;
-  --radius-lg: 18px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
-  --ease-out: cubic-bezier(.2,.8,.2,1);
-  --shadow-soft: 0 8px 28px color-mix(in srgb, var(--ink) 6%, transparent);
-}
-html[data-theme="holo"] { --dim: #826949; }
+/* Shared presentation system. Tokens live in tokens.css; page-specific styles live with their routes. */
 html { scroll-padding-top: 100px; }
+time, .article-meta, .rail-update-list, .statistics-panel { font-variant-numeric: tabular-nums; }
 body { text-rendering: optimizeLegibility; }
 button, a, input, textarea, select { touch-action: manipulation; }
 button { cursor: pointer; }
@@ -55,7 +47,7 @@ button:disabled { cursor: not-allowed; }
 .home-feature-cover::before { width: 300px; height: 300px; bottom: -210px; }
 .home-feature-cover::after { width: 180px; height: 180px; bottom: -95px; }
 .home-feature-body { grid-template-columns: minmax(0,1fr) clamp(176px,16vw,234px); gap: 24px; padding: 34px 32px 32px; }
-.home-feature h1 { font-size: clamp(2rem,3.4vw,3.25rem); letter-spacing: -.045em; line-height: 1.2; text-wrap: balance; }
+.home-feature h1 { font-size: clamp(2rem,3.4vw,3.25rem); letter-spacing: var(--tracking-title); line-height: 1.2; text-wrap: balance; }
 .home-feature .eyebrow { margin-bottom: 15px; }
 .home-feature-lead { max-width: 42ch; margin-block: 18px 24px; font-size: .96rem; line-height: 1.9; }
 .home-feature-art { perspective: 800px; transform: perspective(800px) rotateX(var(--art-x,0deg)) rotateY(var(--art-y,0deg)); transition: transform 180ms ease-out; }
@@ -65,7 +57,7 @@ button:disabled { cursor: not-allowed; }
 .home-signals { gap: 10px 16px; margin-top: 24px; color: var(--muted); }
 .home-section { padding-top: 46px; }
 .feed-heading { margin-bottom: 18px; gap: 18px; }
-.feed-heading h2 { font-size: clamp(1.5rem,2.2vw,2rem); letter-spacing: -.035em; }
+.feed-heading h2 { font-size: clamp(1.5rem,2.2vw,2rem); letter-spacing: var(--tracking-title); }
 .project-feed-card, .home-post-card, .route-card { border-radius: 16px; box-shadow: var(--shadow-soft); }
 .project-feed-copy { padding: 28px; }
 .project-feed-copy h3 { font-size: clamp(1.2rem,1.8vw,1.55rem); line-height: 1.55; text-wrap: balance; }
@@ -106,7 +98,7 @@ button:disabled { cursor: not-allowed; }
 }
 .button:active { transform: translateY(0) scale(.98); }
 .site-main .article-content { max-width: 48rem; font-size: 1.025rem; line-height: 1.95; overflow-wrap: anywhere; }
-.article-content h2 { margin-top: 2.3em; line-height: 1.45; letter-spacing: -.025em; }
+.article-content h2 { margin-top: 2.3em; line-height: 1.45; letter-spacing: var(--tracking-heading); }
 .article-content h3 { margin-top: 1.8em; line-height: 1.5; }
 .article-content p, .article-content li { color: var(--ink); }
 .article-content p { margin-block: 1.3em; }
@@ -116,12 +108,12 @@ button:disabled { cursor: not-allowed; }
 .article-content blockquote { margin-inline: 0; padding: 12px 20px; border-left: 3px solid var(--ice); border-radius: 0 10px 10px 0; background: var(--surface-raised); }
 .article-content table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; }
 .article-content th, .article-content td { padding: 10px 14px; border: 1px solid var(--line); }
-.site-main .article-header h1 { max-width: none; font-size: clamp(2rem,3.3vw,2.85rem); line-height: 1.35; letter-spacing: -.035em; text-wrap: balance; }
+.site-main .article-header h1 { max-width: none; font-size: clamp(2rem,3.3vw,2.85rem); line-height: 1.35; letter-spacing: var(--tracking-title); text-wrap: balance; }
 .article-description { font-size: 1.06rem; line-height: 1.85; }
 .about-card, .notice-panel, .tool-category, .status-card { border-radius: 16px; }
 .notice-panel p, .about-bio-template p { line-height: 1.85; }
-.site-main .section-header h2, .site-main .split-panel > div > h2 { max-width: 24ch; font-size: clamp(1.55rem,2.3vw,2rem); line-height: 1.5; letter-spacing: -.025em; text-wrap: balance; }
-.page-hero h1, .about-card h1, .project-summary h1, .gallery-heading h1 { font-size: clamp(2rem,3.5vw,3rem); line-height: 1.3; letter-spacing: -.035em; text-wrap: balance; }
+.site-main .section-header h2, .site-main .split-panel > div > h2 { max-width: 24ch; font-size: clamp(1.55rem,2.3vw,2rem); line-height: 1.5; letter-spacing: var(--tracking-heading); text-wrap: balance; }
+.page-hero h1, .about-card h1, .project-summary h1, .gallery-heading h1 { font-size: clamp(2rem,3.5vw,3rem); line-height: 1.3; letter-spacing: var(--tracking-title); text-wrap: balance; }
 .preference-search input { min-height: 44px; }
 .preference-search-clear, .preference-segment button { min-height: 38px; }
 .preference-bar-inner { border-radius: 16px; }

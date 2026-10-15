@@ -1,0 +1,90 @@
+/*
+ * Design tokens: the single source for colour, type, radius, shadow and motion.
+ * Themes only swap token values here; component styles consume the tokens.
+ *
+ * Semantic names (--accent, --accent-strong ...) are canonical. The legacy names
+ * (--ice, --ice-bright, --mint, --violet) are aliases kept so existing rules keep
+ * working; new rules should use the semantic names.
+ */
+:root {
+  color-scheme: light;
+
+  /* Colour: 尘尘的白 (ice) */
+  --ink: #18364e;
+  --muted: #58758c;
+  --dim: #607c90;
+  --bg: #f8fcff;
+  --bg-deep: #eaf6ff;
+  --surface: rgba(255, 255, 255, 0.74);
+  --surface-solid: #ffffff;
+  --surface-raised: #f1f9ff;
+  --line: rgba(72, 149, 198, 0.21);
+  --line-strong: rgba(39, 137, 196, 0.45);
+  --accent: #3c9fd6;
+  --accent-strong: #126f9f;
+  --accent-secondary: #39b5aa;
+  --accent-tertiary: #7892db;
+  --danger: #cf5d70;
+  --success: #2d9c80;
+
+  /* Legacy aliases */
+  --ice: var(--accent);
+  --ice-bright: var(--accent-strong);
+  --mint: var(--accent-secondary);
+  --violet: var(--accent-tertiary);
+
+  /* Typography: system fonts only, no webfont requests */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", SFMono-Regular, Menlo, Consolas, monospace;
+  /* CJK glyphs crowd under strong negative tracking, so headings stay close to 0. */
+  --tracking-display: -0.02em;
+  --tracking-title: -0.015em;
+  --tracking-heading: -0.008em;
+
+  /* Shape */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-soft: 0 8px 28px color-mix(in srgb, var(--ink) 6%, transparent);
+  --shadow-raised: 0 14px 30px color-mix(in srgb, var(--ink) 10%, transparent);
+  --shadow: 0 22px 58px rgba(58, 126, 170, 0.14);
+
+  /* Motion */
+  --dur-instant: 120ms;
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 420ms;
+  --dur-scene: 720ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
+  --ease-emphasized: cubic-bezier(0.16, 0.76, 0.23, 1);
+
+  font-family: var(--font-sans);
+}
+
+/* Colour: 苹果与狼 (holo) */
+html[data-theme="holo"] {
+  --ink: #3d2b1c;
+  --muted: #725d42;
+  --dim: #826949;
+  --bg: #fff9e9;
+  --bg-deep: #f6e3ae;
+  --surface: rgba(255, 250, 235, 0.78);
+  --surface-solid: #fffaf0;
+  --surface-raised: #fff0ca;
+  --line: rgba(128, 83, 39, 0.22);
+  --line-strong: rgba(143, 77, 30, 0.48);
+  --accent: #ce712e;
+  --accent-strong: #874119;
+  --accent-secondary: #a77b2d;
+  --accent-tertiary: #7f4931;
+  --danger: #ac4c3a;
+  --success: #8d6624;
+  --shadow: 0 22px 58px rgba(101, 59, 29, 0.17);
+}
