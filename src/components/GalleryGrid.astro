@@ -1,8 +1,10 @@
 ---
 import Icon from "./Icon.astro";
 import { getGalleryImage } from "../lib/gallery-images";
+import { coverSpan, packRows } from "../lib/gallery-layout";
 import "../styles/gallery.css";
 import "../styles/gallery-navigation.css";
+import "../styles/gallery-stage.css";
 
 type PhotoAspect = "landscape" | "portrait" | "square";
 
@@ -41,7 +43,11 @@ const images = new Map(await Promise.all(
   [...new Set(photoSets.flatMap((set) => [set.data.cover.image, ...set.data.photos.map((photo) => photo.image)]))]
     .map(async (source) => [source, await getGalleryImage(source)] as const)
 ));
-const coverSizes = "(max-width: 760px) calc(100vw - 36px), (max-width: 1100px) 45vw, 400px";
+// Four columns at the widest layout: landscape covers span two, portrait and square one.
+const orderedSets = packRows(photoSets, (set) => coverSpan(set.data.cover.aspect), 4);
+const coverSizes = (wide: boolean) => wide
+  ? "(max-width: 760px) calc(100vw - 36px), (max-width: 1199px) calc(100vw - 300px), 560px"
+  : "(max-width: 760px) calc(100vw - 36px), (max-width: 1199px) calc(50vw - 150px), 280px";
 const storySizes = "(max-width: 760px) calc((100vw - 76px) / 2), (max-width: 1080px) calc((100vw - 140px) / 3), 300px";
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(date);
@@ -49,15 +55,17 @@ const formatDate = (date: Date) =>
 
 <ol class="gallery-set-grid" aria-label="摄影套图列表">
   {
-    photoSets.map((photoSet, index) => {
+    orderedSets.map((photoSet, index) => {
       const dialogId = `photo-set-dialog-${photoSet.id.replace(/[^a-z0-9_-]/gi, "-")}`;
       const hashId = `photo-set-${photoSet.id.replace(/[^a-z0-9_-]/gi, "-")}`;
       const dialogTitleId = `${dialogId}-title`;
       const dialogDescriptionId = `${dialogId}-description`;
       const equipment = photoSet.data.equipment || "待补充";
+      const cover = images.get(photoSet.data.cover.image)!;
+      const wide = coverSpan(photoSet.data.cover.aspect) === 2;
 
       return (
-        <li class="gallery-set-item" data-reveal style={`--reveal-delay: ${index * 75}ms;`}>
+        <li class:list={["gallery-set-item", { "is-wide": wide }]} data-reveal style={`--reveal-delay: ${index * 75}ms; --cover-ratio: ${cover.width} / ${cover.height};`}>
           <button
             id={hashId}
             class={`gallery-set-card ${photoSet.data.cover.aspect}`}
@@ -71,11 +79,11 @@ const formatDate = (date: Date) =>
           >
             <span class="gallery-set-cover">
               <img
-                src={images.get(photoSet.data.cover.image)!.src}
-                srcset={images.get(photoSet.data.cover.image)!.srcset}
-                sizes={coverSizes}
-                width={images.get(photoSet.data.cover.image)!.width}
-                height={images.get(photoSet.data.cover.image)!.height}
+                src={cover.src}
+                srcset={cover.srcset}
+                sizes={coverSizes(wide)}
+                width={cover.width}
+                height={cover.height}
                 alt={photoSet.data.cover.alt}
                 loading={index === 0 ? "eager" : "lazy"}
                 fetchpriority={index === 0 ? "high" : "auto"}
