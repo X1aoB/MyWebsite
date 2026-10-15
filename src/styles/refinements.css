@@ -132,13 +132,9 @@ html.is-theme-transitioning .theme-transition { animation: theme-sweep 720ms var
   65% { opacity: .2; }
   100% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
 }
-@keyframes crystal-drift { from { transform: translateY(0) rotate(45deg); } to { transform: translateY(-12px) rotate(63deg); } }
 @keyframes orbit-turn { to { transform: rotate(360deg); } }
 @keyframes character-float { from { transform: translateY(0); } to { transform: translateY(-7px); } }
 @keyframes coin-glint { from { transform: rotate(-10deg) scaleX(.84); opacity: .8; } to { transform: rotate(12deg) scaleX(1); opacity: 1; } }
-html[data-motion="enabled"] .cover-orbit { animation: crystal-drift 5s ease-in-out infinite alternate; }
-html[data-motion="enabled"] .cover-orbit-two { animation-delay: -2.5s; animation-duration: 7s; }
-html[data-motion="enabled"] .home-feature-cover::after { animation: orbit-turn 65s linear infinite; }
 html[data-motion="enabled"] .home-feature-art .character-art-slot { animation: character-float 5.5s ease-in-out infinite alternate; }
 html[data-motion="enabled"] [data-reveal] { transition-duration: 480ms; transition-delay: var(--reveal-delay,0ms); }
 [data-ambient-region]:not(.is-in-view) *, [data-ambient-region]:not(.is-in-view) *::after,
