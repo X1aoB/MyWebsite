@@ -3,6 +3,7 @@ import "../styles/tokens.css";
 import "../styles/global.css";
 import "../styles/refinements.css";
 import "../styles/themes.css";
+import "../styles/motion.css";
 import "../styles/statistics-notice.css";
 import { site } from "../config/site";
 import Footer from "../components/Footer.astro";
@@ -139,6 +140,7 @@ const structuredDataJson = JSON.stringify(structuredData).replace(/</g, "\\u003c
     <button class="topbar-focus-trigger" type="button" data-preference-trigger>打开站点设置</button>
     <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress></span></div>
     <div class="theme-transition" aria-hidden="true"></div>
+    <div class="ambient-layer" aria-hidden="true"></div>
     <div class:list={["site-layout", { "site-layout--wide": layout === "wide" }]}>
       <Header />
       <main id="main-content" class="site-main">

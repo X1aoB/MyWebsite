@@ -100,6 +100,10 @@ draft: false
 
 图标统一使用 `src/components/Icon.astro`：线性图标来自 Lucide（ISC），页脚品牌标识来自 Simple Icons（CC0），几何数据内联在 `src/lib/icons.ts`，不发额外请求。图标默认 `aria-hidden`，跟随 `font-size` 和 `currentColor`；只有图标充当控件唯一名称时才传 `label`。新增图标时把名称加到 `scripts/generate-icons.mjs`，先运行 `npm install --no-save lucide-static@1.57.0 simple-icons@16.35.0`，再运行 `node scripts/generate-icons.mjs` 重新生成，不要手改 `icons.ts`。
 
+两套主题的材质与装饰在 `src/styles/themes.css`：尘尘的白是雪粒底纹、霜面卡片、冰棱与雪晶，首页插画去框融进卡片；苹果与狼是纸纹、暖光、带衬纸的画框和麦穗。动效体系在 `src/styles/motion.css`：同源页面之间使用浏览器原生的跨文档视图转场（左栏不动，正文淡入上移），不支持的浏览器照常跳转；背景环境层（飘雪、麦粒与落叶）只用 transform 合成，页面转入后台时暂停，系统减少动态效果时转场关闭、环境层静止。环境层图案由 `node scripts/generate-ambient-tiles.mjs` 生成到 `src/styles/ambient-tiles.css`。悬停与过渡时长统一使用 `--dur-fast`（160ms）、`--dur-base`（240ms）、`--dur-slow`（420ms）。
+
+右栏按页面变化：默认显示“正在做”和“最新更新”，文章页和小吉终端页显示本页目录（`ReadingToc`），摄影集页通过 `<BaseLayout layout="wide">` 去掉右栏、占满中栏和右栏。摄影集宽屏为四列网格：封面 `aspect` 为 `landscape` 时占两列，`portrait`、`square` 占一列，封面按原图比例显示；排列顺序由 `src/lib/gallery-layout.ts` 在构建时补齐每一行，尽量保持时间顺序。套图阅读窗和大图预览使用暗场，主题色只用于按钮等控件。
+
 
 ## 搜索、更新流与 RSS
 

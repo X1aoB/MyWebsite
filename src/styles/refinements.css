@@ -133,10 +133,10 @@ html.is-theme-transitioning .theme-transition { animation: theme-sweep 720ms var
   100% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
 }
 @keyframes orbit-turn { to { transform: rotate(360deg); } }
-@keyframes character-float { from { transform: translateY(0); } to { transform: translateY(-7px); } }
+@keyframes character-float { from { transform: translateY(0); } to { transform: translateY(-4px); } }
 @keyframes coin-glint { from { transform: rotate(-10deg) scaleX(.84); opacity: .8; } to { transform: rotate(12deg) scaleX(1); opacity: 1; } }
-html[data-motion="enabled"] .home-feature-art .character-art-slot { animation: character-float 5.5s ease-in-out infinite alternate; }
-html[data-motion="enabled"] [data-reveal] { transition-duration: 480ms; transition-delay: var(--reveal-delay,0ms); }
+html[data-motion="enabled"] .home-feature-art .character-art-slot { animation: character-float 7s ease-in-out infinite alternate; }
+html[data-motion="enabled"] [data-reveal] { transition-duration: var(--dur-slow); transition-delay: var(--reveal-delay,0ms); }
 [data-ambient-region]:not(.is-in-view) *, [data-ambient-region]:not(.is-in-view) *::after,
 .is-motion-paused *, .is-motion-paused *::before, .is-motion-paused *::after { animation-play-state: paused !important; }
 

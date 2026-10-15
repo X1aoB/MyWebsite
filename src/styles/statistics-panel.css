@@ -167,6 +167,11 @@
   .statistics-bar-metrics { grid-column: 1 / -1; grid-row: 2; }
   .statistics-bar-metrics > div:first-child { padding-left: 0; border-left: 0; }
 }
+/* English states ("Awaiting publication") need the full width: metrics take their own row. */
+html[lang="en"] .statistics-bar { grid-template-columns: minmax(0, 1fr) auto; }
+html[lang="en"] .statistics-bar-metrics { grid-column: 1 / -1; grid-row: 2; }
+html[lang="en"] .statistics-bar-metrics > div:first-child { padding-left: 0; border-left: 0; }
+html[lang="en"] .statistics-bar-metrics dd { overflow-wrap: normal; }
 @media (max-width: 620px) {
   .statistics-bar { margin-top: 36px; padding: 14px; }
   .statistics-bar-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 10px; }
