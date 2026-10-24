@@ -1,0 +1,31 @@
+---
+import Icon from "./Icon.astro";
+import { getXiaojiShot, type XiaojiShotId } from "../assets/xiaoji-terminal/screenshots";
+
+interface Props {
+  id: XiaojiShotId;
+  sizes: string;
+  class?: string;
+  loading?: "lazy" | "eager";
+}
+
+const { id, sizes, class: className, loading = "lazy" } = Astro.props;
+const shot = await getXiaojiShot(id);
+---
+
+<a
+  class:list={["xj-shot", `xj-shot-${shot.device}`, className]}
+  href={shot.full}
+  target="_blank"
+  rel="noreferrer"
+  data-project-shot-open
+  data-project-shot-src={shot.full}
+  data-project-shot-width={shot.width}
+  data-project-shot-height={shot.height}
+  aria-label={"查看完整截图：" + shot.alt.zh}
+  data-zh-label={"查看完整截图：" + shot.alt.zh}
+  data-en-label={"View the full screenshot: " + shot.alt.en}
+>
+  <img src={shot.src} srcset={shot.srcset} sizes={sizes} alt={shot.alt.zh} data-zh-alt={shot.alt.zh} data-en-alt={shot.alt.en} width={shot.width} height={shot.height} loading={loading} decoding="async" />
+  <span class="xj-shot-zoom" aria-hidden="true"><Icon name="maximize-2" /></span>
+</a>

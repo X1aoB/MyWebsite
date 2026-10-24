@@ -77,7 +77,7 @@ export const translations: Record<string, string> = {
   "赫萝与麦穗的暖色主题插画": "Warm artwork of Holo with wheat",
   "当前主项目": "Current project",
   "项目最新进度": "Latest project progress",
-  "小吉终端 0.10.0-rc.3：米娅在基地休息区的立绘、场景叙述与面对面对话": "Xiaoji Terminal 0.10.0-rc.3: a character in the base rest area, with artwork, scene narration, and face-to-face dialogue",
+  "清晨的 B-04 基地休息区：辰星恢复初见时的语气，说出原作台词「分析员，我对你个人并没有任何偏见……」": "The B-04 rest area at dawn: a character returns to the tone of their first meeting and quotes a line from the game",
   "项目状态与路线图": "Status & roadmap",
   "正在构建": "In progress",
   "先构建可信的数据层，再讨论检索与对话。": "Build a trustworthy data layer before discussing retrieval and conversation.",

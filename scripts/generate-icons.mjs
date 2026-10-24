@@ -18,7 +18,7 @@ const lucide = [
   "chevron-down", "arrow-right", "arrow-left", "arrow-up", "arrow-up-right", "x", "search",
   "sliders-horizontal", "radar", "package", "braces", "snowflake", "mail", "sparkles",
   "message-square-text", "users-round", "maximize-2", "images", "rss", "info", "align-left",
-  "refresh-cw", "download", "arrow-down"
+  "refresh-cw", "download", "arrow-down", "play", "pause", "map", "bell-ring", "smartphone", "book-heart"
 ];
 const brands = { bilibili: "bilibili", github: "github", steam: "steam" };
 

@@ -1,78 +1,168 @@
 import { getImage } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
-/** Full, uncropped screenshots supplied on 2026-09-09. Original PNGs stay public. */
-export const xiaojiScreenshots = [
-  {
-    id: "face-to-face",
-    src: "/images/xiaoji-terminal/face-to-face.png",
-    alt: { zh: "小吉终端 0.10.0-rc.3：米娅在基地休息区的立绘、场景叙述与面对面对话", en: "Xiaoji Terminal 0.10.0-rc.3: a character in the base rest area, with artwork, scene narration, and face-to-face dialogue" },
-    type: { zh: "面对面", en: "Face to face" },
-    title: { zh: "见到她，也看见她的表情", en: "Meet her and see her expression" },
-    description: { zh: "在角色所在的场景里说话、写下动作，或邀请她一起去别处。22 位角色的立绘与各 18 种基础表情已加入，部分角色还拥有特别表现。", en: "Speak, describe an action, or invite her somewhere else. Artwork and 18 basic expressions for each of the 22 characters are available, with additional special expressions for some characters." }
-  },
-  {
-    id: "text-communication",
-    src: "/images/xiaoji-terminal/text-communication.png",
-    alt: { zh: "小吉终端 0.10.0-rc.3：与猫汐尔的文字通讯及表情消息，完整保留浏览器地址栏", en: "Xiaoji Terminal 0.10.0-rc.3: text and sticker messages with Mauxir, with the browser address bar preserved" },
-    type: { zh: "文字通讯", en: "Messaging" },
-    title: { zh: "从一句问候，聊进日常", en: "Turn a greeting into an everyday conversation" },
-    description: { zh: "在通讯器里切换角色，用文字和表情接着上次的对话。想见面时，直接从聊天窗口走进她所在的地点。", en: "Switch characters in the messenger and pick up a conversation with text and stickers. When you want to meet, move from the chat window into her current location." }
-  },
-  {
-    id: "feedback",
-    src: "/images/xiaoji-terminal/feedback.png",
-    alt: { zh: "小吉终端反馈窗口：可取消的对话上下文、内容预览、问题说明与可选 QQ", en: "Xiaoji Terminal feedback: optional conversation context, a preview, issue details, and an optional QQ contact" },
-    type: { zh: "体验反馈", en: "Feedback" },
-    title: { zh: "把问题说明白，也保留自己的选择", en: "Explain an issue and choose what to share" },
-    description: { zh: "提交前可以预览或取消附带的一问一答与请求编号，再补充复现步骤。QQ 为可选项，加密保存并随反馈在 30 天后删除。", en: "Preview or remove the attached question, answer, and request ID before adding reproduction steps. QQ is optional, encrypted, and deleted with the feedback after 30 days." }
-  },
-  {
-    id: "settings",
-    src: "/images/xiaoji-terminal/settings.png",
-    alt: { zh: "小吉终端体验设置：模型、记录与关于标签，模型服务商选择及 API Key 配置", en: "Xiaoji Terminal settings: model, history, and about tabs, provider selection, and API key configuration" },
-    type: { zh: "体验设置", en: "Settings" },
-    title: { zh: "用自己的模型，按习惯调整体验", en: "Use your own model and make the experience yours" },
-    description: { zh: "集中管理模型、记录与相关说明。加密凭证只保留在当前标签页，最长有效 12 小时；获取模型列表或切换角色，无需重复输入 Key。", en: "Manage the model, history, and related information in one place. The encrypted credential stays in the current tab for up to 12 hours, without requiring key re-entry when listing models or switching characters." }
-  },
-  {
-    id: "announcements",
-    src: "/images/xiaoji-terminal/announcements.png",
-    alt: { zh: "小吉终端公告与生日页面：9 月 9 日更名、全角色立绘表情及窄屏体验更新公告", en: "Xiaoji Terminal announcements and birthdays: the September 9 rename, character artwork and expressions, and narrow-screen improvements" },
-    type: { zh: "公告与生日", en: "Announcements & birthdays" },
-    title: { zh: "更新和她的生日，都有地方可看", en: "Keep up with updates and character birthdays" },
-    description: { zh: "右上角消息入口集中展示更新公告与角色生日。9 月 9 日更新带来了小吉终端新名称、全角色舞台、窄屏输入与切换改善，以及设置中的减少动效选项。", en: "The message entry brings together release announcements and character birthdays. The September 9 update introduces the Xiaoji Terminal name, artwork for every character, smoother narrow-screen input and switching, and reduced-motion settings." }
-  }
-] as const;
+type Copy = { zh: string; en: string };
 
-const sources = import.meta.glob<{ default: ImageMetadata }>(
-  "/public/images/xiaoji-terminal/*.png",
-  { eager: true }
-);
-
-export interface XiaojiScreenshotImage {
-  src: string;
-  srcset: string;
-  width: number;
-  height: number;
-  original: string;
+interface XiaojiShotRecord {
+  /** File name under src/assets/xiaoji-terminal/shots/. */
+  file: string;
+  device: "desktop" | "phone";
+  alt: Copy;
 }
 
-const previews = new Map<string, Promise<XiaojiScreenshotImage>>();
+/**
+ * Uncropped real-device frames from the 1.0.0 promo recordings (2026-10-21 to
+ * 10-23): the live site, real model replies, 2560x1440 desktop / 780x1688 phone.
+ */
+export const xiaojiShots = {
+  "bubu-night": {
+    file: "bubu-night.jpg",
+    device: "desktop",
+    alt: {
+      zh: "夜晚的基地走廊：卜卜在面对面舞台上，对白框显示第 1/2 页，下方是自动、跳过、回看等快捷菜单和输入栏",
+      en: "The base corridor at night: a character on the face-to-face stage, dialogue page 1 of 2, with the quick menu and input bar below"
+    }
+  },
+  "enya-messenger": {
+    file: "enya-messenger.jpg",
+    device: "desktop",
+    alt: {
+      zh: "清晨的文字通讯：恩雅回复「早安~分析员，当然可以，先收下这个吧！」并发来一张表情包，左侧是联系人列表",
+      en: "Morning messaging: a character replies with a greeting and a sticker, with the contact list on the left"
+    }
+  },
+  "chenxing-morning": {
+    file: "chenxing-morning.jpg",
+    device: "desktop",
+    alt: {
+      zh: "清晨的 B-04 基地休息区：辰星恢复初见时的语气，说出原作台词「分析员，我对你个人并没有任何偏见……」",
+      en: "The B-04 rest area at dawn: a character returns to the tone of their first meeting and quotes a line from the game"
+    }
+  },
+  "yao-park-day": {
+    file: "yao-park-day.jpg",
+    device: "desktop",
+    alt: {
+      zh: "白天的公园：白雪转场之后，肴说「当然好呀，郎君。走吧，一起去公园散散步。」",
+      en: "The park by day: after the snow transition, a character agrees to take a walk in the park together"
+    }
+  },
+  "lifu-dusk": {
+    file: "lifu-dusk.jpg",
+    device: "desktop",
+    alt: {
+      zh: "黄昏的暮色通讯器：顶部是「约定提醒 · 观景区」提醒卡，下方是里芙到点主动发来的消息「亲爱的，今天在观景区的约定我还记得」",
+      en: "The messenger in dusk tones: a reminder card for a plan at the viewing deck, followed by a message the character sent on time"
+    }
+  },
+  "kaixiya-onsen": {
+    file: "kaixiya-onsen.jpg",
+    device: "desktop",
+    alt: {
+      zh: "夜晚的基地温泉：极光与飘雪下的凯茜娅，对白「好啊，亲爱的。一起去基地温泉吧，正好把身子暖起来。」",
+      en: "The base hot spring at night: a character under the aurora and falling snow agrees to warm up at the hot spring"
+    }
+  },
+  "base-map": {
+    file: "base-map.jpg",
+    device: "desktop",
+    alt: {
+      zh: "基地地图：平面图上标出 22 位角色此刻所在的房间，右侧名单选中观景区的里芙，底部是「去见她」按钮",
+      en: "The base map: a floor plan showing which room each of the 22 characters is in, a selected character in the list, and a Meet her button"
+    }
+  },
+  "memory-archive": {
+    file: "memory-archive.jpg",
+    device: "desktop",
+    alt: {
+      zh: "记忆档案「里芙记得的事」：可按全部、一起经历、她答应的筛选，每条记忆都能单独删除",
+      en: "The memory archive: what a character remembers, filterable by shared experiences and promises, with a delete button on each entry"
+    }
+  },
+  "reminder-setup": {
+    file: "reminder-setup.jpg",
+    device: "desktop",
+    alt: {
+      zh: "发出邀约时设置到点提醒：可选不提醒、30 分钟后、1 小时后或指定时间，并预览邀请内容",
+      en: "Setting a reminder while inviting her: no reminder, in 30 minutes, in an hour, or at a set time, with a preview of the invitation"
+    }
+  },
+  "phone-lock": {
+    file: "phone-lock.jpg",
+    device: "phone",
+    alt: {
+      zh: "手机锁屏：17:23，10 月 23 日星期五，一条「约定提醒 · 观景区」通知",
+      en: "Phone lock screen at 17:23 with a reminder notification for a plan at the viewing deck"
+    }
+  },
+  "phone-messenger": {
+    file: "phone-messenger.jpg",
+    device: "phone",
+    alt: {
+      zh: "手机上的通讯器：约定提醒卡和里芙主动发来的消息，可以直接去见她或 10 分钟后再提醒",
+      en: "The messenger on a phone: a reminder card and a message from the character, with Meet her and Remind me in 10 minutes"
+    }
+  },
+  "phone-face": {
+    file: "phone-face.jpg",
+    device: "phone",
+    alt: {
+      zh: "手机上的面对面：黄昏的观景区，里芙说「嗯，亲爱的。晚霞确实很美……能和你一起看，我很高兴。」",
+      en: "Face to face on a phone: the viewing deck at dusk, where the character says she is glad to watch the sunset together"
+    }
+  },
+  "phone-map": {
+    file: "phone-map.jpg",
+    device: "phone",
+    alt: {
+      zh: "手机上的基地地图：平面图可以左右拖动，角色名单在下方",
+      en: "The base map on a phone: the floor plan scrolls sideways and the character list sits below it"
+    }
+  }
+} as const satisfies Record<string, XiaojiShotRecord>;
 
-/** Build-only helper shared by the home preview and project showcase. */
-export const getXiaojiScreenshot = (publicPath: string): Promise<XiaojiScreenshotImage> => {
-  const cached = previews.get(publicPath);
+export type XiaojiShotId = keyof typeof xiaojiShots;
+
+const sources = import.meta.glob<{ default: ImageMetadata }>("/src/assets/xiaoji-terminal/shots/*.jpg", { eager: true });
+
+export interface XiaojiShotImage {
+  id: XiaojiShotId;
+  device: "desktop" | "phone";
+  alt: Copy;
+  src: string;
+  srcset: string;
+  /** Largest generated rendition, opened by the lightbox. */
+  full: string;
+  width: number;
+  height: number;
+}
+
+const widths = { desktop: [640, 960, 1280, 1920, 2560], phone: [390, 780] } as const;
+const processed = new Map<XiaojiShotId, Promise<XiaojiShotImage>>();
+
+/** Build-only helper shared by the home preview and the project page. */
+export const getXiaojiShot = (id: XiaojiShotId): Promise<XiaojiShotImage> => {
+  const cached = processed.get(id);
   if (cached) return cached;
 
   const pending = (async () => {
-    const source = sources[`/public${publicPath}`]?.default;
-    if (!source) throw new Error(`Xiaoji Terminal screenshot not found: ${publicPath}`);
-    const image = await getImage({ src: source, widths: [480, 960, 1440], format: "webp", quality: 86 });
-    const metadata = image.options.src as ImageMetadata;
-    const fallback = image.srcSet.values.find((candidate) => candidate.descriptor === "960w") ?? image.srcSet.values.at(-1);
-    return { src: fallback?.url ?? image.src, srcset: image.srcSet.attribute, width: metadata.width, height: metadata.height, original: publicPath };
+    const record: XiaojiShotRecord = xiaojiShots[id];
+    const source = sources[`/src/assets/xiaoji-terminal/shots/${record.file}`]?.default;
+    if (!source) throw new Error(`Xiaoji Terminal screenshot not found: ${record.file}`);
+    const image = await getImage({ src: source, widths: [...widths[record.device]], format: "webp", quality: 82 });
+    const candidates = image.srcSet.values;
+    const fallback = candidates.find((candidate) => candidate.descriptor === (record.device === "phone" ? "390w" : "960w")) ?? candidates[0];
+    return {
+      id,
+      device: record.device,
+      alt: record.alt,
+      src: fallback?.url ?? image.src,
+      srcset: image.srcSet.attribute,
+      full: candidates.at(-1)?.url ?? image.src,
+      width: source.width,
+      height: source.height
+    };
   })();
-  previews.set(publicPath, pending);
+  processed.set(id, pending);
   return pending;
 };

@@ -163,8 +163,9 @@ html[data-theme="holo"] .character-art-wheat {
 }
 
 /* ---------- Screenshots under 苹果与狼: a warm frame instead of recolouring the image ---------- */
-html[data-theme="holo"] .project-shot-open { padding: 10px; background: linear-gradient(160deg, #f9ebc8, #eed3a0); }
-html[data-theme="holo"] .project-shot-open img { border: 1px solid rgba(112, 64, 28, .3); border-radius: 6px; box-shadow: 0 8px 20px rgba(96, 55, 25, .22); }
+html[data-theme="holo"] .xj-shot-desktop { padding: 8px; background: linear-gradient(160deg, #f9ebc8, #eed3a0); border-color: rgba(112, 64, 28, .26); }
+html[data-theme="holo"] .xj-shot-desktop img { border: 1px solid rgba(112, 64, 28, .3); border-radius: 6px; box-shadow: 0 8px 20px rgba(96, 55, 25, .22); }
+html[data-theme="holo"] .xj-shot-phone { border-color: #3a2614; background: #3a2614; box-shadow: 0 14px 30px rgba(96, 55, 25, .26); }
 html[data-theme="holo"] .home-snow-preview { background: linear-gradient(160deg, rgba(249, 235, 200, .9), rgba(238, 211, 160, .7)); }
 html[data-theme="holo"] .home-snow-preview img { padding: 6px; background: #fff6dc; border-color: rgba(112, 64, 28, .3); box-shadow: 0 10px 24px rgba(96, 55, 25, .2); }
 
