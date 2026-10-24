@@ -41,8 +41,8 @@ npm run preview
 
 - 新文章放入 `src/content/blog/`，frontmatter 必须包含 `title`、`description`、`pubDate`、`tags`、`accent`、`draft`。
 - `src/config/now.ts` 维护 Now 的分类与记录；四类入口跳转到 `/now/daily/`、`/now/interviews/`、`/now/technical/`、`/now/guides/`，分类页再进入独立文章。旧分类 hash 会跳转到对应模块；技术文章可引用现有日志文章，避免复制正文。页面、搜索与 sitemap 在构建时同步生成。
-- `src/config/project-snow.ts` 维护小吉终端的公开版本与进度，供首页、项目页、右栏及发现入口复用。目前介绍采用用户提供的 0.10.0-rc.3 截图和公告；历史日志只更新项目名称，保留原日期与阶段内容。旧项目 URL、文章 slug 与真实仓库地址保持可访问。
-- 新版终端截图原件在 `public/images/xiaoji-terminal/`，共享元数据与构建图片助手在 `src/assets/xiaoji-terminal/screenshots.ts`；不裁剪原图，构建生成 480/960/1440px WebP，首页与项目页共用响应式预览，点图查看完整原件。
+- `src/config/project-snow.ts` 维护小吉终端的公开版本、宣传片（B 站 BV 号）、首页进度与近期更新，供首页、项目页、右栏及发现入口复用；更新内容以小吉终端自身的公告为准。实机截图是宣传片录制时的原始帧，放在 `src/assets/xiaoji-terminal/shots/`，由 `src/assets/xiaoji-terminal/screenshots.ts` 登记替代文本并在构建时生成 WebP。项目页的静音预览 `public/media/xiaoji-terminal/promo-preview-<版本>.mp4` 由本站提供，B 站播放器只在点击后加载，所以 `public/_headers` 的 `frame-src` 与 `Permissions-Policy: autoplay` 放行了 `https://player.bilibili.com`。旧项目 URL、文章 slug 与真实仓库地址保持可访问。
+- 截图不裁剪原图：桌面截图构建生成 640–2560px、手机截图 390/780px 的 WebP，首页与项目页共用响应式预览，点图在灯箱里查看最大尺寸。新增截图前先确认画面里没有 API Key、配对码或其他个人信息。
 - 未来公开项目放入 `src/content/projects/`。从 `project-case-template.md` 复制开始，`draft: true` 的案例不会被发布。
 - 名称、GitHub 及外部链接集中在 `src/config/site.ts`。
 - 页脚的版权、来源、主题署名与部署状态文字也集中在 `src/config/site.ts` 的 `site.legal` 中；图片来源不确定时不要猜测，确认后再补充。

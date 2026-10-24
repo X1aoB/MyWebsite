@@ -14,12 +14,12 @@ export const projectSnowRecord = {
     en: "Xiaoji Terminal"
   } satisfies LocalizedCopy,
   description: {
-    zh: "小吉终端：与《尘白禁区》的角色文字通讯或面对面互动。0.10.0-rc.3 带来全新界面、22 位角色立绘与表情、体验设置和公告提醒。",
-    en: "Xiaoji Terminal: message Snowbreak characters or meet face to face. Version 0.10.0-rc.3 brings a new interface, artwork and expressions for 22 characters, experience settings, and announcements."
+    zh: "小吉终端 1.0.0 正式上线：与《尘白禁区》的角色文字通讯或面对面相处。22 位角色、九个地点场景与白雪转场、基地地图、记忆档案和约定提醒，电脑和手机浏览器都能用。",
+    en: "Xiaoji Terminal 1.0.0 is live: message Snowbreak characters or meet them face to face. 22 characters, nine location scenes with a snow transition, a base map, a memory archive, and reminders, in desktop and mobile browsers."
   } satisfies LocalizedCopy,
   status: projectSnow.status,
   updatedAt: projectSnow.updatedAt,
-  tags: ["小吉终端", "RAG", "Galgame 式交互", "角色立绘", "SSE", "BYOK", "隐私与许可"],
+  tags: ["小吉终端", "宣传片", "Galgame 式交互", "角色立绘", "RAG", "SSE", "BYOK", "隐私与许可"],
   techStack: ["HTML/CSS/JavaScript", "IndexedDB", "Python", "FastAPI", "PostgreSQL", "Qdrant", "Neo4j", "Docker", "Caddy"],
   repository: site.repositories.projectSnow,
   url: "/projects/project-snow/"

@@ -7,12 +7,11 @@ import { profile } from "../config/profile";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../config/site";
 import { projectSnow } from "../config/project-snow";
-import { getXiaojiScreenshot, xiaojiScreenshots } from "../assets/xiaoji-terminal/screenshots";
+import { getXiaojiShot } from "../assets/xiaoji-terminal/screenshots";
 import StatisticsPanel from "../components/StatisticsPanel.astro";
 import JournalEntry from "../components/JournalEntry.astro";
 
-const homeScreenshot = xiaojiScreenshots[0];
-const homePreview = await getXiaojiScreenshot(homeScreenshot.src);
+const homePreview = await getXiaojiShot("chenxing-morning");
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -103,30 +102,30 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
         <p class="section-kicker">当前主项目</p>
         <h2 id="snow-title"><LocalizedText {...projectSnow.productName} /></h2>
       </div>
-      <a class="text-link" href="/projects/project-snow/">项目状态与路线图 <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
+      <a class="text-link" href="/projects/project-snow/"><LocalizedText zh="宣传片与特色" en="Film & features" /> <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
     </header>
 
     <article class="project-feed-card home-snow-card" data-reveal>
       <div class="project-feed-copy">
         <span class="status-badge"><LocalizedText {...projectSnow.status} /></span>
         <h3><LocalizedText {...projectSnow.intro} /></h3>
-        <p><LocalizedText zh="给她发消息，也可以去她所在的地方见面。对话、角色语境与地点相互衔接，让故事从上一段日常继续。" en="Send her a message, or meet her where she is. Conversation, character context, and location stay connected, carrying the story on from the last encounter." /></p>
+        <p><LocalizedText zh="22 位角色、九个地点和清晨到深夜的四个时段：在通讯器里聊天，或者走进她所在的地方见面。对话、记忆与地点相互衔接，电脑和手机浏览器都能用。" en="22 characters, nine places, and four times of day from dawn to night: chat in the messenger or meet her where she is. Conversation, memory, and place stay connected, in desktop and mobile browsers." /></p>
         <div class="home-snow-modes">
-          <span><LocalizedText zh="文字通讯" en="Messaging" /></span><span><LocalizedText zh="面对面场景" en="Face-to-face scenes" /></span><span><LocalizedText zh="连续对话" en="Continuity" /></span>
+          <span><LocalizedText zh="文字通讯" en="Messaging" /></span><span><LocalizedText zh="面对面场景" en="Face-to-face scenes" /></span><span><LocalizedText zh="记忆与约定" en="Memory & plans" /></span>
         </div>
         <div class="button-row">
-          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer">开始试玩 <span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
-          <a class="button button-secondary" href="/projects/project-snow/"><LocalizedText zh="了解项目" en="Explore the project" /> <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
+          <a class="button" href={site.external.projectSnowPlay} target="_blank" rel="noreferrer"><LocalizedText zh="开始体验" en="Start now" /> <span aria-hidden="true"><Icon name="arrow-up-right" /></span></a>
+          <a class="button button-secondary" href="/projects/project-snow/"><LocalizedText zh="看宣传片" en="Watch the film" /> <span aria-hidden="true"><Icon name="arrow-right" /></span></a>
         </div>
       </div>
-      <a class="home-snow-preview" href="/projects/project-snow/#showcase-title">
-        <img src={homePreview.src} srcset={homePreview.srcset} sizes="(max-width: 760px) calc(100vw - 76px), (max-width: 1100px) calc(100vw - 288px), 400px" width={homePreview.width} height={homePreview.height} alt={homeScreenshot.alt.zh} loading="lazy" decoding="async" />
-        <span><LocalizedText zh="米娅 · 面对面体验 · 0.10.0-rc.3" en="Face-to-face experience · 0.10.0-rc.3" /> <i aria-hidden="true"><Icon name="arrow-up-right" /></i></span>
+      <a class="home-snow-preview" href="/projects/project-snow/#xj-features-title">
+        <img src={homePreview.src} srcset={homePreview.srcset} sizes="(max-width: 760px) calc(100vw - 76px), (max-width: 1100px) calc(100vw - 288px), 400px" width={homePreview.width} height={homePreview.height} alt={homePreview.alt.zh} data-zh-alt={homePreview.alt.zh} data-en-alt={homePreview.alt.en} loading="lazy" decoding="async" />
+        <span><LocalizedText zh="辰星 · 清晨的面对面 · 1.0.0" en="Face to face at dawn · 1.0.0" /> <i aria-hidden="true"><Icon name="arrow-up-right" /></i></span>
       </a>
     </article>
     <div class="home-snow-progress" aria-label="项目最新进度">
       {projectSnow.stages.map((stage) => (
-        <a href="/projects/project-snow/#progress-title">
+        <a href="/projects/project-snow/#xj-updates-title">
           <span class={`home-snow-stage home-snow-stage-${stage.id}`}><LocalizedText {...stage.status} /></span>
           <strong><LocalizedText {...stage.title} /></strong>
         </a>
