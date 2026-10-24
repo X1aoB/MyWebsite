@@ -15,3 +15,9 @@
 同意条的两处本站改动已于 2026-10-15 回传上游（Snow_Statistics `d90450e`）：服务质量统计和保留期限两段放进 `<details>`（展开说明）；关闭按钮在尚未选择时显示“稍后再说”（只关闭本次提示，不保存选择），已选择后从页脚设置重新打开时显示“完成”，英文保持 “Close notice”。目前 `bootstrap.mjs`、`analytics.mjs`、`notice.css` 与上游除换行符外一致，测试见 `src/lib/statistics-notice.test.ts`。`public-summary.mjs` 仍只在本站有首页/项目页紧凑卡与实时汇总刷新（`summarizeCompact`、`renderCompactSummary`、回退快照 endpoint、缓存参数），从上游重新覆盖副本前须保留这些改动或先回传上游。站点的主题样式写在 `src/styles/statistics-notice.css`，`public/statistics/notice.css` 保持适配器的中性默认样式。
 
 移除：回退 BaseLayout 模块入口，删除 public/statistics，移除/归档 statistics 页面及页脚入口。不会修改业务数据库或主题/语言偏好。
+
+## Cloudflare Web Analytics（与上面的可选统计无关）
+
+Cloudflare Pages 项目开启了 Web Analytics 自动注入：Cloudflare 在边缘往每个 HTML 页面插入 `https://static.cloudflareinsights.com/beacon.min.js/<版本>` 脚本（带 `integrity`），数据发往同源 `/cdn-cgi/rum`。它不读同意状态，也不受 `PUBLIC_STATISTICS_ENABLED` 控制，所以在 `/privacy/` 单独说明。
+
+2026-10-24 之前 CSP 的 `script-src` 没有放行这个脚本，浏览器一直拦截，Cloudflare 后台收不到数据。现在 `public/_headers` 放行 `https://static.cloudflareinsights.com/beacon.min.js` 和以 `/` 结尾的同名路径前缀（Cloudflare 会轮换版本路径），上报依赖 `connect-src 'self'`，测试见 `src/lib/security-headers.test.ts`。不想要时，在 Cloudflare Pages 项目的 Metrics 里关闭 Web Analytics，再删掉这两条 CSP 来源和隐私页那一段。
